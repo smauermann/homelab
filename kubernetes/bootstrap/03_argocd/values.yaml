@@ -23,6 +23,17 @@ configs:
     # --enable-helm: Enabling Helm chart rendering with Kustomize
     # --load-restrictor LoadRestrictionsNone: Local kustomizations may load files from outside their root
     kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
+    ## Ignore resources
+    # https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#resource-exclusioninclusion
+    # Ignore VolumeSnapshot and VolumeSnapshotContent: Created by backup processes.
+    resource.exclusions: |
+      - apiGroups:
+        - snapshot.storage.k8s.io
+        kinds:
+        - VolumeSnapshot
+        - VolumeSnapshotContent
+        clusters:
+        - "*"
 
 server:
   # Ingress Resource.
@@ -48,4 +59,4 @@ server:
       #   * 'letsencrypt-issuer' (valid TLS certificate using IONOS API) 
       #   * 'ca-issuer' (CA-signed certificate, not valid)
       cert-manager.io/cluster-issuer: letsencrypt-issuer
-      cert-manager.io/common-name: argocd.lab.costanza.clou
+      cert-manager.io/common-name: argocd.lab.costanza.cloud

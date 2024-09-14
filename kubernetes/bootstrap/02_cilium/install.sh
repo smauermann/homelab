@@ -17,13 +17,7 @@ if ! command -v cilium &> /dev/null; then
   rm cilium-linux-${CLI_ARCH}.tar.gz
 fi
 
-API_SERVER_IP=$(hostname -I | cut -d ' ' -f 1)
-API_SERVER_PORT=6443
-cilium install \
-  --set k8sServiceHost=${API_SERVER_IP} \
-  --set k8sServicePort=${API_SERVER_PORT} \
-  --set kubeProxyReplacement=true
-  --helm-set=operator.replicas=1
+cilium install -f values.yaml
 
 cilium status --wait
 
