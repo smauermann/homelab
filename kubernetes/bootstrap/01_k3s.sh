@@ -2,6 +2,7 @@
 
 # install k3s with flannel disabled since we are going to use cilium
 # curl -sfL https://get.k3s.io | sh -s - \
+#   --write-kubeconfig-mode='0644' \
 #   --flannel-backend=none \
 #   --disable-kube-proxy \
 #   --disable servicelb \
