@@ -1,0 +1,7 @@
+apps:
+  - name: argocd
+    namespace: argocd
+    source:
+      path: kubernetes/argo-apps/argocd
+    annotations:
+      argocd.argoproj.io/sync-wave: '65'

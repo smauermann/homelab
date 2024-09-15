@@ -1,0 +1,34 @@
+{{ range .Values.apps }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .name }}
+  namespace: argocd
+  {{- with .annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  destination:
+    namespace: {{ .namespace }}
+    name: in-cluster
+  project: homelab
+  source:
+    path: {{ .source.path }}
+    repoURL: {{ .source.repoURL | default "https://github.com/smauermann/homelab" }}
+    targetRevision: {{ .source.targetRevision | default "main" }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 10
+      backoff:
+        duration: 1m
+        maxDuration: 16m
+        factor: 2
+    syncOptions:
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+{{ end }}

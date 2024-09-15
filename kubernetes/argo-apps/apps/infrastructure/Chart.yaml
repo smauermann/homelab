@@ -1,0 +1,5 @@
+apiVersion: v2
+name: infrastructure
+description: All ArgoApps that describe cluster infrastructure
+type: application
+version: 0.1.0
