@@ -31,4 +31,8 @@ spec:
     syncOptions:
       - ServerSideApply={{ ((.syncOptions).ServerSideApply) | default "true" }}
       - ApplyOutOfSyncOnly={{ ((.syncOptions).ApplyOutOfSyncOnly) | default "true" }}
+  {{- with .ignoreDifferences }}
+  ignoreDifferences:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{ end }}

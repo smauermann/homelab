@@ -9,3 +9,9 @@ apps:
       path: kubernetes/argo-apps/cilium
     syncOptions:
       ServerSideApply: "false"
+    ignoreDifferences:
+      - group: ""
+        kind: Service
+        name: cilium-ingress
+        jsonPointers:
+          - /spec/ports
