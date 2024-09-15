@@ -5,7 +5,7 @@ NODE_ROLE="worker"
 if kubectl get node $NODE_NAME -o jsonpath='{.metadata.labels}' | grep -q "node-role.kubernetes.io/control-plane"; then
     NODE_ROLE="control"
 fi
-kubectl drain $NODE_NAME --ignore-daemonsets --delete-local-data
+kubectl drain $NODE_NAME --ignore-daemonsets --delete-emptydir-data
 kubectl delete node $NODE_NAME
 
 if [ $NODE_ROLE = "control" ]; then
