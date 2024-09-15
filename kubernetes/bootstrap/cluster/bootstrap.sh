@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
+set -ex
 
-./k3s/install.sh
-./cilium/install.sh
-./argocd/install.sh
+cd k3s && ./install.sh && cd ..
+cd cilium && ./install.sh && cd ..
+cd argocd && ./install.sh && cd ..

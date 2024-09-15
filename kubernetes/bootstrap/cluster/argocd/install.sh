@@ -4,7 +4,7 @@ helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
 
 kubectl create namespace argocd
-helm install argocd argo/argo-cd  --namespace argocd -f ../../../argo-apps/values.yaml
+helm install argocd argo/argo-cd  --namespace argocd -f ../../../argo-apps/argocd/values.yaml
 
 kubectl apply -f app-project.yaml
 kubectl apply -f root-app.yaml
