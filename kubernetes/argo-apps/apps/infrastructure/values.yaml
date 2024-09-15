@@ -3,5 +3,7 @@ apps:
     namespace: argocd
     source:
       path: kubernetes/argo-apps/argocd
-    annotations:
-      argocd.argoproj.io/sync-wave: '65'
+  - name: cilium
+    namespace: kube-system
+    source:
+      path: kubernetes/argo-apps/cilium

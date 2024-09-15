@@ -17,7 +17,7 @@ if ! command -v cilium &> /dev/null; then
   rm cilium-linux-${CLI_ARCH}.tar.gz
 fi
 
-cilium install -f ../../argo-apps/infrastructure/cilium/values.yaml
+cilium install -f ../../../argo-apps/cilium/values.yaml
 
 cilium status --wait
 
