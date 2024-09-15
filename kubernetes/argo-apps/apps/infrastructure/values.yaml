@@ -15,3 +15,8 @@ apps:
         name: cilium-ingress
         jsonPointers:
           - /spec/ports
+      - group: "apps"
+        kind: DaemonSet
+        namespace: kube-system
+        jsonPointers:
+          - /spec/template/spec
