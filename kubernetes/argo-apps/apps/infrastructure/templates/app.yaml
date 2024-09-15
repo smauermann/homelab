@@ -29,6 +29,6 @@ spec:
         maxDuration: 16m
         factor: 2
     syncOptions:
-      - ServerSideApply=true
-      - ApplyOutOfSyncOnly=true
+      - ServerSideApply={{ .syncOptions.ServerSideApply | default "true" }}
+      - ApplyOutOfSyncOnly={{ .syncOptions.ApplyOutOfSyncOnly | default "true" }}
 {{ end }}
