@@ -3,8 +3,6 @@ apps:
     namespace: argocd
     source:
       path: kubernetes/argo-apps/argocd
-    syncOptions:
-      foo
   - name: cilium
     namespace: kube-system
     source:
