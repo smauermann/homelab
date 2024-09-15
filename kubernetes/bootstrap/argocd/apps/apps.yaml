@@ -10,7 +10,7 @@ metadata:
 spec:
   project: homelab
   source:
-    path: kubernetes/argo-apps/root/infra
+    path: kubernetes/argo-apps/apps/applications
     repoURL: https://github.com/smauermann/homelab
     targetRevision: main
   destination:
