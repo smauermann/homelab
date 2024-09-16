@@ -3,8 +3,8 @@ configs:
     # Run server without TLS
     # Ingress NGINX finishes TLS connections
     server.insecure: true
-  cm:
     controller.diff.server.side: "true"
+  cm:
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |
       hs = {}
