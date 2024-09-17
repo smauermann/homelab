@@ -44,7 +44,8 @@ configs:
     github-homelab:
       url: https://github.com/smauermann/homelab
       username: smauermann
-      password: passw0rd
+      # fixme: figure out how to set this with exposing the secret
+      password: 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
 
 
 server:
