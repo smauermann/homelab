@@ -9,7 +9,7 @@ spec:
     - 'https://helm.cilium.io'
   destinations:
     - namespace: argocd
-      server: *
+      server: '*'
     - namespace: 'cilium-secrets'
       server: '*'
     - namespace: 'kube-system'
