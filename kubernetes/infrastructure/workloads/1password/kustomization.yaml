@@ -10,4 +10,5 @@ helmCharts:
     version: 1.16.0
     releaseName: connect
     namespace: 1password
+    includeCRDs: true
     valuesFile: values.yaml
