@@ -7,8 +7,11 @@ spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
     - 'https://argoproj.github.io/argo-helm'
+    - 'https://1password.github.io/connect-helm-charts'
   destinations:
     - namespace: 'argocd'
+      server: '*'
+    - namespace: '1password'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

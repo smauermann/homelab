@@ -1,0 +1,58 @@
+# This section of values is for 1Password Connect API and Sync Configuration
+connect:
+  create: true
+  replicas: 1
+
+#  # The name of Kubernetes Secret containing the 1Password Connect credentials
+#  credentialsName: op-credentials
+#
+#  # The key for the 1Password Connect Credentials stored in the credentials secret
+#  credentialsKey: 1password-credentials.json
+
+  # Contents of the 1password-credentials.json file for Connect.
+  # Can be set be adding --set-file connect.credentials=<path/to/1password-credentials.json>
+  # to your helm install command
+  credentials: |
+    {
+      "verifier": {
+        "salt": "icmG-aQp9A4Iy2FmZ-YFWA",
+        "localHash": "1lvBA2E4oM-QKRfeULO0JKuRAtQw3slk1ZWWRHO0WL8"
+      },
+      "encCredentials": {
+        "kid": "localauthv2keykid",
+        "enc": "A256GCM",
+        "cty": "b5+jwk+json",
+        "iv": "d-mfKoWa2rAZSOVu",
+        "data": "JaCqFP41gIA64vGb4hz2VQrODjLfstF2G4mlWwtjZO5yfOBGsTObLPRXXkB4QSbkJ43a1G9bQ9C5-pavMnU5w4BUIzk_8fDdErn1HKJsgwRMxJwtdROSp6Ng_XAeX4ZrVtHUrtbBvAiR0PLEjxam3cIaz1g1EQlryETQLnMvc1f4xRmtNEhu5y5cRVB7RbK--YJ_pZwHhyzzhsxhFjTusFoc9AhyPTHCp7KV30r-xjx0MqOoDm0X0B9T3AWUtWI0krvG658ijg4BI07URPT_V5AG6FtbShv5sur3Fcy993ATCtlhQZyr9ZwFw5E8-VsmPAInA0FM-lRRhDr6cXAc9wFRn7gY00Sjh4SpUpkxQ3g8_P1RzVfNs06exWPNnZUTB3q1CqZ4v0YgCry0Bie4asHxOhUy-ODdQCz8D2oD7YomB0R5hxp4fEG6zRjuipWml402Ktb2YavIfn7EQ8Xyds7fko_-KcZl4W9lEeUARVxZVnPELq8LWcuqq3Ew_fDY8Z_Icok6NNUXHCBefKZgofCh11VRBgzmH2f1lp0bhzAoTGe_B6-ByeMDWMAAdffxd2Q0UzgTCqYEboEBKIEah-bgXEHY-Yp5bnVyiwJrQScev9eBbhYltUrO6ehijuoJyA"
+      },
+      "version": "2",
+      "deviceUuid": "uifzoudpzw4eqy7uypuy3b4eni",
+      "uniqueKey": {
+          "alg": "A256GCM",
+          "ext": true,
+          "k": "V1WZ-tCb1FoQQp3f0Ixzargnue4pVF7hvnQfImdeVtQ",
+          "key_ops": ["encrypt", "decrypt"],
+          "kty": "oct",
+          "kid": "gi7gqxzavbspbzg3fn7jur2oky"
+      }
+    }
+
+  # Base64-encoded contents of the 1password-credentials.json file for Connect.
+  # This can be used instead of connect.credentials in case supplying raw JSON
+  # to connect.credentials leads to issues.
+#  credentials_base64:
+
+operator:
+  create: true
+  # Denotes whether the 1Password Operator will automatically restart deployments based on associated updated secrets.
+  autoRestart: true
+  # 1Password Operator Token Configuration
+  token:
+    # The name of Kubernetes Secret containing the 1Password Connect API token
+#    name: onepassword-token
+
+    # The key for the 1Password Connect token stored in the 1Password token secret
+#    key: token
+
+    # An API token generated for 1Password Connect to be used by the Operator
+    value: eyJhbGciOiJFUzI1NiIsImtpZCI6ImdiYWhpNGNscG9neWk2aGdpNGlscGttdGdtIiwidHlwIjoiSldUIn0.eyIxcGFzc3dvcmQuY29tL2F1dWlkIjoiSlc0M1pHNkdTNUVGN0NIUjM0T0M0S0hDSVUiLCIxcGFzc3dvcmQuY29tL3Rva2VuIjoiSllvRTM5T1lLdDI5dDNEQ0dwUU03LXdUd2lYeWMteTkiLCIxcGFzc3dvcmQuY29tL2Z0cyI6WyJ2YXVsdGFjY2VzcyJdLCIxcGFzc3dvcmQuY29tL3Z0cyI6W3sidSI6InVqeWp5bG9heGZseWwzNWRsdjVhd29oc2llIiwiYSI6NDh9XSwiYXVkIjpbImNvbS4xcGFzc3dvcmQuY29ubmVjdCJdLCJzdWIiOiJJSFZEUUpJTVhaRVRYUExBVUg2VkwyWDRBTSIsImlhdCI6MTcyNjYwNDk3OCwiaXNzIjoiY29tLjFwYXNzd29yZC5iNSIsImp0aSI6ImZ0bjNodHN0aDJ1bm4yZHZsNmo1dnhpaTM0In0.p3_3S9ECmK-Or34Vd9qHKsrKwZ5WVQIw8I0B8SyG-tGvJsxeWn5JOoPrtBJ0jfeBq3xvFjJTkpft9Ig3n-hExw
