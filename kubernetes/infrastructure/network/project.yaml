@@ -8,6 +8,8 @@ spec:
     - 'https://github.com/smauermann/homelab'
     - 'https://helm.cilium.io'
   destinations:
+    - namespace: argocd
+      server: *
     - namespace: 'cilium-secrets'
       server: '*'
     - namespace: 'kube-system'
