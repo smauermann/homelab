@@ -11,7 +11,7 @@ spec:
   destinations:
     - namespace: 'argocd'
       server: '*'
-    - namespace: '1password'
+    - namespace: 'onepassword'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
