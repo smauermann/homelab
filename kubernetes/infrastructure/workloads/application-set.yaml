@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workloads
+  namespace: argocd
+  labels:
+    cloud.costanza: workloads
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/smauermann/homelab
+        revision: main
+        directories:
+          - path: kubernetes/infrastructure/workloads/*
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      labels:
+        cloud.costanza: workloads
+    spec:
+      project: workloads
+      source:
+        repoURL: https://github.com/smauermann/homelab
+        targetRevision: main
+        path: '{{ path }}'
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true

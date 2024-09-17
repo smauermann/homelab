@@ -40,6 +40,11 @@ configs:
           - CiliumIdentity
         clusters:
           - "*"
+  repositories:
+    github-homelab:
+      url: https://github.com/smauermann/homelab
+      username: smauermann
+      password: passw0rd
 
 
 server:

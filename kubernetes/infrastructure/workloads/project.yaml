@@ -1,15 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: homelab
+  name: workloads
   namespace: argocd
 spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
-    - 'https://helm.cilium.io/'
     - 'https://argoproj.github.io/argo-helm'
   destinations:
-    - namespace: '*'
+    - namespace: 'argocd'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

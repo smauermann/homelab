@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: network
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/smauermann/homelab'
+    - 'https://helm.cilium.io'
+  destinations:
+    - namespace: 'cilium-secrets'
+      server: '*'
+    - namespace: 'kube-system'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

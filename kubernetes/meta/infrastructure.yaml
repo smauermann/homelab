@@ -1,14 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root
+  name: infrastructure
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: homelab
+  project: meta-apps
   source:
-    path: kubernetes/bootstrap/argocd/apps/
+    path: kubernetes/infrastructure
     repoURL: https://github.com/smauermann/homelab
     targetRevision: main
   destination:
@@ -18,9 +16,3 @@ spec:
     automated:
       selfHeal: true
       prune: true
-    retry:
-      limit: 10
-      backoff:
-        duration: 1m
-        maxDuration: 16m
-        factor: 2
