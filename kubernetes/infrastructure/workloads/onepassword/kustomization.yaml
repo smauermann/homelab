@@ -5,6 +5,16 @@ resources:
   - namespace.yaml
   - item.yaml
 
+secretGenerator:
+  - name: onepassword-token
+    envs:
+    - .env.op-token
+  - name: op-credentials
+    envs:
+    - .env.op-credentials
+
+generatorOptions:
+  disableNameSuffixHash: true
 helmCharts:
   - name: connect
     repo: https://1password.github.io/connect-helm-charts/
