@@ -5,15 +5,15 @@ resources:
   - namespace.yaml
   - item.yaml
 
-secretGenerator:
-  - name: onepassword-token
-    namespace: onepassword
-    envs:
-    - .env.op-token
-  - name: op-credentials
-    namespace: onepassword
-    envs:
-    - .env.op-credentials
+#secretGenerator:
+#  - name: onepassword-token
+#    namespace: onepasswordfoo
+#    envs:
+#    - .env.token
+#  - name: op-credentials
+#    namespace: onepasswordfoo
+#    envs:
+#    - .env.credentials
 
 generatorOptions:
   disableNameSuffixHash: true
