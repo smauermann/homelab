@@ -1,6 +1,6 @@
 .envrc
-.env*
-# **/.envrc
+.env
+
 # Created by https://www.toptal.com/developers/gitignore/api/helm
 # Edit at https://www.toptal.com/developers/gitignore?templates=helm
 
@@ -62,4 +62,3 @@ Temporary Items
 *.icloud
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos
-

@@ -12,8 +12,8 @@ secretGenerator:
     - .env.token
   - name: onepassword-credentials
     namespace: onepassword
-    envs:
-    - .env.credentials
+    files:
+    - credentials.json
 
 generatorOptions:
   disableNameSuffixHash: true
