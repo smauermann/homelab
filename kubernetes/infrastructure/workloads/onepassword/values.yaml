@@ -7,6 +7,11 @@ connect:
   credentialsName: onepassword-credentials
   # The key for the 1Password Connect Credentials stored in the credentials secret
   credentialsKey: credentials.json
+  api:
+    logLevel: debug
+
+  sync:
+    logLevel: debug
 
 operator:
   create: true
@@ -18,3 +23,4 @@ operator:
     name: onepassword-token
     # The key for the 1Password Connect token stored in the 1Password token secret
     key: token
+  logLevel: debug
