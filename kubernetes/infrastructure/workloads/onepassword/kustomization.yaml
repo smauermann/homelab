@@ -3,20 +3,9 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
+  - token.yaml
+  - credentials.yaml
   - item.yaml
-
-secretGenerator:
-  - name: onepassword-token
-    namespace: onepassword
-    envs:
-    - .env.token
-  - name: onepassword-credentials
-    namespace: onepassword
-    files:
-    - credentials.json
-
-generatorOptions:
-  disableNameSuffixHash: true
 
 helmCharts:
   - name: connect
