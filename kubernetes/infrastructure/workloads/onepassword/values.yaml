@@ -6,7 +6,7 @@ connect:
   # The name of Kubernetes Secret containing the 1Password Connect credentials
   credentialsName: onepassword-credentials
   # The key for the 1Password Connect Credentials stored in the credentials secret
-  credentialsKey: credentials
+  credentialsKey: credentials.json
 
 operator:
   create: true
