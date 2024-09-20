@@ -10,7 +10,13 @@ connect:
 operator:
   create: true
   # Denotes whether the 1Password Operator will automatically restart deployments based on associated updated secrets.
-  autoRestart: true
+  # Via annotation one can add restarts for namespaces, deployments, or to OnePasswordItem CRs
+  # apiVersion: v1
+  # kind: Deployment
+  # metadata:
+  #   annotations:
+  #     operator.1password.io/auto-restart: "true"
+  autoRestart: false
   # 1Password Operator Token Configuration
   token:
     # The name of Kubernetes Secret containing the 1Password Connect API token
