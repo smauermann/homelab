@@ -9,5 +9,8 @@ kubectl -n onepassword create secret generic onepassword-credentials --from-file
 rm credentials.b64
 kubectl -n onepassword create secret generic onepassword-token --from-env-file token.env
 
-kubectl kustomize --enable-helm ../kubernetes/infrastructure/workloads/onepassword | kubectl apply -f -
+# clean up old charts
+APP_DIR="../kubernetes/infrastructure/workloads/onepassword"
+rm -rf $APP_DIR/charts
 
+kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
