@@ -6,8 +6,9 @@ Follow the 1Password docs on setting up a [Secrets Automation Workflow](https://
 
 You will get a `1password-credentials.json` file required to create a connect server and a connect token, which is used by the 1password operator to connect to the connect server.
 
-Both token and credentials must be put in secrets, you can find example files in `kubernetes/infrastructure/workloads/onepassword`.
-Of note, the credentials must be supplied in base64 encoding, e.g. via `cat 1password-credentials.json | base64`.
+Both token and credentials must be stored in secrets so that the onepassword components can read them. Store the token
+and credentials in the files `token.txt` and `1password-credentials.json`, respectively. Of note, the credentials are
+doubly base64 encoded. This is not a bug on our end but a quirk (or rather bug) of the onepassword helm chart.
 
 ## Bootstrap the cluster
 Execute to the script `run-all.sh` to execute all cluster bootstrap steps in the correct order.
