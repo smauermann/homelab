@@ -1,3 +1,6 @@
+global:
+  domain: argocd.costanza.cloud
+
 configs:
   params:
     # Run server without TLS
@@ -40,23 +43,16 @@ configs:
           - CiliumIdentity
         clusters:
           - "*"
-#  repositories:
-#    github-homelab:
-#      url: https://github.com/smauermann/homelab
-#      username: smauermann
-#      # fixme: figure out how to set this with exposing the secret
-#      password: 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
-
 
 server:
   # Ingress Resource.
   ingress:
     ## Enable creation of ingress resource
-    enabled: false
+    enabled: true
     ## Add ingressClassName to the Ingress
     ingressClassName: cilium
     # ingress host
-    hostname: argocd.lab.costanza.cloud
+    hostname: argocd.costanza.cloud
     ## Default ingress path
     path: /
     pathType: Prefix
@@ -71,5 +67,5 @@ server:
       # Possible Cluster-Issuer values:
       #   * 'letsencrypt-issuer' (valid TLS certificate using IONOS API)
       #   * 'ca-issuer' (CA-signed certificate, not valid)
-      cert-manager.io/cluster-issuer: letsencrypt-issuer
-      cert-manager.io/common-name: argocd.lab.costanza.cloud
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/common-name: argocd.costanza.cloud
