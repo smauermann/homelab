@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 
-./network.sh
 ./dependencies.sh
+./network.sh
 ./k3s.sh
 ./cilium.sh
 ./onepassword.sh
