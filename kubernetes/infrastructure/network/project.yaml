@@ -5,9 +5,10 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
+    - 'https://charts.jetstack.io'
     - 'https://github.com/smauermann/homelab'
     - 'https://helm.cilium.io'
-    - 'https://charts.jetstack.io'
+    - 'https://pkgs.tailscale.com/helmcharts'
   destinations:
     - namespace: argocd
       server: '*'
@@ -18,6 +19,8 @@ spec:
     - namespace: cloudflared
       server: '*'
     - namespace: 'kube-system'
+      server: '*'
+    - namespace: tailscale
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
