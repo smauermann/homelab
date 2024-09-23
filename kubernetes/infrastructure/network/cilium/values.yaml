@@ -39,3 +39,8 @@ ingressController:
   service:
     annotations:
       io.cilium/lb-ipam-ips: 192.168.178.195
+
+# required for exposing services via tailscale operator
+# https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
+socketLB:
+  hostNamespaceOnly: true
