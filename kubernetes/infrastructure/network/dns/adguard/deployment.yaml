@@ -18,35 +18,35 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-#      initContainers:
-#        - name: copy-base-config
-#          image: busybox
-#          command: [ "cp", "/tmp/AdGuardHome.yaml", "/opt/adguardhome/conf/AdGuardHome.yaml" ]
-#          securityContext:
-#            allowPrivilegeEscalation: false
-#            readOnlyRootFilesystem: true
-#            capabilities:
-#              drop: [ "ALL" ]
-#          volumeMounts:
-#            - name: config
-#              mountPath: /tmp/AdGuardHome.yaml
-#              subPath: AdGuardHome.yaml
-#            - name: config-folder
-#              mountPath: /opt/adguardhome/conf
-#        - name: append-users
-#          image: busybox
-#          command: [ "sh", "-c", "cat /tmp/users.yaml >> /opt/adguardhome/conf/AdGuardHome.yaml" ]
-#          securityContext:
-#            allowPrivilegeEscalation: false
-#            readOnlyRootFilesystem: true
-#            capabilities:
-#              drop: [ "ALL" ]
-#          volumeMounts:
-#            - name: users
-#              mountPath: /tmp/users.yaml
-#              subPath: users.yaml
-#            - name: config-folder
-#              mountPath: /opt/adguardhome/conf
+      initContainers:
+        - name: copy-base-config
+          image: busybox
+          command: [ "cp", "/tmp/AdGuardHome.yaml", "/opt/adguardhome/conf/AdGuardHome.yaml" ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ "ALL" ]
+          volumeMounts:
+            - name: config
+              mountPath: /tmp/AdGuardHome.yaml
+              subPath: AdGuardHome.yaml
+            - name: config-folder
+              mountPath: /opt/adguardhome/conf
+        - name: append-users
+          image: busybox
+          command: [ "sh", "-c", "cat /tmp/users.yaml >> /opt/adguardhome/conf/AdGuardHome.yaml" ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ "ALL" ]
+          volumeMounts:
+            - name: users
+              mountPath: /tmp/users.yaml
+              subPath: users.yaml
+            - name: config-folder
+              mountPath: /opt/adguardhome/conf
       containers:
         - name: adguard
           image: docker.io/adguard/adguardhome:v0.107.52 # renovate: docker=docker.io/adguard/adguardhome
@@ -81,12 +81,12 @@ spec:
             - name: work-folder
               mountPath: /opt/adguardhome/work
       volumes:
-#        - name: config
-#          configMap:
-#            name: adguard-config
-#        - name: users
-#          secret:
-#            secretName: users
+        - name: config
+          configMap:
+            name: adguard-config
+        - name: users
+          secret:
+            secretName: adguard-users
         - name: config-folder
           emptyDir: { }
         - name: work-folder
