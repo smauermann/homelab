@@ -10,3 +10,4 @@ configMapGenerator:
 resources:
   - deployment.yaml
   - users.yaml
+  - service.yaml
