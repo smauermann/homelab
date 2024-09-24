@@ -5,4 +5,4 @@ metadata:
 spec:
   blocks:
     - start: "192.168.178.195"
-    - start: "192.168.178.200"
+      stop: "192.168.178.200"
