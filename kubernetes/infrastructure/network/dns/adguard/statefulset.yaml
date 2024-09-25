@@ -20,21 +20,18 @@ spec:
       initContainers:
         - name: config-init
           image: busybox
-          command: [ 'sh', '-c', 'cat /tmp/config/AdGuardHome.yaml /tmp/config/users.yaml > /config/AdGuardHome.yaml' ]
+          command: ['sh', '-c', 'cat /config/AdGuardHome.yaml /config/users.yaml > /combined-config/AdGuardHome.yaml']
           volumeMounts:
             - name: config-folder
-              mountPath: /tmp/config
-            - name: combined-config
               mountPath: /config
+            - name: combined-config
+              mountPath: /combined-config
       containers:
         - name: adguard
           image: docker.io/adguard/adguardhome:v0.107.52 # renovate: docker=docker.io/adguard/adguardhome
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-          command:
-            - sleep
-            - "3600"
           ports:
             - name: dns-tcp
               containerPort: 53
@@ -42,7 +39,7 @@ spec:
             - name: dns-udp
               containerPort: 53
               protocol: UDP
-            - name: dchp
+            - name: dhcp
               containerPort: 67
               protocol: UDP
             - name: http
@@ -55,7 +52,7 @@ spec:
             limits:
               memory: 256Mi
           volumeMounts:
-            - name: config-folder
+            - name: combined-config
               mountPath: /opt/adguardhome/conf
             - name: work-folder
               mountPath: /opt/adguardhome/work
@@ -67,11 +64,13 @@ spec:
                   name: adguard-config
               - secret:
                   name: adguard-users
+        - name: combined-config
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: work-folder
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 1Gi
