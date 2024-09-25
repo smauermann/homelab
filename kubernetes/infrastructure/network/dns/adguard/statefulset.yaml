@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: adguard-sts
+  namespace: dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard-sts
+  serviceName: adguard-sts
+  template:
+    metadata:
+      labels:
+        app: adguard-sts
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: adguard
+          image: docker.io/adguard/adguardhome:v0.107.52 # renovate: docker=docker.io/adguard/adguardhome
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          ports:
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: dchp
+              containerPort: 67
+              protocol: UDP
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+          volumeMounts:
+            - name: config-folder
+              mountPath: /opt/adguardhome/conf
+            - name: work-folder
+              mountPath: /opt/adguardhome/work
+      volumes:
+        - name: config-folder
+          projected:
+            sources:
+              - configMap:
+                  name: adguard-config
+              - secret:
+                  name: adguard-users
+  volumeClaimTemplates:
+    - metadata:
+        name: work-folder
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

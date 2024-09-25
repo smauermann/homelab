@@ -11,3 +11,5 @@ resources:
   - deployment.yaml
   - users.yaml
   - service.yaml
+  - statefulset.yaml
+  - service-sts.yaml
