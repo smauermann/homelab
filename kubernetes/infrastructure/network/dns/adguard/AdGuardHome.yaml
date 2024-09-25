@@ -25,7 +25,8 @@ dns:
   bootstrap_dns:
     - 192.168.178.1
   fallback_dns:
-    - 1.1.1.1
+    - 1.1.1.3
+    - 1.0.0.3
     - 9.9.9.9
   upstream_mode: fastest_addr
   fastest_timeout: 1s
@@ -59,6 +60,7 @@ dns:
   use_private_ptr_resolvers: true
   local_ptr_upstreams:
     - 10.43.0.10
+    - 100.100.100.100
     - 192.168.178.1
   use_dns64: false
   dns64_prefixes: []
@@ -103,9 +105,21 @@ filters:
     name: AdAway Default Blocklist
     id: 2
   - enabled: true
-    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_33.txt
-    name: Steven Black's List
-    id: 1727211327
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt
+    name: HaGeZi's Threat Intelligence Feeds
+    id: 1727212689
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt
+    name: HaGeZi's Pro Blocklist
+    id: 1727212690
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_56.txt
+    name: HaGeZi's The World's Most Abused TLDs
+    id: 1727249702
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt
+    name: Dandelion Sprout's Anti-Malware List
+    id: 1727249848
 whitelist_filters: []
 user_rules: []
 dhcp:
@@ -134,9 +148,9 @@ filtering:
     ids: []
   protection_disabled_until: null
   safe_search:
-    enabled: true
+    enabled: false
     bing: true
-    duckduckgo: false
+    duckduckgo: true
     google: true
     pixabay: true
     yandex: true
