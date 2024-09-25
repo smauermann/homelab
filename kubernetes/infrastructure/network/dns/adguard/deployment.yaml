@@ -52,7 +52,7 @@ spec:
           image: docker.io/adguard/adguardhome:v0.107.52 # renovate: docker=docker.io/adguard/adguardhome
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
           # capabilities:
           #   drop: [ "ALL" ]
           ports:
@@ -73,7 +73,6 @@ spec:
               cpu: 50m
               memory: 128Mi
             limits:
-              cpu: 500m
               memory: 256Mi
           volumeMounts:
             - name: config-folder
