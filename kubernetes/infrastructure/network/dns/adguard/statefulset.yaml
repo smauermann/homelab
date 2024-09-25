@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: adguard-sts
+  name: adguard
   namespace: dns
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adguard-sts
-  serviceName: adguard-sts
+      app: adguard
+  serviceName: adguard
   template:
     metadata:
       labels:
-        app: adguard-sts
+        app: adguard
     spec:
       securityContext:
         seccompProfile:
