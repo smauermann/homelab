@@ -17,6 +17,15 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+        - name: config-init
+          image: busybox
+          command: [ 'sh', '-c', 'cat /tmp/config/AdGuardHome.yaml /tmp/config/users.yaml > /config/AdGuardHome.yaml' ]
+          volumeMounts:
+            - name: config-folder
+              mountPath: /tmp/config
+            - name: combined-config
+              mountPath: /config
       containers:
         - name: adguard
           image: docker.io/adguard/adguardhome:v0.107.52 # renovate: docker=docker.io/adguard/adguardhome
