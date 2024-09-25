@@ -8,6 +8,7 @@
    --disable servicelb \
    --disable-network-policy \
    --disable traefik \
+   --disable-helm-controller \
    --cluster-init
 
 # cp kubeconfig to the standard location
