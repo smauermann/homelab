@@ -23,6 +23,9 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+          command:
+            - sleep
+            - "3600"
           ports:
             - name: dns-tcp
               containerPort: 53
