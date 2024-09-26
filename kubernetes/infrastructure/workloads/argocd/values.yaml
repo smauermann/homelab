@@ -69,6 +69,3 @@ server:
       #   * 'ca-issuer' (CA-signed certificate, not valid)
       cert-manager.io/cluster-issuer: letsencrypt-prod
       cert-manager.io/common-name: argocd.costanza.cloud
-  service:
-    annotations:
-      "tailscale.com/expose": "true"
