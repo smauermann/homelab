@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguard
+  namespace: dns
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/common-name: adguard.costanza.cloud
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: adguard.costanza.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguard
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - adguard.costanza.cloud
+      secretName: adguard-tls

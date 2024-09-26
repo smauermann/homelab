@@ -11,3 +11,4 @@ resources:
   - users.yaml
   - service.yaml
   - statefulset.yaml
+  - ingress.yaml
