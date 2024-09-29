@@ -7,12 +7,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adguard
+      app.kubernetes.io/name: adguard
+      app.kubernetes.io/component: primary-resolver
+      app.kubernetes.io/part-of: resolvers
   serviceName: adguard
   template:
     metadata:
       labels:
-        app: adguard
+        app.kubernetes.io/name: adguard
+        app.kubernetes.io/component: primary-resolver
+        app.kubernetes.io/part-of: resolvers
     spec:
       securityContext:
         seccompProfile:
@@ -56,6 +60,13 @@ spec:
               mountPath: /opt/adguardhome/conf
             - name: work-folder
               mountPath: /opt/adguardhome/work
+          readinessProbe:
+            exec:
+              command: ['nslookup', 'google.com', '127.0.0.1']
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
       volumes:
         - name: config-folder
           projected:
