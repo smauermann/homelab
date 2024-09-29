@@ -61,9 +61,7 @@ dns:
   private_networks: []
   use_private_ptr_resolvers: true
   local_ptr_upstreams:
-    - udp://kube-dns.kube-system.svc.cluster.local:53
-    - tcp://kube-dns.kube-system.svc.cluster.local:53
-    - 100.100.100.100
+    - 10.43.0.10
     - 192.168.178.1
   use_dns64: false
   dns64_prefixes: []
@@ -96,7 +94,7 @@ querylog:
 statistics:
   dir_path: ""
   ignored: []
-  interval: 24h
+  interval: 720h
   enabled: true
 filters:
   - enabled: true
@@ -161,9 +159,7 @@ filtering:
   blocking_mode: default
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
-  rewrites:
-    - domain: '*.costanza.cloud'
-      answer: kube-system-cilium-ingress.foxhound-capella.ts.net
+  rewrites: []
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
