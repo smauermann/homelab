@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unbound
+  namespace: dns
+spec:
+  selector:
+    matchLabels: &labels
+      app.kubernetes.io/name: unbound
+      app.kubernetes.io/component: backup-resolver
+      app.kubernetes.io/part-of: resolvers
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: unbound
+          image: docker.io/mvance/unbound:1.20.0  # renovate: docker=docker.io/mvance/unbound
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+          ports:
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          readinessProbe: &probe
+            exec:
+              command: ['drill', '@127.0.0.1', '-p', '53', 'google.com']
+            failureThreshold: 3
+            timeoutSeconds: 5
+          startupProbe:
+            <<: *probe
+            initialDelaySeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /opt/unbound/etc/unbound/unbound.conf
+              subPath: unbound.conf
+      volumes:
+        - name: config
+          configMap:
+            name: unbound-config
