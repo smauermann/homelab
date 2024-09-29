@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: adguard-web
+                name: adguard
                 port:
                   number: 3000
   tls:

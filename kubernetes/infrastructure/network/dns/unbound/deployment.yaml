@@ -6,13 +6,12 @@ metadata:
 spec:
   replicas: 0
   selector:
-    matchLabels: &labels
+    matchLabels:
       app.kubernetes.io/name: unbound
-      app.kubernetes.io/component: backup-resolver
-      app.kubernetes.io/part-of: resolvers
   template:
     metadata:
-      labels: *labels
+      labels:
+        app.kubernetes.io/name: unbound
     spec:
       securityContext:
         seccompProfile:
@@ -37,13 +36,11 @@ spec:
             limits:
               cpu: 500m
               memory: 128Mi
-          readinessProbe: &probe
+          startupProbe:
             exec:
               command: ['drill', '@127.0.0.1', '-p', '53', 'google.com']
             failureThreshold: 3
             timeoutSeconds: 5
-          startupProbe:
-            <<: *probe
             initialDelaySeconds: 10
           volumeMounts:
             - name: config
