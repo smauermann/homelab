@@ -12,3 +12,4 @@ resources:
   - service.yaml
   - deployment.yaml
   - ingress.yaml
+  - blue-green.yaml

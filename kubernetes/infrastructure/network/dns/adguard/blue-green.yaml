@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: adguard-blue-green
+  namespace: dns
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: adguard
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: adguard
+    scaleDown: never
+  strategy:
+    blueGreen:
+      # activeService specifies the service to update with the new template hash at time of promotion.
+      activeService: adguard
+      # promote new ReplicaSet as soon as completely ready/available
+      autoPromotionEnabled: true
