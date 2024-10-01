@@ -33,3 +33,10 @@ spec:
         syncOptions:
           - ServerSideApply=true
           - ApplyOutOfSyncOnly=true
+      ignoreDifferences:
+        - group: ""
+          kind: Secret
+          name: argocd-secret
+          jsonPointers:
+            # this is just a reference to a secret and will be substituted by ArgoCD
+            - /data/webhook.github.secret
