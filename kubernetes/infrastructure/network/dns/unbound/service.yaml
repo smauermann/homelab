@@ -5,6 +5,7 @@ metadata:
   namespace: dns
 spec:
   type: ClusterIP
+  clusterIP: 10.43.50.178
   ports:
     - name: dns-tcp
       port: 53

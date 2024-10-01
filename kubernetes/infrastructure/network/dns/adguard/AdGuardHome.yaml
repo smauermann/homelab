@@ -20,16 +20,16 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - 1.1.1.1
-    - 1.0.0.1
-    - 9.9.9.9
+    - 10.43.50.178
+    - udp://unbound.dns.svc.cluster.local:53
+    - tcp://unbound.dns.svc.cluster.local:53
   upstream_dns_file: ""
   bootstrap_dns:
     - 192.168.178.1
     - 10.43.0.10
   fallback_dns:
-    - 149.112.112.112
-    - 194.242.2.2
+    - 1.1.1.1
+    - 9.9.9.9
   upstream_mode: fastest_addr
   fastest_timeout: 1s
   allowed_clients: []
