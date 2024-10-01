@@ -7,6 +7,12 @@ configs:
     # Ingress NGINX finishes TLS connections
     server.insecure: true
     controller.diff.server.side: "true"
+
+  secret:
+    # authentication of GitHub webhook events
+    # this will look up the secret in another secret with the specified key, see https://argo-cd.readthedocs.io/en/stable/operator-manual/webhook/#alternative
+    githubSecret: "$argocd-github-webhook-secret:credential"
+
   cm:
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |

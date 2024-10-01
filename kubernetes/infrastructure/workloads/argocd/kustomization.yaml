@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repo.yaml
+  - webhook-secret.yaml
 
 helmCharts:
   - name: argo-cd
