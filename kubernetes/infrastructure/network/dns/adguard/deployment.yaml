@@ -50,6 +50,13 @@ spec:
               memory: 128Mi
             limits:
               memory: 256Mi
+          startupProbe:
+            exec:
+              command: ["nslookup", "google.com", "127.0.0.1"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: combined-config
               mountPath: /opt/adguardhome/conf
