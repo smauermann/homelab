@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: adguard
   namespace: dns
@@ -8,7 +8,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: adguard
-  serviceName: adguard
   template:
     metadata:
       labels:
@@ -66,11 +65,5 @@ spec:
                   name: adguard-users
         - name: combined-config
           emptyDir: {}
-  volumeClaimTemplates:
-    - metadata:
-        name: work-folder
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
+        - name: work-folder
+          emptyDir: {}

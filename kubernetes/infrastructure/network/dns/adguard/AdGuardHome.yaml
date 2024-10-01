@@ -87,14 +87,14 @@ tls:
 querylog:
   dir_path: ""
   ignored: []
-  interval: 720h
+  interval: 168h
   size_memory: 1000
   enabled: true
   file_enabled: true
 statistics:
   dir_path: ""
   ignored: []
-  interval: 720h
+  interval: 24h
   enabled: true
 filters:
   - enabled: true
@@ -122,7 +122,9 @@ filters:
     name: Dandelion Sprout's Anti-Malware List
     id: 1727249848
 whitelist_filters: []
-user_rules: []
+user_rules:
+  - '@@||mp3.medito.space^$important'
+  - ""
 dhcp:
   enabled: false
   interface_name: ""
