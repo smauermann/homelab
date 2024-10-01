@@ -1,0 +1,54 @@
+installCRDs: true
+keepCRDs: true
+
+# -- `false` runs controller in namespaced mode (does not require cluster RBAC)
+clusterInstall: true
+
+# -- flag to enable creation of cluster aggregate roles (requires cluster RBAC)
+createClusterAggregateRoles: true
+
+controller:
+  replicas: 1
+
+  metrics:
+    # -- Deploy metrics service
+    enabled: false
+    serviceMonitor:
+      enabled: false
+      # -- Namespace to be used for the ServiceMonitor
+      namespace: ""
+
+providerRBAC:
+  # -- Toggles addition of provider-specific RBAC rules to the controller Role and ClusterRole
+  enabled: false
+  # providerRBAC.enabled must be true in order to toggle the individual providers
+  providers:
+    # -- Adds RBAC rules for the Istio provider
+    istio: false
+    # -- Adds RBAC rules for the SMI provider
+    smi: false
+    # -- Adds RBAC rules for the Ambassador provider
+    ambassador: false
+    # -- Adds RBAC rules for the AWS Load Balancer Controller provider
+    awsLoadBalancerController: false
+    # -- Adds RBAC rules for the AWS App Mesh provider
+    awsAppMesh: false
+    # -- Adds RBAC rules for the Traefik provider
+    traefik: false
+    # -- Adds RBAC rules for the Apisix provider
+    apisix: false
+    # -- Adds RBAC rules for the Contour provider, see `https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-contour/blob/main/README.md`
+    contour: false
+    # -- Adds RBAC rules for the Gloo Platform provider, see `https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-glooplatform/blob/main/README.md`
+    glooPlatform: false
+    # -- Adds RBAC rules for the Gateway API provider
+    gatewayAPI: true
+
+dashboard:
+  # -- Deploy dashboard server
+  enabled: false
+
+notifications:
+  configmap:
+    # -- Whether to create notifications configmap
+    create: false
