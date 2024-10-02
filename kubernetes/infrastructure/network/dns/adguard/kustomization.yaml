@@ -7,9 +7,11 @@ configMapGenerator:
     files:
       - AdGuardHome.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 resources:
   - users.yaml
   - service.yaml
-  - deployment.yaml
+  - rollout.yaml
   - ingress.yaml
-  - blue-green.yaml
