@@ -124,7 +124,7 @@ filters:
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
-  - '||twitch.com^$important'
+  - '||twitch.tv^$important'
 dhcp:
   enabled: false
   interface_name: ""
