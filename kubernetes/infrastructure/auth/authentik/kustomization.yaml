@@ -3,3 +3,11 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
+
+helmCharts:
+  - name: authentik
+    namespace: authentik
+    releaseName: authentik
+    repo: https://charts.goauthentik.io
+    version: 2024.8.3
+    valuesFile: values.yaml
