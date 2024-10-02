@@ -1,25 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: adguard
   namespace: dns
 spec:
-  replicas: 1
-  revisionHistoryLimit: 2
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: adguard
-  strategy:
-    blueGreen:
-      # activeService specifies the service to update with the new template hash at time of promotion.
-      activeService: adguard
-      # promote new ReplicaSet as soon as completely ready/available
-      autoPromotionEnabled: true
   template:
     metadata:
       labels:
         app.kubernetes.io/name: adguard
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
         - name: config-init
           image: busybox
@@ -66,9 +62,6 @@ spec:
               mountPath: /opt/adguardhome/conf
             - name: work-folder
               mountPath: /opt/adguardhome/work
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       volumes:
         - name: config-folder
           projected:
