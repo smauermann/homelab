@@ -12,8 +12,11 @@ configs:
     # authentication of GitHub webhook events
     # this will look up the secret in another secret with the specified key, see https://argo-cd.readthedocs.io/en/stable/operator-manual/webhook/#alternative
     githubSecret: "$argocd-github-webhook-secret:credential"
-    extra:
-      dex.authentik.clientSecret: "${argocd_authentik_client_secret}"
+
+  rbac:
+    policy.csv: |
+      g, ArgoCD Admins, role:admin
+      g, ArgoCD Viewers, role:readonly
 
   cm:
     url: https://argocd.costanza.cloud
@@ -31,10 +34,7 @@ configs:
         name: authentik
         type: oidc
         id: authentik
-    rbac:
-      policy.csv: |
-        g, ArgoCD Admins, role:admin
-        g, ArgoCD Viewers, role:readonly
+
 
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |
