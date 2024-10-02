@@ -14,7 +14,7 @@ resource "cloudflare_record" "argocd-webhook" {
   name    = "argocd-webhook"
   content = cloudflare_zero_trust_tunnel_cloudflared.this.cname
   type    = "CNAME"
-  proxied = false
+  proxied = true
 }
 
 resource "cloudflare_record" "ingress" {
