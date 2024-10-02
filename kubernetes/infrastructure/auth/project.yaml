@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: auth
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://charts.goauthentik.io'
+    - 'https://github.com/smauermann/homelab'
+  destinations:
+    - namespace: argocd
+      server: '*'
+    - namespace: authentik
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
