@@ -36,12 +36,8 @@ env:
   # -- The available options are: brand, model, memory.
   DASHDOT_GPU_LABEL_LIST: "brand, model, memory"
 
-podSecurityContext:
-  # -- needed to determine the memory and storage info.
+securityContext:
   privileged: true
-  # fsGroup: 2000
-
-securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
