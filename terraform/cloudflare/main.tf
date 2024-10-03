@@ -20,7 +20,7 @@ resource "cloudflare_record" "argocd-webhook" {
 resource "cloudflare_record" "ingress" {
   zone_id = var.zone_id
   name    = "*"
-  content = "100.70.249.33" # tailnet IP of the exposed ingress
+  content = "192.168.192.2"
   type    = "A"
   proxied = false
 }
