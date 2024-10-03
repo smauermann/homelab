@@ -5,6 +5,5 @@ helmCharts:
   - name: postgresql
     repo: https://charts.bitnami.com/bitnami
     version: 16.0.0
-    releaseName: zitadel-db
     namespace: zitadel
     valuesFile: values.yaml
