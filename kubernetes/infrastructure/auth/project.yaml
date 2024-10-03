@@ -5,12 +5,9 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - 'https://charts.goauthentik.io'
     - 'https://github.com/smauermann/homelab'
   destinations:
     - namespace: argocd
-      server: '*'
-    - namespace: authentik
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
