@@ -9,7 +9,8 @@ env:
   DEFAULT_COLOR_SCHEME: "dark"
   # -- Enabled authentication methods. Multiple providers can be enabled with by separating them with , (ex. AUTH_PROVIDER=credentials,oidc, it is highly recommended to just enable one provider).
   AUTH_PROVIDER: "credentials"
-
+  # -- URL for the Homarr database
+  DATABASE_URL: file:/app/database/db.sqlite
 
 securityContext: {}
 #   capabilities:
