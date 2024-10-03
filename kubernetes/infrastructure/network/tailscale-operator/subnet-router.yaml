@@ -1,0 +1,9 @@
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: loadbalancer-cidrs
+spec:
+  hostname: loadbalancer-cidrs
+  subnetRouter:
+    advertiseRoutes:
+      - "192.168.192.0/24"

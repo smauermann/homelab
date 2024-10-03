@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - operator-oauth.yaml
+  - subnet-router.yaml
 
 helmCharts:
   - name: tailscale-operator
