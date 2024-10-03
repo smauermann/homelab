@@ -5,6 +5,7 @@ metadata:
   namespace: dns
 spec:
   replicas: 2
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: unbound

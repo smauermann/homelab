@@ -5,6 +5,7 @@ metadata:
   namespace: dns
 spec:
   replicas: 0
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: adguard
