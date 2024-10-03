@@ -6,8 +6,11 @@ metadata:
 spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
+    - https://oben01.github.io/charts/
   destinations:
     - namespace: 'argocd'
+      server: '*'
+    - namespace: homarr
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
