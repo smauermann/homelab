@@ -22,3 +22,21 @@ zitadel:
           Username: postgres
           SSL:
             Mode: disable
+
+ingress:
+  enabled: true
+  className: "cilium"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/common-name: zitadel.costanza.cloud
+
+  hosts:
+    - host: zitadel.costanza.cloud
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - zitadel.costanza.cloud
+      secretName: zitadel-tls
+
