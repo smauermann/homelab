@@ -63,7 +63,8 @@ dns:
   use_private_ptr_resolvers: true
   local_ptr_upstreams:
     - 192.168.178.1
-    - 10.43.0.10
+    - '[/168.192.in-addr.arpa/]192.168.178.1'
+    - '[/10.in-addr.arpa/]10.43.0.10'
   use_dns64: false
   dns64_prefixes: []
   serve_http3: false
