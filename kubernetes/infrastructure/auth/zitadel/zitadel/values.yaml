@@ -1,13 +1,13 @@
 zitadel:
   masterkey: x123456789012345678901234567891y
   configmapConfig:
-    ExternalSecure: false
+    ExternalSecure: true
     ExternalDomain: zitadel.costanza.cloud
     TLS:
       Enabled: false
     Database:
       Postgres:
-        Host: db-postgresql
+        Host: zitadel-db-postgresql
         Port: 5432
         Database: zitadel
         MaxOpenConns: 20
