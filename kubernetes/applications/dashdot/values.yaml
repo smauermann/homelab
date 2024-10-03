@@ -14,7 +14,7 @@ env:
   # -- If you want to show a custom host in the server widget (needs DASHDOT_SHOW_HOST enabled to work).
   DASHDOT_CUSTOM_HOST:
   # -- If you want to show the CPU temperature in the graph. This will probably not work on a VPS, so you need to try it on your own if this works. For home servers it might work just fine.
-  DASHDOT_ENABLE_CPU_TEMPS: false
+  DASHDOT_ENABLE_CPU_TEMPS: true
   # -- Shows any units in the imperial system, instead of the default metric.
   DASHDOT_USE_IMPERIAL: false
   # -- To always show the current percentage of each graph in the top-left corner. Without enabling this, they will only be shown on lower resolution devices (mobile phones).
@@ -30,7 +30,7 @@ env:
   # -- The available options are: brand, size, type.
   DASHDOT_STORAGE_LABEL_LIST: "brand,size,type"
   # -- The available options are: brand, size, type, frequency.
-  DASHDOT_RAM_LABEL_LIST: "brand,size,type,frequency"
+  DASHDOT_RAM_LABEL_LIST: "size,type,frequency"
   # -- The available options are: type, speed_up, speed_down, interface_speed, public_ip.
   DASHDOT_NETWORK_LABEL_LIST: "type,speed_up,speed_down,interface_speed"
   # -- The available options are: brand, model, memory.
