@@ -23,6 +23,7 @@ dns:
     - 10.43.50.178
     - udp://unbound.dns.svc.cluster.local:53
     - tcp://unbound.dns.svc.cluster.local:53
+    - '[/fritz.box/]192.168.178.1'
   upstream_dns_file: ""
   bootstrap_dns:
     - 192.168.178.1
