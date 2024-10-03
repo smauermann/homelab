@@ -36,8 +36,8 @@ env:
   # -- The available options are: brand, model, memory.
   DASHDOT_GPU_LABEL_LIST: "brand, model, memory"
 
-securityContext:
-  privileged: true
+#securityContext:
+#  privileged: true
   # capabilities:
   #   drop:
   #   - ALL
