@@ -36,7 +36,8 @@ env:
   # -- The available options are: brand, model, memory.
   DASHDOT_GPU_LABEL_LIST: "brand, model, memory"
 
-podSecurityContext: {}
+# must be empty otherwise, spec is not valid
+podSecurityContext:
 securityContext:
   privileged: true
   # capabilities:
