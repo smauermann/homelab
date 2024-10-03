@@ -61,8 +61,8 @@ dns:
   private_networks: []
   use_private_ptr_resolvers: true
   local_ptr_upstreams:
-    - 10.43.0.10
     - 192.168.178.1
+    - 10.43.0.10
   use_dns64: false
   dns64_prefixes: []
   serve_http3: false
@@ -124,7 +124,6 @@ filters:
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
-  - '||twitch.tv^$important'
 dhcp:
   enabled: false
   interface_name: ""
@@ -148,7 +147,14 @@ filtering:
   blocked_services:
     schedule:
       time_zone: UTC
-    ids: []
+      sun:
+        start: 0s
+        end: 23h59m
+      sat:
+        start: 0s
+        end: 23h59m
+    ids:
+      - twitch
   protection_disabled_until: null
   safe_search:
     enabled: false
@@ -161,7 +167,9 @@ filtering:
   blocking_mode: default
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
-  rewrites: []
+  rewrites:
+    - domain: '*.costanza.cloud'
+      answer: 192.168.192.2
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
