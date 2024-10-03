@@ -6,12 +6,8 @@ metadata:
 spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
-    - https://charts.zitadel.com
-    - https://charts.bitnami.com/bitnami
   destinations:
     - namespace: argocd
-      server: '*'
-    - namespace: zitadel
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
