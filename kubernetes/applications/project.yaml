@@ -10,8 +10,6 @@ spec:
   destinations:
     - namespace: 'argocd'
       server: '*'
-    - namespace: dashdot
-      server: '*'
     - namespace: homarr
       server: '*'
   clusterResourceWhitelist:
