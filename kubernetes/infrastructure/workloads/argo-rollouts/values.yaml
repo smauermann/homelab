@@ -56,6 +56,8 @@ dashboard:
       gethomepage.dev/group: Workloads
       gethomepage.dev/icon: argocd.png
       gethomepage.dev/name: Argo Rollouts
+      gethomepage.dev/pod-selector: ""
+
     hosts:
       - rollouts.costanza.cloud
     tls:
