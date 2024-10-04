@@ -126,6 +126,7 @@ filters:
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
+  - '@@||files.wrint.de^$important'
 dhcp:
   enabled: false
   interface_name: ""
