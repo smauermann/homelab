@@ -12,6 +12,8 @@ spec:
       server: '*'
     - namespace: homarr
       server: '*'
+    - namespace: homepage-dashboard
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
