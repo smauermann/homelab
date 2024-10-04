@@ -14,7 +14,11 @@ ingress:
 
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-
+    gethomepage.dev/description: SSO
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Auth
+    gethomepage.dev/icon: authelia.png
+    gethomepage.dev/name: Authelia
   tls:
     enabled: true
     secret: 'authelia-tls'
