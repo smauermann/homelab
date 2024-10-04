@@ -1,6 +1,7 @@
 - Network:
     - FRITZ!Box:
         description: Router Statistics
+        href: http://192.168.178.1
         widget:
           type: fritzbox
           url: http://192.168.178.1

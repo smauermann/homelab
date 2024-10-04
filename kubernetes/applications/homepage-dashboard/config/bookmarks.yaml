@@ -1,4 +1,8 @@
-- Developer:
-    - Github:
-        - abbr: GH
-          href: https://github.com/
+- Links:
+    - Homelab Repo:
+        - icon: github.png
+          href: https://github.com/smauermann/homelab
+    - Tailscale:
+        - icon: tailscale.png
+          href: https://login.tailscale.com/admin/machines
+
