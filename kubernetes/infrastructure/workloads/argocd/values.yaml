@@ -15,8 +15,7 @@ configs:
 
   rbac:
     policy.csv: |
-      g, ArgoCD Admins, role:admin
-      g, ArgoCD Viewers, role:readonly
+      g, argocd:admins, role:admin
 
   cm:
     url: https://argocd.costanza.cloud
