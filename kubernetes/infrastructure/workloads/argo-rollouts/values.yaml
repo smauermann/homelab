@@ -45,8 +45,23 @@ providerRBAC:
     gatewayAPI: true
 
 dashboard:
-  # -- Deploy dashboard server
-  enabled: false
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: cilium
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/description: Advanced Deployment Controller
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Workloads
+      gethomepage.dev/icon: argocd.png
+      gethomepage.dev/name: Argo Rollouts
+    hosts:
+      - rollouts.costanza.cloud
+    tls:
+      - secretName: argo-rollouts-tls
+        hosts:
+           - rollouts.costanza.cloud
 
 notifications:
   configmap:
