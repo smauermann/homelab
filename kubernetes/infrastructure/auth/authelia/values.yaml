@@ -243,6 +243,9 @@ configMap:
             - 'email'
             - 'profile'
           userinfo_signed_response_alg: 'none'
+          consent_mode: 'auto'
+          pre_configured_consent_duration: '30 days'
+
         # clients:
         # -
         ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
