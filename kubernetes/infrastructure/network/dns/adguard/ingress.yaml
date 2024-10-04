@@ -6,6 +6,12 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     cert-manager.io/common-name: adguard.costanza.cloud
+    gethomepage.dev/description: DNS-based Adblocker
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: DNS
+    gethomepage.dev/icon: adguard-home.png
+    gethomepage.dev/name: AdGuardHome
+
 spec:
   ingressClassName: cilium
   rules:
