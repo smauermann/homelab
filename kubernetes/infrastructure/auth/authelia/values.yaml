@@ -85,7 +85,7 @@ configMap:
       serviceMonitor:
         enabled: false
 
-  theme: 'light'
+  theme: dark
 
   totp:
     disable: false
@@ -116,15 +116,16 @@ configMap:
       path: /secrets/users/users.yaml
 
   access_control:
-    default_policy: 'one_factor'
+    default_policy: one_factor
     rules:
-      - domain_regex: '^.*\.costanza.cloud$'
-        policy: 'one_factor'
+      - domain: '*.costanza.cloud'
+        policy: one_factor
 
   session:
     cookies:
       - subdomain: authelia
         domain: costanza.cloud
+        default_redirection_url: https://homepage.costanza.cloud
 
     redis:
       enabled: false
@@ -186,26 +187,48 @@ configMap:
     oidc:
       ## Enables this in the config map. Currently in beta stage.
       ## See https://www.authelia.com/r/openid-connect/
-      enabled: false
+      enabled: true
 
       ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
       ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
-      jwks: []
+      jwks:
+        - key_id: 'default'
+          algorithm: 'RS256'
+          use: 'sig'
+          key:
+            value: |
+             -----BEGIN PRIVATE KEY-----
+             MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCm2CjVojtqINxa
+             MHL/tMcx7k2+NTB7Qug2JCgtTSClHEa7TBrGcMGXt1uTA0aaoj1UwT2b7hYeTakW
+             Y9T7DC1Tk/sl2NeveiDeMuNu8C/bsKqPRn3H65DKPrYUuz+4Yuo8tG+P6dJ16TqC
+             ITtX2YuIAkOddk35eTkldtqI/tOATytzHe/EpuqFNBKrsCcMSSVhXiwxzoezaxYD
+             ITVbvtTdUXyM0hRsEtQO2YUhHQ/7pBwC9K73114pDaVjX6W8/bkuVn5GzHxZz75P
+             oImPSXG2NM/FPeL9Phby5HaiBIQHzGHsvlgQbgO1aCzxcxU8fl9L523FHXeSXWuZ
+             1FtiVXSjAgMBAAECggEALMPysN9GccM/XDODp3gpugvmcBJ1X50kEOLCpOT8zVA4
+             6igRRw0Z5EseFuPaHcNKEWOH1D6dUKQlqgw/KNyrjLE3wX/c3wg1qWid/TYUoS1V
+             lfuj4/AgeSM6V3WmMyLXFlKTXFmwTlK1kBS6h2enOGbjHWyQn08XNiYdnIRC2znz
+             nEpOkj8mZpbYO8zkbcAglWabZVR8hRVkPJmMBR5f3p4JduLM2z9veJqfaz4i24P+
+             GHJ0jv117X13kTPepjmlZeeJ/q3rz3kG1gIbG6kUI6S4y7e1YXxeIuBSAwEu2B0R
+             73EXH7yXdDwzX5evh0+hvfxlD2wFjv/VnrUfzSb0gQKBgQDBw+uQvSaLhEKLzajm
+             BlA+O7kUGjkjwoowtTzUoZ79612Uadt4zkFAFnqZH10urLrW+T+9gWRb6INjFzQZ
+             ywoT9L5jGCj+nnQ3f05GQNm6mstxwAc2jlHmbj0wnDKmL68QcO4nGudpKflgu5ZX
+             5rojRDndnMb5c+JJE4v0q0Jm5QKBgQDcbrP1yoEtTdp7pdC+MIimit5isReTjdoB
+             OluEYtqViHY8J+jPW3wqkJDjEdugpMQXqqjfvQAZJ1VO5UcJHo4l0FmuE4ChaNOh
+             naS1A157DniPZaSa1DnDg4LdJtnCdHnhuUPdya3dnnsIXrLSx6+ao07yDYi8J0EQ
+             16ex69ps5wKBgQC+VGu0/ge5rc4MM5T/dh4mM1YGaAfOl45UcAJzvtpFA4gle6Ho
+             1XkEsc/1TviiG2tgNO8mf84L9aXxlN5Jo8afeZ32Csph6VWxGezSV2tHwDus3Xp4
+             XW4Xkhuq/xNFaLtmw/c7FFNRWriqCzmP2ITolWDdzd0pNWqGa5vjVsJf/QKBgEpp
+             5L6Y+jq9CYCsXWeXIsp2HtTaS8c4H9xCQxrR9FB+nMt5/ZHipGwKGZ9OLAJzHO+Q
+             YSoGt73GFXpo1C4z7nC9gUjOtKHIrYjlmvCwjnikTfa6rXLHKijigI7/yotmnq6g
+             yFRa/SLPmWEd9uhJGPLvJnt4Liy2Y7S32JirsjUJAoGAbsE1qWo8Y0zEeFsaP2/m
+             V6v+Cyjay2AtnIxOJ2PbbNseRaewdn+aUg13Gq9f9NypG9mW3FCxFCqo5ouV2hvW
+             pEbriVdTgj9pbhor3R+mnspYCLKCd4inEt+1GILkDE2y5i6v4Kf+LeFRA0oKoa9+
+             HQrPu5bJivMa0g6yCZtozGQ=
+             -----END PRIVATE KEY-----
 
-      # jwks:
-      #   - key_id: ''
-      #     algorithm: 'RS256'
-      #     use: 'sig'
-      #     key:
-      #       value: |
-      #         abc
-      #         123
-      #       path: '/secrets/oidc.jwk.RS256.pem'
-      #     certificate_chain:
-      #       path: '/secrets.oidc.jwk.RS256.crt'
 
-
-      clients: []
+      clients:
+        - client_id: argocd
 
         # clients:
         # -
@@ -349,9 +372,3 @@ secret:
   ##
   additionalSecrets:
     users: {}
-  # additionalSecrets:
-  #   example:
-  #     items:
-  #       - key: 'key-example'
-  #         path: 'path-example'
-  #   example-without-items: {}
