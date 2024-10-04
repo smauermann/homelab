@@ -102,3 +102,4 @@ server:
       gethomepage.dev/group: Workloads
       gethomepage.dev/icon: argocd.png
       gethomepage.dev/name: ArgoCD
+      gethomepage.dev/pod-selector: ""
