@@ -4,6 +4,14 @@ kind: Kustomization
 resources:
   - namespace.yaml
 
+secretGenerator:
+  - name: users
+    files:
+      - users.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
 helmCharts:
   - name: authelia
     repo: https://charts.authelia.com

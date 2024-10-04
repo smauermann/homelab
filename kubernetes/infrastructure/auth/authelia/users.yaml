@@ -1,0 +1,8 @@
+users:
+  john:
+    displayname: "stephan"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$zn+iFLMNeYP0S7n3pxBELw$uV7HSSejHSWf4voodYyGKVOHgjiVXO1jWbsNDTl+OnU"
+    email: authelia@mauermann.io
+    groups:
+      - admins
+      - dev

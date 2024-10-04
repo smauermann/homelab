@@ -113,6 +113,7 @@ configMap:
 
     file:
       enabled: true
+      path: /secrets/users.yaml
 
   access_control:
     default_policy: 'one_factor'
@@ -346,7 +347,8 @@ secret:
   ## then those options will be rendered in the volumes spec. See 'example-without-items' for an example that doesn't
   ## specify this.
   ##
-  additionalSecrets: {}
+  additionalSecrets:
+    users: {}
   # additionalSecrets:
   #   example:
   #     items:
