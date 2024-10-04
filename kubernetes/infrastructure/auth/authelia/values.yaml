@@ -1,0 +1,355 @@
+image:
+  registry: ghcr.io
+  repository: authelia/authelia
+  tag: ''
+
+service:
+  type: 'ClusterIP'
+  annotations: {}
+  port: 80
+
+ingress:
+  enabled: true
+  className: cilium
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+  tls:
+    enabled: true
+    secret: 'authelia-tls'
+
+    hostNameOverride: authelia.costanza.cloud
+
+pod:
+  # Must be Deployment, DaemonSet, or StatefulSet.
+  kind: Deployment
+
+  replicas: 1
+  revisionHistoryLimit: 3
+
+  strategy:
+    type: 'RollingUpdate'
+
+  securityContext:
+    container: {}
+    # container:
+    #   runAsUser: 2000
+    #   runAsGroup: 2000
+    #   fsGroup: 2000
+    pod: {}
+    # pod:
+    #   readOnlyRootFilesystem: false
+    #   allowPrivilegeEscalation: false
+    #   privileged: false
+
+  env:
+  - name: 'TZ'
+    value: 'Europe/Berlin'
+
+  resources:
+    limits: {}
+    # limits:
+    #   cpu: '4.00'
+    #   memory: '125Mi'
+    requests: {}
+    # requests:
+    #   cpu: '0.25'
+    #   memory: '50Mi'
+
+configMap:
+  # Enable the configMap source for the Authelia config.
+  # If this is false you need to provide a volumeMount via PV/PVC or other means that mounts to /config.
+  disabled: false
+
+  key: 'configuration.yaml'
+
+  existingConfigMap: ''
+
+  extraConfigs: []
+  # extraConfigs:
+  # - '/configuration.oidc.yaml'
+
+  filters:
+    disabled: false
+
+  log:
+    ## Level of verbosity for logs: info, debug, trace.
+    level: 'info'
+
+  telemetry:
+    metrics:
+      enabled: false
+      port: 9959
+
+      serviceMonitor:
+        enabled: false
+
+  theme: 'light'
+
+  totp:
+    disable: false
+
+  webauthn:
+    disable: false
+    timeout: '60 seconds'
+    display_name: 'Authelia'
+
+  ##
+  ## Authentication Backend Provider Configuration
+  ##
+  ## Used for verifying user passwords and retrieve information such as email address and groups users belong to.
+  ##
+  ## The available providers are: `file`, `ldap`. You must use one and only one of these providers.
+  authentication_backend:
+    ## The amount of time to wait before we refresh data from the authentication backend. Uses duration notation.
+    ## To disable this feature set it to 'disable', this will slightly reduce security because for Authelia, users will
+    ## always belong to groups they belonged to at the time of login even if they have been removed from them in LDAP.
+    ## To force update on every request you can set this to '0' or 'always', this will increase processor demand.
+    ## See the below documentation for more information.
+    ## Duration Notation docs:  https://www.authelia.com/configuration/prologue/common/#duration-notation-format
+    ## Refresh Interval docs: https://www.authelia.com/configuration/first-factor/ldap/#refresh-interval
+    refresh_interval: '5 minutes'
+
+    file:
+      enabled: true
+
+  access_control:
+    default_policy: 'one_factor'
+    rules:
+      - domain_regex: '^.*\.costanza.cloud$'
+        policy: 'one_factor'
+
+  session:
+    cookies:
+      - subdomain: authelia
+        domain: costanza.cloud
+
+    redis:
+      enabled: false
+
+  ##
+  ## Storage Provider Configuration
+  ##
+  ## The available providers are: `local`, `mysql`, `postgres`. You must use one and only one of these providers.
+  storage:
+    ##
+    ## Local (Storage Provider)
+    ##
+    ## This stores the data in a SQLite3 Database.
+    ## This is only recommended for lightweight non-stateful installations.
+    ##
+    ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
+    ##
+    local:
+      enabled: true
+      path: /config/db.sqlite3
+
+    ##
+    ## PostgreSQL (Storage Provider)
+    ##
+    postgres:
+      enabled: false
+
+  ##
+  ## Notification Provider
+  ##
+  ##
+  ## Notifications are sent to users when they require a password reset, a u2f registration or a TOTP registration.
+  ## The available providers are: filesystem, smtp. You must use one and only one of these providers.
+  notifier:
+    ## You can disable the notifier startup check by setting this to true.
+    disable_startup_check: false
+
+    ##
+    ## File System (Notification Provider)
+    ##
+    ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
+    ##
+    filesystem:
+      enabled: true
+      filename: '/config/notification.txt'
+
+    ##
+    ## SMTP (Notification Provider)
+    ##
+    ## Use a SMTP server for sending notifications. Authelia uses the PLAIN or LOGIN methods to authenticate.
+    ## [Security] By default Authelia will:
+    ##   - force all SMTP connections over TLS including unauthenticated connections
+    ##      - use the disable_require_tls boolean value to disable this requirement
+    ##        (only works for unauthenticated connections)
+    ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
+    ##     (configure in tls section)
+
+  identity_providers:
+    oidc:
+      ## Enables this in the config map. Currently in beta stage.
+      ## See https://www.authelia.com/r/openid-connect/
+      enabled: false
+
+      ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
+      ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
+      jwks: []
+
+      # jwks:
+      #   - key_id: ''
+      #     algorithm: 'RS256'
+      #     use: 'sig'
+      #     key:
+      #       value: |
+      #         abc
+      #         123
+      #       path: '/secrets/oidc.jwk.RS256.pem'
+      #     certificate_chain:
+      #       path: '/secrets.oidc.jwk.RS256.crt'
+
+
+      clients: []
+
+        # clients:
+        # -
+        ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
+        # client_id: 'myapp'
+
+        ## The client secret is a shared secret between Authelia and the consumer of this client.
+        # client_secret:
+        # value: '$plaintext$apple123'
+        # path: '/secrets/oidc.client.myapp.value'
+
+        ## The description to show to users when they end up on the consent screen. Defaults to the ID above.
+        # client_name: 'My Application'
+
+        ## Sector Identifiers are occasionally used to generate pairwise subject identifiers. In most cases this is not
+        ## necessary. Read the documentation for more information.
+        ## The subject identifier must be the host component of a URL, which is a domain name with an optional port.
+        # sector_identifier_uri: 'example.com'
+
+        ## Sets the client to public. This should typically not be set, please see the documentation for usage.
+        # public: false
+
+        ## The policy to require for this client; one_factor or two_factor.
+        # authorization_policy: 'two_factor'
+
+        ## The consent mode controls how consent is obtained.
+        # consent_mode: 'auto'
+
+        ## This value controls the duration a consent on this client remains remembered when the consent mode is
+        ## configured as 'auto' or 'pre-configured'.
+        # pre_configured_consent_duration: '30 days'
+
+        ## Audience this client is allowed to request.
+        # audience: []
+
+        ## Scopes this client is allowed to request.
+        # scopes:
+        #   - 'openid'
+        #   - 'profile'
+        #   - 'email'
+        #   - 'groups'
+
+        ## Redirect URI's specifies a list of valid case-sensitive callbacks for this client.
+        # redirect_uris:
+        #   - 'https://oidc.example.com/oauth2/callback'
+
+        ## Request URI's specifies a list of valid case-sensitive URIs this client can ask Authelia to obtain a
+        ## Request Object from.
+        # request_uris:
+        #   - 'https://oidc.example.com/oauth2/request-object/authelia.jwk'
+
+        ## Grant Types configures which grants this client can obtain.
+        ## It's not recommended to configure this unless you know what you're doing.
+        # grant_types:
+        #   - 'refresh_token'
+        #   - 'authorization_code'
+
+        ## Response Types configures which responses this client can be sent.
+        ## It's not recommended to configure this unless you know what you're doing.
+        # response_types:
+        #   - 'code'
+
+        ## Response Modes configures which response modes this client supports.
+        ## It's not recommended to configure this unless you know what you're doing.
+        # response_modes:
+        #   - 'form_post'
+        #   - 'query'
+        #   - 'fragment'
+
+        # enforce_par: false
+        # enforce_pkce: false
+        # pkce_challenge_method: 'S256'
+        # authorization_signed_response_alg: 'RS256'
+        # authorization_signed_response_key_id: ''
+
+        ## The algorithm of the issuer key used to sign ID Tokens for this client, must be one of the
+        ## registered issuer key algorithms.
+        # id_token_signed_response_alg: 'RS256'
+
+        ## The key id of the issuer key used to sign ID Tokens for this client.
+        # id_token_signed_response_key_id: ''
+
+        ## The algorithm of the issuer key used to sign Access Tokens for this client, must be either none or one of
+        ## the registered issuer key algorithms.
+        # access_token_signed_response_alg: 'none'
+
+        ## The key id of the issuer key used to sign Access Tokens for this client.
+        # access_token_signed_response_key_id: ''
+
+        ## The algorithm of the issuer key used to sign User Info Responses for this client, must be either none or
+        ## one of the registered issuer key algorithms.
+        # userinfo_signed_response_alg: 'none'
+
+        ## The key id of the issuer key used to sign User Info Responses for this client.
+        # userinfo_signed_response_key_id: ''
+
+        ## The signing algorithm used for Introspection responses. An issuer JWK with a matching algorithm must be
+        ## available when configured. Has no effect if introspection_signed_response_key_id is configured.
+        # introspection_signed_response_alg: 'none'
+
+        ## The signing key id used for Introspection responses. An issuer JWK with a matching key id must be available
+        ## when configured.
+        # introspection_signed_response_key_id: ''
+
+        ## The algorithm the client must sign their request objects with, must either be empty or one of the
+        ## registered client key algorithms.
+        # request_object_signing_alg: ''
+
+        ## The algorithm the client must sign the object when using the 'private_key_jwt' auth method, must either be
+        ## empty or one of the registered client key algorithms.
+        # token_endpoint_auth_signing_alg: 'RS256'
+
+        ## The authentication method the client must use to authenticate.
+      # token_endpoint_auth_method: 'client_secret_post'
+
+
+##
+## Authelia Secret Configuration.
+##
+secret:
+  disabled: false
+
+  existingSecret: ''
+  # existingSecret: authelia
+
+  annotations: {}
+  # annotations:
+  #   myAnnotation: 'myValue'
+
+  labels: {}
+  # labels:
+  #   myLabel: 'myValue'
+
+  mountPath: '/secrets'
+
+  ## additionalSecrets contains a list of additional secrets to mount.
+  ## They will all be mounted in the format of '/{mountPath}/{key}' where the '{mountPath}' is the value above and
+  ## '{key}' is the key from the dictionary below (in our example we named it 'example'). If the items are specified
+  ## then those options will be rendered in the volumes spec. See 'example-without-items' for an example that doesn't
+  ## specify this.
+  ##
+  additionalSecrets: {}
+  # additionalSecrets:
+  #   example:
+  #     items:
+  #       - key: 'key-example'
+  #         path: 'path-example'
+  #   example-without-items: {}
