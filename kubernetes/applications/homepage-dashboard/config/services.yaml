@@ -1,0 +1,6 @@
+- Network:
+    - FRITZ!Box:
+        description: Router Statistics
+        widget:
+          type: fritzbox
+          url: http://192.168.178.1
