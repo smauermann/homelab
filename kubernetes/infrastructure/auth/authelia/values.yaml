@@ -229,7 +229,12 @@ configMap:
 
       clients:
         - client_id: argocd
-
+          client_secret:
+            value: '$plaintext$apple123'
+          public: false
+          redirect_uris:
+            - https://argocd.costanza.cloud/auth/callback
+            - https://argocd.costanza.cloud/applications
         # clients:
         # -
         ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
