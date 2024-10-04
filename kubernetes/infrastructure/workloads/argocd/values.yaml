@@ -20,20 +20,16 @@ configs:
 
   cm:
     url: https://argocd.costanza.cloud
-    dex.config: |
-      connectors:
-      - config:
-          issuer: https://authentik.costanza.cloud/application/o/argocd/
-          clientID: KEgJvgMO8MTdB5TTDJvIR4Xil1LgbUBgYNMK3wXY
-          clientSecret: N9RahWRgRLjRrCdLEDEhuy818mb2u7DFxTHwIGdatB2Y8MvTthazt8s8W9fGP1BsOw6OzXgraCdZDO53PByC30VeUa7qRXEma4UM4r88HBXIw77BwRYJhwAs3UraUpIl
-          insecureEnableGroups: true
-          scopes:
-            - openid
-            - profile
-            - email
-        name: authentik
-        type: oidc
-        id: authentik
+    oidc.config: |
+      name: 'Authelia'
+      issuer: 'https://authelia.costanza.cloud'
+      clientID: 'argocd'
+      clientSecret: 'UAOprsD7Z79_Pft1FOhEYw3pzXdpispc10U~kPIG5kxZLxGOx.o61aKxRr6N-8J9KSVH2YvB'
+      requestedScopes:
+        - 'openid'
+        - 'profile'
+        - 'email'
+        - 'groups'
 
 
     # Adding Applications health check
