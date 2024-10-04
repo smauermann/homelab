@@ -113,7 +113,7 @@ configMap:
 
     file:
       enabled: true
-      path: /secrets/users.yaml
+      path: /secrets/users/users.yaml
 
   access_control:
     default_policy: 'one_factor'
