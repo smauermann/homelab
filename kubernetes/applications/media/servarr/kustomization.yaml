@@ -9,4 +9,5 @@ configMapGenerator:
 
 resources:
   - namespace.yaml
+  - pvc.yaml
   - sonarr
