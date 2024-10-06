@@ -363,21 +363,6 @@ configMap:
 ## Authelia Secret Configuration.
 ##
 secret:
-  disabled: true
-
-  # existingSecret: ''
-  existingSecret: authelia
-
-  annotations: {}
-  # annotations:
-  #   myAnnotation: 'myValue'
-
-  labels: {}
-  # labels:
-  #   myLabel: 'myValue'
-
-  mountPath: '/secrets'
-
   ## additionalSecrets contains a list of additional secrets to mount.
   ## They will all be mounted in the format of '/{mountPath}/{key}' where the '{mountPath}' is the value above and
   ## '{key}' is the key from the dictionary below (in our example we named it 'example'). If the items are specified
