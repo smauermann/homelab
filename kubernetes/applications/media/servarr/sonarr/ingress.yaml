@@ -6,6 +6,11 @@ metadata:
     app.kubernetes.io/name: sonarr
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: TV Show Management
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Servarr
+    gethomepage.dev/icon: sonarr.png
+    gethomepage.dev/name: Sonarr
 spec:
   ingressClassName: cilium
   rules:
