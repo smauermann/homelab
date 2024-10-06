@@ -1,11 +1,5 @@
-image:
-  registry: ghcr.io
-  repository: authelia/authelia
-  tag: ''
-
 service:
   type: 'ClusterIP'
-  annotations: {}
   port: 80
 
 ingress:
