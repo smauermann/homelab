@@ -365,8 +365,8 @@ configMap:
 secret:
   disabled: false
 
-  existingSecret: ''
-  # existingSecret: authelia
+  # existingSecret: ''
+  existingSecret: authelia
 
   annotations: {}
   # annotations:
