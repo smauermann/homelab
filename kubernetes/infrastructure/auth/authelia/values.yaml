@@ -363,7 +363,7 @@ configMap:
 ## Authelia Secret Configuration.
 ##
 secret:
-  disabled: false
+  disabled: true
 
   # existingSecret: ''
   existingSecret: authelia
