@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # copy k3s config to the correct place
-cp config/k3s.yaml /etc/rancher/k3s/config.yaml
+sudo cp config/k3s.yaml /etc/rancher/k3s/config.yaml
 
 # install k3s
 curl -sfL https://get.k3s.io | sh -s - --cluster-init
