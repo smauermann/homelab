@@ -1,0 +1,27 @@
+# /etc/rancher/k3s/config.yaml
+write-kubeconfig-mode: "0600"
+
+# cilium replaces the following components
+flannel-backend: null
+disable-kube-proxy: true
+disable-service-lb: true
+disable-network-policy: true
+disable:
+  - traefik
+
+# we use argocd
+disable-helm-controller: true
+# no need to integrate with an external cloud controller
+disable-cloud-controller: true
+
+# expose control plane internals to be scraped by prometheus
+kube-controller-manager-arg:
+  - "address=0.0.0.0"
+  - "bind-address=0.0.0.0"
+kube-proxy-arg:
+  - "metrics-bind-address=0.0.0.0"
+kube-scheduler-arg:
+  - "address=0.0.0.0"
+  - "bind-address=0.0.0.0"
+# Controller Manager exposes etcd sqllite metrics
+etcd-expose-metrics: true
