@@ -77,7 +77,6 @@ grafana:
   #     - kubernetes.io/pvc-protection
 
     datasources:
-      url: http:/prometheus-operated:9090/
       alertmanager:
         enabled: false
 
