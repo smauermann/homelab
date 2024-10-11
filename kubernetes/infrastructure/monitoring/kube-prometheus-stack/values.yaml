@@ -184,7 +184,7 @@ prometheus:
   prometheusSpec:
     externalUrl: prometheus.costanza.cloud
     retention: 7d
-    retentionSize: "10Gi"
+    retentionSize: "10GiB"
 
     replicas: 1
 
