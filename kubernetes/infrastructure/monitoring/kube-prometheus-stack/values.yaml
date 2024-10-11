@@ -182,7 +182,6 @@ prometheus:
   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
   ##
   prometheusSpec:
-    externalUrl: prometheus.costanza.cloud
     retention: 7d
     retentionSize: "10GiB"
 
