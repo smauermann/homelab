@@ -17,10 +17,8 @@ disable-cloud-controller: true
 
 # expose control plane internals to be scraped by prometheus
 kube-controller-manager-arg:
-  - "address=0.0.0.0"
   - "bind-address=0.0.0.0"
 kube-scheduler-arg:
-  - "address=0.0.0.0"
   - "bind-address=0.0.0.0"
 # Controller Manager exposes etcd sqllite metrics
 etcd-expose-metrics: true
