@@ -87,7 +87,7 @@ kubeControllerManager:
   ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
   ##
   endpoints:
-    - 127.0.0.1
+    - 192.168.178.100
 
 ## Component scraping coreDns. Use either this or kubeDns
 ##
@@ -110,7 +110,7 @@ kubeScheduler:
   enabled: true
 
   endpoints:
-    - 127.0.0.1
+    - 192.168.178.100
 
 ## Component scraping kube proxy
 ##
