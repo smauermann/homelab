@@ -8,6 +8,7 @@ disable-service-lb: true
 disable-network-policy: true
 disable:
   - traefik
+  - servicelb
 
 # we use argocd
 disable-helm-controller: true
@@ -18,8 +19,6 @@ disable-cloud-controller: true
 kube-controller-manager-arg:
   - "address=0.0.0.0"
   - "bind-address=0.0.0.0"
-kube-proxy-arg:
-  - "metrics-bind-address=0.0.0.0"
 kube-scheduler-arg:
   - "address=0.0.0.0"
   - "bind-address=0.0.0.0"
