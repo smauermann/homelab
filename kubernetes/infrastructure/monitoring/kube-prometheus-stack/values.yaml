@@ -1,53 +1,52 @@
-## Install Prometheus Operator CRDs
-##
+fullnameOverride: prometheus
+cleanPrometheusOperatorObjectNames: true
+
 crds:
   enabled: true
 
 ## Create default rules for monitoring the cluster
-##
 defaultRules:
   create: true
   rules:
-    alertmanager: true
+    alertmanager: false
     etcd: false
-    configReloaders: true
+    configReloaders: false
+    k8sContainerMemoryCache: false
+    k8sContainerMemorySwap: false
+    k8sContainerMemoryWorkingSetBytes: false
+    kubeApiserverAvailability: false
+    kubeApiserverBurnrate: false
+    kubeApiserverHistogram: false
+    kubeApiserverSlos: false
+    kubeControllerManager: false
+    kubelet: false
+    kubeProxy: false
+    kubePrometheusNodeRecording: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    nodeExporterAlerting: false
+    nodeExporterRecording: false
+    windows: false
+
     general: true
     k8sContainerCpuUsageSecondsTotal: true
-    k8sContainerMemoryCache: true
     k8sContainerMemoryRss: true
-    k8sContainerMemorySwap: true
     k8sContainerResource: true
-    k8sContainerMemoryWorkingSetBytes: true
     k8sPodOwner: true
-    kubeApiserverAvailability: true
-    kubeApiserverBurnrate: true
-    kubeApiserverHistogram: true
-    kubeApiserverSlos: true
-    kubeControllerManager: true
-    kubelet: true
-    kubeProxy: false
     kubePrometheusGeneral: true
-    kubePrometheusNodeRecording: true
     kubernetesApps: true
     kubernetesResources: true
     kubernetesStorage: true
     kubernetesSystem: true
-    kubeSchedulerAlerting: true
-    kubeSchedulerRecording: true
     kubeStateMetrics: true
     network: true
     node: true
-    nodeExporterAlerting: true
-    nodeExporterRecording: true
     prometheus: true
     prometheusOperator: true
-    windows: false
 
 alertmanager:
   enabled: false
 
-## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
-##
 grafana:
   enabled: true
   defaultDashboardsTimezone: "Europe/Berlin"
@@ -64,66 +63,26 @@ grafana:
         hosts:
         - grafana.costanza.cloud
 
-  # # To make Grafana persistent (Using Statefulset)
-  # #
-  # persistence:
-  #   enabled: true
-  #   type: sts
-  #   storageClassName: "storageClassName"
-  #   accessModes:
-  #     - ReadWriteOnce
-  #   size: 20Gi
-  #   finalizers:
-  #     - kubernetes.io/pvc-protection
-
     datasources:
       alertmanager:
         enabled: false
 
 
 kubeControllerManager:
-  enabled: true
-
-  ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
-  ##
-  endpoints:
-    - 192.168.178.100
-
-## Component scraping coreDns. Use either this or kubeDns
-##
+  enabled: false
 coreDns:
-  enabled: true
-
-## Component scraping etcd
-##
+  enabled: false
 kubeEtcd:
   enabled: false
-
-  endpoints: []
-  # - 10.141.4.22
-  # - 10.141.4.23
-  # - 10.141.4.24
-
-## Component scraping kube scheduler
-##
 kubeScheduler:
-  enabled: true
-
-  endpoints:
-    - 192.168.178.100
-
-## Component scraping kube proxy
-##
+  enabled: false
 kubeProxy:
   enabled: false
 
-## Component scraping kube state metrics
-##
 kubeStateMetrics:
   enabled: true
 
 ## Deploy node exporter as a daemonset to all nodes
-##
 nodeExporter:
   enabled: true
   operatingSystems:
@@ -132,36 +91,23 @@ nodeExporter:
     darwin:
       enabled: false
 
-## Configuration for prometheus-node-exporter subchart
-##
 prometheus-node-exporter:
   extraArgs:
     - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
     - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
 
-## Manages Prometheus and Alertmanager components
-##
 prometheusOperator:
   enabled: true
   tls:
     enabled: false
-  ## Number of old replicasets to retain ##
-  ## The default value is 10, 0 will garbage-collect old replicasets ##
   revisionHistoryLimit: 2
 
-  ## Admission webhook support for PrometheusRules resources added in Prometheus Operator 0.30 can be enabled to prevent incorrectly formatted
-  ## rules from making their way into prometheus and potentially preventing the container from starting
   admissionWebhooks:
     enabled: false
 
   kubeletService:
-    ## If true, the operator will create and maintain a service for scraping kubelets
-    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/helm/prometheus-operator/README.md
-    ##
-    enabled: true
+    enabled: false
 
-## Deploy a Prometheus instance
-##
 prometheus:
   enabled: true
 
@@ -181,9 +127,6 @@ prometheus:
         hosts:
           - prometheus.costanza.cloud
 
-  ## Settings affecting prometheusSpec
-  ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
-  ##
   prometheusSpec:
     retention: 7d
     retentionSize: "10GiB"
@@ -193,27 +136,3 @@ prometheus:
     logLevel: info
     resources: {}
     storageSpec: {}
-    ## Using PersistentVolumeClaim
-    ##
-    #  volumeClaimTemplate:
-    #    spec:
-    #      storageClassName: gluster
-    #      accessModes: ["ReadWriteOnce"]
-    #      resources:
-    #        requests:
-    #          storage: 50Gi
-    #    selector: {}
-
-## Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
-##
-cleanPrometheusOperatorObjectNames: true
-
-## Extra manifests to deploy as an array
-extraManifests: []
-  # - apiVersion: v1
-  #   kind: ConfigMap
-  #   metadata:
-  #   labels:
-  #     name: prometheus-extra
-  #   data:
-#     extra-data: "value"
