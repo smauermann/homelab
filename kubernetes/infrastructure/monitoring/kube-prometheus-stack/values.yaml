@@ -67,7 +67,9 @@ grafana:
       alertmanager:
         enabled: false
 
-
+# disable scraping of k8s components
+kubeApiServer:
+  enabled: false
 kubeControllerManager:
   enabled: false
 coreDns:
