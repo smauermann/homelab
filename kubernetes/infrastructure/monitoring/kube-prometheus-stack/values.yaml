@@ -131,6 +131,7 @@ prometheus:
       gethomepage.dev/name: Prometheus
       gethomepage.dev/widget.type: prometheus
       gethomepage.dev/widget.url: "http://prometheus-prometheus.monitoring:9090"
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=prometheus"
 
     hosts:
       - prometheus.costanza.cloud
