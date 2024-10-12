@@ -61,6 +61,8 @@ grafana:
       gethomepage.dev/group: Monitoring
       gethomepage.dev/icon: grafana.png
       gethomepage.dev/name: Grafana
+      gethomepage.dev/pod-selector: "app.kubernetes.io/name=grafana"
+
     hosts:
       - grafana.costanza.cloud
     tls:
