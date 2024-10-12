@@ -56,6 +56,11 @@ grafana:
     ingressClassName: cilium
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/description: Metrics Visualization
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Monitoring
+      gethomepage.dev/icon: grafana.png
+      gethomepage.dev/name: Grafana
     hosts:
       - grafana.costanza.cloud
     tls:
@@ -119,6 +124,12 @@ prometheus:
 
     annotations:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      gethomepage.dev/description: Metrics Collection
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Monitoring
+      gethomepage.dev/icon: prometheus.png
+      gethomepage.dev/name: Prometheus
+
     hosts:
       - prometheus.costanza.cloud
     paths:
