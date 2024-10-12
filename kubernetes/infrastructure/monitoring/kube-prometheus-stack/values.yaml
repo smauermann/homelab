@@ -173,6 +173,9 @@ prometheus:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
     hosts:
       - prometheus.costanza.cloud
+    paths:
+      - /
+    pathType: ImplementationSpecific
     tls:
       - secretName: prometheus-general-tls
         hosts:
