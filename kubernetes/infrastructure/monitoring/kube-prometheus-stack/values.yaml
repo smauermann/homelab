@@ -121,13 +121,15 @@ prometheus:
       - prometheus.costanza.cloud
     paths:
       - /
-    pathType: ImplementationSpecific
+    pathType: Prefix
     tls:
       - secretName: prometheus-general-tls
         hosts:
           - prometheus.costanza.cloud
 
   prometheusSpec:
+    externalUrl: https://prometheus.costanza.cloud
+
     retention: 7d
     retentionSize: "10GiB"
 
