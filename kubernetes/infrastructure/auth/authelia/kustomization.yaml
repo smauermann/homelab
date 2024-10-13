@@ -4,6 +4,7 @@ namespace: authelia
 
 resources:
   - namespace.yaml
+  - valkey-secret.yaml
 
 secretGenerator:
   - name: users
@@ -19,4 +20,10 @@ helmCharts:
     version: 0.9.9
     releaseName: authelia
     namespace: authelia
-    valuesFile: values.yaml
+    valuesFile: values.authelia.yaml
+  - name: valkey
+    repo:  https://charts.bitnami.com/bitnami
+    version: 1.0.2
+    releaseName: authelia-valkey
+    namespace: authelia
+    valuesFile: values.valkey.yaml
