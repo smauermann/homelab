@@ -5,4 +5,6 @@
     - Tailscale:
         - icon: tailscale.png
           href: https://login.tailscale.com/admin/machines
-
+    - 1Password:
+        - icon: si-1password
+          href: https://my.1password.com
