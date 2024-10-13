@@ -44,6 +44,8 @@ pod:
   env:
   - name: 'TZ'
     value: 'Europe/Berlin'
+  - name: AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+    value: /secrets/valkey-secret/password
 
   resources:
     limits: {}
@@ -126,8 +128,11 @@ configMap:
         default_redirection_url: https://homepage.costanza.cloud
 
     redis:
-      enabled: false
-
+      enabled: true
+      host: 'authelia-valkey-master.authelia.svc.cluster.local'
+      port: 6379
+      password:
+        disabled: true
   ##
   ## Storage Provider Configuration
   ##
@@ -374,3 +379,4 @@ secret:
   ## specify this.
   additionalSecrets:
     users: {}
+    valkey-secret: {}
