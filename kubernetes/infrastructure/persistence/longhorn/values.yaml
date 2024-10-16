@@ -46,3 +46,7 @@ ingress:
   ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+
+# this breaks argocd
+preUpgradeChecker:
+  jobEnabled: false
