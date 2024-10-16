@@ -20,6 +20,7 @@ longhornUI:
 ingress:
   enabled: true
   ingressClassName: cilium
+  pathType: Prefix
 
   host: longhorn.costanza.cloud
   tls: true
