@@ -17,6 +17,16 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - unbound
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: unbound
           image: docker.io/mvance/unbound:1.20.0  # renovate: docker=docker.io/mvance/unbound
