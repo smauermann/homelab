@@ -18,32 +18,13 @@ longhornUI:
   replicas: 1
 
 ingress:
-  ## Set to true to enable ingress record generation
   enabled: true
-
-  ## Add ingressClassName to the Ingress
-  ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
   ingressClassName: cilium
 
   host: longhorn.costanza.cloud
-
-  ## Set this to true in order to enable TLS on the ingress record
   tls: true
-
-  ## Enable this in order to enable that the backend service will be connected at port 443
-  secureBackends: true
-
-  ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
   tlsSecret: longhorn-tls
 
-  ## Ingress annotations done as key:value pairs
-  ## If you're using kube-lego, you will want to add:
-  ## kubernetes.io/tls-acme: true
-  ##
-  ## For a full list of possible ingress annotations, please see
-  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
-  ##
-  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 
