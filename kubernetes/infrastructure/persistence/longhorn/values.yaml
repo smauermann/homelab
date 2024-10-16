@@ -1,0 +1,48 @@
+defaultSettings:
+  # -- Default path for storing data on a host. The default value is "/var/lib/longhorn/".
+  defaultDataPath: "/storage"
+  # -- Percentage of storage that can be allocated relative to hard drive capacity. The default value is "100".
+  storageOverProvisioningPercentage: ~
+  # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
+  storageMinimalAvailablePercentage: ~
+  # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
+  storageReservedPercentageForDefaultDisk: ~
+  # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
+  defaultReplicaCount: 1
+
+persistence:
+  defaultClass: true
+  defaultClassReplicaCount: 1
+
+longhornUI:
+  replicas: 1
+
+ingress:
+  ## Set to true to enable ingress record generation
+  enabled: true
+
+  ## Add ingressClassName to the Ingress
+  ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
+  ingressClassName: cilium
+
+  host: longhorn.costanza.cloud
+
+  ## Set this to true in order to enable TLS on the ingress record
+  tls: true
+
+  ## Enable this in order to enable that the backend service will be connected at port 443
+  secureBackends: true
+
+  ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+  tlsSecret: longhorn-tls
+
+  ## Ingress annotations done as key:value pairs
+  ## If you're using kube-lego, you will want to add:
+  ## kubernetes.io/tls-acme: true
+  ##
+  ## For a full list of possible ingress annotations, please see
+  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
+  ##
+  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
