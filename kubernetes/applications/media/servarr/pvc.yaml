@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: servarr-media
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 10Gi
