@@ -15,8 +15,8 @@ Don't forget to add a static route to your router as well!
 # The primary network interface
 allow-hotplug wlp0s20f3
 iface wlp0s20f3 inet dhcp
-        wpa-ssid 21e6
-        wpa-psk  98509715576979961463
+        wpa-ssid Wifi
+        wpa-psk  123456
         # add this route here to make it permanent
         up ip route add 192.168.192.0/24 via 192.168.178.100
 '''
