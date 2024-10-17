@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sudo apt install curl
+
 if ! command -v tailscale &> /dev/null; then
   echo "Dependency tailscale not found, installing ..."
   curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
