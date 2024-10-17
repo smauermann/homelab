@@ -11,9 +11,6 @@ defaultRules:
     alertmanager: false
     etcd: false
     configReloaders: false
-    k8sContainerMemoryCache: false
-    k8sContainerMemorySwap: false
-    k8sContainerMemoryWorkingSetBytes: false
     kubeApiserverAvailability: false
     kubeApiserverBurnrate: false
     kubeApiserverHistogram: false
@@ -31,6 +28,9 @@ defaultRules:
     general: true
     k8sContainerCpuUsageSecondsTotal: true
     k8sContainerMemoryRss: true
+    k8sContainerMemoryCache: true
+    k8sContainerMemorySwap: true
+    k8sContainerMemoryWorkingSetBytes: true
     k8sContainerResource: true
     k8sPodOwner: true
     kubePrometheusGeneral: true
