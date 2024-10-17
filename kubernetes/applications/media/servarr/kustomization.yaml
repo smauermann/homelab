@@ -12,3 +12,4 @@ resources:
   - pvc.yaml
   - sonarr
   - radarr
+  - jellyfin

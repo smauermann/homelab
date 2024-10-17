@@ -3,14 +3,7 @@ kind: Kustomization
 commonLabels:
   app.kubernetes.io/name: jellyfin
 
-configMapGenerator:
-  - name: jellyfin-env
-    namespace: jellyfin
-    literals:
-      - TZ="Europe/Berlin"
-
 resources:
-  - namespace.yaml
   - pvc.yaml
   - deployment.yaml
   - service.yaml
