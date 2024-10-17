@@ -21,7 +21,7 @@ spec:
               service:
                 name: jellyfin
                 port:
-                  number: 8096
+                  name: web
   tls:
     - hosts:
         - jellyfin.costanza.cloud

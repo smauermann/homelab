@@ -8,4 +8,5 @@ spec:
     app.kubernetes.io/name: jellyfin
   ports:
     - name: web
-      port: 8069
+      port: 8096
+      targetPort: http
