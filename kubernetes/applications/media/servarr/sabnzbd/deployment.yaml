@@ -33,6 +33,15 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+          env:
+            - name: SABNZBD__HOST_WHITELIST_ENTRIES
+              value: >-
+                sabnzbd,
+                sabnzbd.servarr,
+                sabnzbd.servarr.svc,
+                sabnzbd.servarr.svc.cluster,
+                sabnzbd.servarr.svc.cluster.local,
+                sabnzbd.costanza.cloud
           envFrom:
             - configMapRef:
                 name: common-env
