@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Indexers
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Servarr
+    gethomepage.dev/icon: prowlarr.png
+    gethomepage.dev/name: Prowlarr
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: prowlarr.costanza.cloud
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: prowlarr
+                port:
+                  name: web
+  tls:
+    - hosts:
+        - prowlarr.costanza.cloud
+      secretName: prowlarr-tls
