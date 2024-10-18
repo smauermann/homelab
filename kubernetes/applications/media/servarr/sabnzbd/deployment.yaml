@@ -51,6 +51,15 @@ spec:
             limits:
               cpu: 1000m
               memory: 6Gi
+          readinessProbe: &probe
+            httpGet:
+              port: 8080
+              path: /api?mode=version
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          livenessProbe: *probe
       volumes:
         - name: config
           persistentVolumeClaim:
