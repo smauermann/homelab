@@ -13,4 +13,5 @@ resources:
   - sonarr
   - radarr
   - prowlarr
+  - sabnzbd
   - jellyfin

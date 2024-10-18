@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sabnzbd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Usenet Downloader
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Servarr
+    gethomepage.dev/icon: sabnzbd.png
+    gethomepage.dev/name: SABnzbd
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: sabnzbd.costanza.cloud
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: sabnzbd
+                port:
+                  name: web
+  tls:
+    - hosts:
+        - sabnzbd.costanza.cloud
+      secretName: sabnzbd-tls
