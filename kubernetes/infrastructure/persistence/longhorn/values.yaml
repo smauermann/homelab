@@ -28,6 +28,12 @@ ingress:
 
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Storage Controller
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Persistence
+    gethomepage.dev/icon: longhorn.png
+    gethomepage.dev/name: Longhorn
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=longhorn"
 
 # this breaks argocd
 preUpgradeChecker:
