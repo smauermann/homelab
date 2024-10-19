@@ -1,7 +1,12 @@
 title: costanza.cloud
+
 background:
   image: https://images.unsplash.com/photo-1461301214746-1e109215d6d3?auto=format&fit=crop&w=2560&q=80
   blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
   saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
   brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
   opacity: 50 # 0-100
+
+providers:
+  longhorn:
+    url: "http://longhorn-frontend.longhorn-system.svc.cluster.local:80"
