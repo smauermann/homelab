@@ -5,7 +5,6 @@ resources:
   - namespace.yaml
   - repo.yaml
   - webhook-secret.yaml
-  - oidc-secret.yaml
 
 helmCharts:
   - name: argo-cd
