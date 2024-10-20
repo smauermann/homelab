@@ -8,41 +8,7 @@ crds:
 defaultRules:
   create: true
   rules:
-    alertmanager: false
-    etcd: false
-    configReloaders: false
-    kubeApiserverAvailability: false
-    kubeApiserverBurnrate: false
-    kubeApiserverHistogram: false
-    kubeApiserverSlos: false
-    kubeControllerManager: false
-    kubelet: false
-    kubeProxy: false
-    kubePrometheusNodeRecording: false
-    kubeSchedulerAlerting: false
-    kubeSchedulerRecording: false
-    nodeExporterAlerting: false
-    nodeExporterRecording: false
     windows: false
-
-    general: true
-    k8sContainerCpuUsageSecondsTotal: true
-    k8sContainerMemoryRss: true
-    k8sContainerMemoryCache: true
-    k8sContainerMemorySwap: true
-    k8sContainerMemoryWorkingSetBytes: true
-    k8sContainerResource: true
-    k8sPodOwner: true
-    kubePrometheusGeneral: true
-    kubernetesApps: true
-    kubernetesResources: true
-    kubernetesStorage: true
-    kubernetesSystem: true
-    kubeStateMetrics: true
-    network: true
-    node: true
-    prometheus: true
-    prometheusOperator: true
 
 alertmanager:
   enabled: false
