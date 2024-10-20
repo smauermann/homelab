@@ -8,10 +8,11 @@ configMapGenerator:
       - TZ="Europe/Berlin"
 
 resources:
-  - namespace.yaml
-  - pvc.yaml
-  - sonarr
-  - radarr
-  - prowlarr
-  - sabnzbd
   - jellyfin
+  - namespace.yaml
+  - prowlarr
+  - pvc.yaml
+  - radarr
+  - recyclarr
+  - sabnzbd
+  - sonarr
