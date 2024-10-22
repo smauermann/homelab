@@ -65,6 +65,8 @@ nodeExporter:
       enabled: true
     darwin:
       enabled: false
+    aix:
+      enabled: false
 
 prometheus-node-exporter:
   extraArgs:
