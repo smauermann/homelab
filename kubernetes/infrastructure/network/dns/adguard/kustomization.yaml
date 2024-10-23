@@ -5,7 +5,7 @@ configMapGenerator:
   - name: adguard-config
     namespace: dns
     files:
-      - AdGuardHome.yaml
+      - config/AdGuardHome.yaml
 
 resources:
   - users.yaml

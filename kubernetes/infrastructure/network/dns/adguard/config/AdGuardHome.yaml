@@ -127,6 +127,7 @@ whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
   - '@@||files.wrint.de^$important'
+  - '@@||nzb.su^$important'
 dhcp:
   enabled: false
   interface_name: ""
@@ -163,6 +164,7 @@ filtering:
     enabled: false
     bing: true
     duckduckgo: true
+    ecosia: true
     google: true
     pixabay: true
     yandex: true
@@ -173,6 +175,8 @@ filtering:
   rewrites:
     - domain: '*.costanza.cloud'
       answer: 192.168.192.2
+  safe_fs_patterns:
+    - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
@@ -204,4 +208,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 28
+schema_version: 29
