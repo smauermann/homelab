@@ -1,0 +1,5 @@
+worker:
+  config:
+    core:
+      # only detect features on startup
+      sleepInterval: 0s
