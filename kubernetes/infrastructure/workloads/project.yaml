@@ -5,14 +5,17 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - https://github.com/smauermann/homelab
-    - https://argoproj.github.io/argo-helm
     - https://1password.github.io/connect-helm-charts
+    - https://argoproj.github.io/argo-helm
+    - https://github.com/smauermann/homelab
+    - https://intel.github.io/helm-charts/
     - https://kubernetes-sigs.github.io/node-feature-discovery/charts
   destinations:
     - namespace: argocd
       server: '*'
     - namespace: argo-rollouts
+      server: '*'
+    - namespace: intel-device-plugins
       server: '*'
     - namespace: node-feature-discovery
       server: '*'
