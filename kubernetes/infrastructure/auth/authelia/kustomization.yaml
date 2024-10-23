@@ -23,7 +23,7 @@ helmCharts:
     valuesFile: values.authelia.yaml
   - name: valkey
     repo:  https://charts.bitnami.com/bitnami
-    version: 1.0.2
+    version: 1.0.3
     releaseName: authelia-valkey
     namespace: authelia
     valuesFile: values.valkey.yaml
