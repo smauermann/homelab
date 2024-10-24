@@ -128,6 +128,7 @@ user_rules:
   - '@@||mp3.medito.space^$important'
   - '@@||files.wrint.de^$important'
   - '@@||nzb.su^$important'
+  - '@@||swap.bike^$important'
 dhcp:
   enabled: false
   interface_name: ""
