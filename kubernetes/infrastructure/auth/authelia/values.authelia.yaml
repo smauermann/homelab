@@ -29,12 +29,6 @@ pod:
   strategy:
     type: Recreate
 
-  securityContext:
-    pod:
-      readOnlyRootFilesystem: false
-      allowPrivilegeEscalation: false
-      privileged: false
-
   env:
   - name: 'TZ'
     value: 'Europe/Berlin'
