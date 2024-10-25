@@ -96,6 +96,11 @@ configMap:
     postgres:
       enabled: false
 
+  notifier:
+    filesystem:
+      enabled: true
+      filename: '/config/notification.txt'
+
   identity_providers:
     oidc:
       enabled: true
