@@ -95,6 +95,10 @@ configMap:
     timeout: '60 seconds'
     display_name: 'Authelia'
 
+  identity_validation:
+    reset_password:
+      secret:
+        secret_name: encryption-keys
   ##
   ## Authentication Backend Provider Configuration
   ##
@@ -122,6 +126,9 @@ configMap:
         policy: one_factor
 
   session:
+    encryption_key:
+      secret_name: encryption-keys
+
     cookies:
       - subdomain: authelia
         domain: costanza.cloud
@@ -138,6 +145,8 @@ configMap:
   ##
   ## The available providers are: `local`, `mysql`, `postgres`. You must use one and only one of these providers.
   storage:
+    encryption_key:
+      secret_name: encryption-keys
     ##
     ## Local (Storage Provider)
     ##
@@ -191,6 +200,8 @@ configMap:
       ## Enables this in the config map. Currently in beta stage.
       ## See https://www.authelia.com/r/openid-connect/
       enabled: true
+      hmac_secret:
+        secret_name: encryption-keys
 
       ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
       ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
@@ -368,10 +379,6 @@ configMap:
 ## Authelia Secret Configuration.
 ##
 secret:
-  annotations:
-    # on every sync there is a diff in this secret, every sync leads to sessions being voided, skip sync
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
-
   ## additionalSecrets contains a list of additional secrets to mount.
   ## They will all be mounted in the format of '/{mountPath}/{key}' where the '{mountPath}' is the value above and
   ## '{key}' is the key from the dictionary below (in our example we named it 'example'). If the items are specified
@@ -380,3 +387,13 @@ secret:
   additionalSecrets:
     users: {}
     valkey-secret: {}
+    encryption-keys:
+      items:
+        - key: identity_providers.oidc.hmac.key
+          path: identity_providers.oidc.hmac.key
+        - key: identity_validation.reset_password.jwt.hmac.key
+          path: identity_validation.reset_password.jwt.hmac.key
+        - key: session.encryption.key
+          path: session.encryption.key
+        - key: storage.encryption.key
+          path: storage.encryption.key
