@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: authelia
 
 resources:
+  - encryption-keys.yaml
   - namespace.yaml
   - valkey-secret.yaml
 
