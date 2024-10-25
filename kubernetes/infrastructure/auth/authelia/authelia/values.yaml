@@ -32,8 +32,6 @@ pod:
   env:
   - name: 'TZ'
     value: 'Europe/Berlin'
-  - name: AUTHELIA_SESSION_REDIS_PASSWORD_FILE
-    value: /secrets/valkey-secret/password
 
   resources:
     limits:
@@ -79,7 +77,7 @@ configMap:
       host: 'authelia-valkey-master.authelia.svc.cluster.local'
       port: 6379
       password:
-        disabled: true
+        secret_name: valkey-secret
 
   ## The available providers are: `local`, `mysql`, `postgres`. You must use one and only one of these providers.
   storage:
@@ -147,7 +145,10 @@ configMap:
 secret:
   additionalSecrets:
     users: {}
-    valkey-secret: {}
+    valkey-secret:
+      items:
+        - key: password
+          path: session.redis.password.txt
     encryption-keys:
       items:
         - key: identity_providers.oidc.hmac.key
