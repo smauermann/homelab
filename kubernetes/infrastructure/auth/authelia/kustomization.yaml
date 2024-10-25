@@ -3,28 +3,7 @@ kind: Kustomization
 namespace: authelia
 
 resources:
-  - encryption-keys.yaml
+  - authelia
   - namespace.yaml
+  - valkey
   - valkey-secret.yaml
-
-secretGenerator:
-  - name: users
-    files:
-      - users.yaml
-
-generatorOptions:
-  disableNameSuffixHash: true
-
-helmCharts:
-  - name: authelia
-    repo: https://charts.authelia.com
-    version: 0.9.9
-    releaseName: authelia
-    namespace: authelia
-    valuesFile: values.authelia.yaml
-  - name: valkey
-    repo:  https://charts.bitnami.com/bitnami
-    version: 1.0.3
-    releaseName: authelia-valkey
-    namespace: authelia
-    valuesFile: values.valkey.yaml
