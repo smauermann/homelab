@@ -5,5 +5,6 @@ namespace: authelia
 resources:
   - authelia
   - namespace.yaml
+  - postgres
   - valkey
   - valkey-secret.yaml
