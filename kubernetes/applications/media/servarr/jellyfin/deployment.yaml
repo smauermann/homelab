@@ -20,7 +20,9 @@ spec:
         runAsGroup: 2501
         fsGroup: 2501
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [ 44, 104 ]
+        supplementalGroups:
+          - 105
+          - 226
         seccompProfile:
           type: RuntimeDefault
       containers:
