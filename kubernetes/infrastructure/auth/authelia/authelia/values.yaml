@@ -87,12 +87,16 @@ configMap:
     ## This stores the data in a SQLite3 Database.
     ## This is only recommended for lightweight non-stateful installations.
     local:
-      enabled: true
-      path: /config/db.sqlite3
-
-    ## PostgreSQL (Storage Provider)
-    postgres:
       enabled: false
+
+    postgres:
+      enabled: true
+      address: tcp://authelia-postgres-rw.authelia.svc.cluster.local:5432
+      database: authelia
+      schema: public
+      username: authelia
+      password:
+        secret_name: postgres-user
 
   notifier:
     filesystem:
@@ -149,6 +153,10 @@ secret:
       items:
         - key: password
           path: session.redis.password.txt
+    postgres-user:
+      items:
+        - key: password
+          path: storage.postgres.password.txt
     encryption-keys:
       items:
         - key: identity_providers.oidc.hmac.key
