@@ -4,15 +4,13 @@ metadata:
   name: authelia-postgres
 spec:
   instances: 1
+  bootstrap:
+    initdb:
+      database: authelia
+      owner: authelia
+      secret:
+        name: postgres-user
 
-  # Example of rolling update strategy:
-  # - unsupervised: automated update of the primary once all
-  #                 replicas have been upgraded (default)
-  # - supervised: requires manual supervision to perform
-  #               the switchover of the primary
-  primaryUpdateStrategy: unsupervised
-
-  # Persistent storage configuration
   storage:
     storageClass: longhorn
     size: 1Gi

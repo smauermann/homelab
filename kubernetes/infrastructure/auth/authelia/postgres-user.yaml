@@ -1,0 +1,7 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: postgres-user
+spec:
+  itemPath: "vaults/Homelab/items/authelia-postgres-user"
+type: kubernetes.io/basic-auth
