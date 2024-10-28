@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyseerr
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Media Requests
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: jellyseerr.png
+    gethomepage.dev/name: Jellyseerr
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: requests.costanza.cloud
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyseerr
+                port:
+                  name: web
+  tls:
+    - hosts:
+        - requests.costanza.cloud
+      secretName: jellyseerr-tls

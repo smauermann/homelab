@@ -9,6 +9,7 @@ configMapGenerator:
 
 resources:
   - jellyfin
+  - jellyseerr
   - namespace.yaml
   - prowlarr
   - pvc.yaml
