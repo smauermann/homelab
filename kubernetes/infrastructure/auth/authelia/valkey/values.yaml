@@ -7,7 +7,7 @@ auth:
   existingSecret: valkey-secret
   existingSecretPasswordKey: password
 
-master:
+primary:
   persistence:
     enabled: true
     size: 50Mi
