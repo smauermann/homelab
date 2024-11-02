@@ -6,7 +6,7 @@ commonLabels:
 
 resources:
   - namespace.yaml
-  - oidc-secret.yam
+  - oidc-secret.yaml
   - repo.yaml
   - webhook-secret.yaml
 
