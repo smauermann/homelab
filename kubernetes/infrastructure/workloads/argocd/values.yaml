@@ -23,7 +23,7 @@ configs:
       name: 'Authelia'
       issuer: 'https://authelia.costanza.cloud'
       clientID: 'argocd'
-      clientSecret: 'UAOprsD7Z79_Pft1FOhEYw3pzXdpispc10U~kPIG5kxZLxGOx.o61aKxRr6N-8J9KSVH2YvB'
+      clientSecret: '$argocd-oidc-client-secret:secret'
       requestedScopes:
         - 'openid'
         - 'profile'
