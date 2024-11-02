@@ -13,8 +13,6 @@ spec:
   destinations:
     - namespace: argocd
       server: '*'
-    - namespace: argo-rollouts
-      server: '*'
     - namespace: intel-device-plugins
       server: '*'
     - namespace: node-feature-discovery
