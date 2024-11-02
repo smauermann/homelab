@@ -2,5 +2,7 @@ apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
   name: argocd-repo-github-homelab
+  labels:
+    app.kubernetes.io/part-of: argocd
 spec:
   itemPath: "vaults/Homelab/items/github-argocd-creds"
