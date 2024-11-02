@@ -131,7 +131,7 @@ configMap:
           client_name: ArgoCD
           authorization_policy: 'one_factor'
           client_secret:
-            value: '$pbkdf2-sha512$310000$58llqO7ShKozm511n8.StQ$3sgoW44QGH47mJI73fZz7ihSDQajUr.g7Bt2UVz8ZqtqhWdv5AZ067.iAp2fZMSvkxTUO.TuGpHpE/fq.SBqag'
+            path: '/secrets/argocd-oidc-client-secret/secretHashed'
           public: false
           redirect_uris:
             - https://argocd.costanza.cloud/auth/callback
