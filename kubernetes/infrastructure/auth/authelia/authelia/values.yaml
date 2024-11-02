@@ -179,3 +179,7 @@ secret:
           path: tls.key
         - key: tls.crt
           path: tls.crt
+    argocd-oidc-client-secret:
+      items:
+        - key: secretHashed
+          path: secretHashed
