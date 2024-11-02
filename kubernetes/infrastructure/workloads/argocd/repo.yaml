@@ -2,10 +2,5 @@ apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
   name: argocd-repo-github-homelab
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-  annotations:
-    operator.1password.io/auto-restart: "true"
 spec:
   itemPath: "vaults/Homelab/items/github-argocd-creds"
