@@ -54,6 +54,8 @@ spec:
               mountPath: /mnt/media
             - name: cache
               mountPath: /cache
+            - name: tmp
+              mountPath: /tmp
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -64,3 +66,5 @@ spec:
         - name: cache
           emptyDir:
             medium: Memory
+        - name: tmp
+          emptyDir: {}
