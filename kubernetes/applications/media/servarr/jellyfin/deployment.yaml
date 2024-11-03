@@ -64,7 +64,13 @@ spec:
           persistentVolumeClaim:
             claimName: servarr-media
         - name: cache
-          emptyDir:
-            medium: Memory
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                storageClassName: longhorn
+                resources:
+                  requests:
+                    storage: 20Gi
         - name: tmp
           emptyDir: {}
