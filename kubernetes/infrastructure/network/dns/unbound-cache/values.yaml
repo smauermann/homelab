@@ -4,8 +4,8 @@ architecture: standalone
 ## Valkey Authentication parameters
 ## ref: https://github.com/bitnami/containers/tree/main/bitnami/valkey#setting-the-server-password-on-first-run
 auth:
-  existingSecret: unbound-cache-secret
-  existingSecretPasswordKey: password
+  # just caching public DNS data
+  enabled: false
 
 commonConfiguration: |-
   # only 1 db, default 16
@@ -18,7 +18,7 @@ commonConfiguration: |-
   rdbchecksum no
   
   # max memory, keys will be evicted if threshold is reached
-  maxmemory 16M
+  maxmemory 16m
   # allkeys-lru -> Evict any key using approximated LRU (Least Recently Used)
   maxmemory-policy allkeys-lru
   
@@ -32,6 +32,15 @@ primary:
   persistence:
     enabled: true
     size: 50Mi
+  resources:
+    requests:
+      cpu: 100m
+      ephemeral-storage: 50Mi
+      memory: 32Mi
+    limits:
+      cpu: 150m
+      ephemeral-storage: 200Mi
+      memory: 128Mi
 
 networkPolicy:
   enabled: false
