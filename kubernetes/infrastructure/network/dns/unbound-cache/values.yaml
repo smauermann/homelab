@@ -7,7 +7,26 @@ auth:
   existingSecret: unbound-cache-secret
   existingSecretPasswordKey: password
 
-existingConfigmap: valkey-config
+commonConfiguration: |-
+  # only 1 db, default 16
+  databases 1
+  
+  # disable RDB snapshots
+  save ""
+  stop-writes-on-bgsave-error no
+  rdbcompression no
+  rdbchecksum no
+  
+  # max memory, keys will be evicted if threshold is reached
+  maxmemory 16M
+  # allkeys-lru -> Evict any key using approximated LRU (Least Recently Used)
+  maxmemory-policy allkeys-lru
+  
+  # enable AOF persistence
+  appendonly yes
+  
+  # disable slow log
+  slowlog-log-slower-than -1
 
 primary:
   persistence:

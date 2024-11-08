@@ -4,14 +4,6 @@ kind: Kustomization
 resources:
   - cache-secret.yaml
 
-configMapGenerator:
-  - name: valkey-config
-    files:
-      - config/valkey.conf
-
-generatorOptions:
-  disableNameSuffixHash: true
-
 helmCharts:
   - name: valkey
     repo:  https://charts.bitnami.com/bitnami
