@@ -1,0 +1,18 @@
+## @param architecture Valkey architecture. Allowed values: `standalone` or `replication`
+architecture: standalone
+
+## Valkey Authentication parameters
+## ref: https://github.com/bitnami/containers/tree/main/bitnami/valkey#setting-the-server-password-on-first-run
+auth:
+  existingSecret: unbound-cache-secret
+  existingSecretPasswordKey: password
+
+existingConfigmap: valkey-config
+
+primary:
+  persistence:
+    enabled: true
+    size: 50Mi
+
+networkPolicy:
+  enabled: false
