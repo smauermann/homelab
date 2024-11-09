@@ -21,8 +21,7 @@ spec:
         fsGroup: 2501
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
-          - 105
-          - 226
+          - 44
         seccompProfile:
           type: RuntimeDefault
       containers:
@@ -38,8 +37,7 @@ spec:
               cpu: 500m
               memory: 2Gi
             limits:
-              cpu: 6000m
-              memory: 16Gi
+              memory: 24Gi
               gpu.intel.com/i915: 1000m
           envFrom:
             - configMapRef:
@@ -48,29 +46,23 @@ spec:
             - name: http
               containerPort: 8096
           volumeMounts:
+            - name: cache
+              mountPath: /cache
             - name: config
               mountPath: /config
             - name: media
               mountPath: /mnt/media
-            - name: cache
-              mountPath: /cache
             - name: tmp
               mountPath: /tmp
       volumes:
+        - name: cache
+          emptyDir:
+            medium: Memory
         - name: config
           persistentVolumeClaim:
             claimName: jellyfin-config
         - name: media
           persistentVolumeClaim:
             claimName: servarr-media-nfs
-        - name: cache
-          ephemeral:
-            volumeClaimTemplate:
-              spec:
-                accessModes: [ "ReadWriteOnce" ]
-                storageClassName: longhorn
-                resources:
-                  requests:
-                    storage: 20Gi
         - name: tmp
           emptyDir: {}

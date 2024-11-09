@@ -1,18 +1,18 @@
 defaultSettings:
   # -- Default path for storing data on a host. The default value is "/var/lib/longhorn/".
-  defaultDataPath: "/storage"
+  defaultDataPath: "/var/mnt/storage"
   # -- Percentage of storage that can be allocated relative to hard drive capacity. The default value is "100".
   storageOverProvisioningPercentage: ~
   # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
   storageMinimalAvailablePercentage: ~
   # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
-  storageReservedPercentageForDefaultDisk: ~
+  storageReservedPercentageForDefaultDisk: 0
   # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
   defaultReplicaCount: 1
 
 persistence:
   defaultClass: true
-  defaultClassReplicaCount: 1
+  defaultClassReplicaCount: 2
 
 longhornUI:
   replicas: 1

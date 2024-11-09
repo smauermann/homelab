@@ -25,6 +25,12 @@ spec:
         - name: config-init
           image: busybox
           command: ['sh', '-c', 'cat /config/AdGuardHome.yaml /config/users.yaml > /combined-config/AdGuardHome.yaml']
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
           volumeMounts:
             - name: config-folder
               mountPath: /config

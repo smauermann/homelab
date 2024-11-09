@@ -19,9 +19,28 @@ spec:
     spec:
       serviceAccountName: homepage
       automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        fsGroupChangePolicy: OnRootMismatch
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: homepage
           image: ghcr.io/gethomepage/homepage:v0.10.9 # renovate: docker=ghcr.io/gethomepage/homepage
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ "ALL" ]
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
           ports:
             - name: http
               containerPort: 3000

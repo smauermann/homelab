@@ -1,0 +1,15 @@
+---
+creation_rules:
+  - path_regex: talos/.+\.sops\.yaml
+    encrypted_regex: ^(token|crt|key|id|secret|secretboxEncryptionSecret|ca|bootstraptoken|secretboxencryptionsecret)$
+    mac_only_encrypted: true
+    key_groups: &ageKeys
+      - age:
+          - age16f9v38u8yapkm7pr2dh0jykgyhaxm9asfd393wjycdgrg2j6ku4sapww5c
+  - path_regex: bootstrap/.+\.sops\.yaml
+    encrypted_regex: ^(token|credentials)$
+    mac_only_encrypted: true
+    key_groups: *ageKeys
+stores:
+  yaml:
+    indent: 2

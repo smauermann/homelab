@@ -29,7 +29,14 @@ configs:
         - 'profile'
         - 'email'
         - 'groups'
-
+    repositories: |
+      - url: https://github.com/smauermann/homelab
+        passwordSecret:
+          name: argocd-repo-github-homelab
+          key: password
+        usernameSecret:
+          name: argocd-repo-github-homelab
+          key: username
 
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |

@@ -6,4 +6,4 @@ spec:
   hostname: loadbalancer-cidrs
   subnetRouter:
     advertiseRoutes:
-      - "192.168.192.0/24"
+      - "192.168.178.0/24"

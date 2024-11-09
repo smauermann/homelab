@@ -10,3 +10,7 @@ output "tunnel_config" {
   }))
   sensitive = true
 }
+
+output "bucket" {
+  value = cloudflare_r2_bucket.talos_migration
+}

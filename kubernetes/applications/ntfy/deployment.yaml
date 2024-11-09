@@ -13,9 +13,22 @@ spec:
       labels:
         app.kubernetes.io/name: ntfy
     spec:
+      securityContext:
+        runAsNonRoot: true
+        fsGroupChangePolicy: OnRootMismatch
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: ntfy
           image: binwiederhier/ntfy:v2.11.0 # renovate: docker=binwiederhier/ntfy
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
           args: ["serve"]
           env:
             - name: TZ

@@ -20,14 +20,14 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - 10.43.50.178
+    - 10.111.22.33
     - udp://unbound.dns.svc.cluster.local:53
     - tcp://unbound.dns.svc.cluster.local:53
     - '[/fritz.box/]192.168.178.1'
   upstream_dns_file: ""
   bootstrap_dns:
     - 192.168.178.1
-    - 10.43.0.10
+    - 10.96.0.10
   fallback_dns:
     - 1.1.1.1
     - 9.9.9.9
@@ -64,7 +64,7 @@ dns:
   local_ptr_upstreams:
     - 192.168.178.1
     - '[/168.192.in-addr.arpa/]192.168.178.1'
-    - '[/10.in-addr.arpa/]10.43.0.10'
+    - '[/10.in-addr.arpa/]10.96.0.10'
   use_dns64: false
   dns64_prefixes: []
   serve_http3: false
@@ -187,7 +187,7 @@ filtering:
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
     - domain: '*.costanza.cloud'
-      answer: 192.168.192.2
+      answer: 192.168.178.202
     - domain: nas.costanza.cloud
       answer: 192.168.178.99
   safe_fs_patterns:

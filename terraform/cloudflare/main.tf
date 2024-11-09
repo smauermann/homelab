@@ -20,7 +20,13 @@ resource "cloudflare_record" "argocd-webhook" {
 resource "cloudflare_record" "ingress" {
   zone_id = var.zone_id
   name    = "*"
-  content = "192.168.192.2"
+  content = "192.168.178.202"
   type    = "A"
   proxied = false
+}
+
+resource "cloudflare_r2_bucket" "talos_migration" {
+  account_id = var.account_id
+  name       = "talos-migration"
+  location   = "WEUR"
 }

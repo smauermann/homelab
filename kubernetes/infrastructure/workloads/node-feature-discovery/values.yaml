@@ -1,5 +1,21 @@
+master:
+  replicaCount: 1
+
 worker:
   config:
     core:
-      # only detect features on startup
-      sleepInterval: 0s
+      sleepInterval: "600s"
+      labelSources:
+        - "pci"
+        - "system"
+        - "usb"
+    sources:
+      pci:
+        deviceClassWhitelist:
+          - "0300"  # VGA compatible controller
+          - "0380"  # Display controller
+        deviceLabelFields:
+          - "class"
+          - "vendor"
+          - "device"
+

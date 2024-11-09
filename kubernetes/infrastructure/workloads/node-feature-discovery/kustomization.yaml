@@ -4,8 +4,7 @@ namespace: node-feature-discovery
 
 resources:
   - namespace.yaml
-  # NFD rules for intel
-  - https://raw.githubusercontent.com/intel/intel-device-plugins-for-kubernetes/refs/heads/main/deployments/nfd/overlays/node-feature-rules/node-feature-rules.yaml
+  - intel-gpu-device.yaml
 
 helmCharts:
   - name: node-feature-discovery

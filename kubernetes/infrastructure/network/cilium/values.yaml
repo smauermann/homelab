@@ -1,3 +1,20 @@
+# Talos specific
+k8sServiceHost: localhost
+k8sServicePort: 7445
+securityContext:
+  capabilities:
+    ciliumAgent: [ CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID ]
+    cleanCiliumState: [ NET_ADMIN, SYS_ADMIN, SYS_RESOURCE ]
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+# https://docs.cilium.io/en/stable/network/concepts/ipam/
+ipam:
+  mode: kubernetes
+
 # Cilium operator config
 operator:
   replicas: 1  # Uncomment this if you only have one node
@@ -7,19 +24,9 @@ operator:
 # Roll out cilium agent pods automatically when ConfigMap is updated.
 rollOutCiliumPods: true
 
-# K8s API service
-k8sServiceHost: 192.168.178.100
-k8sServicePort: 6443
-
 # Replace Kube-proxy
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-
-# -- Configure IP Address Management mode.
-# ref: https://docs.cilium.io/en/stable/network/concepts/ipam/
-ipam:
-  operator:
-    clusterPoolIPv4PodCIDRList: "10.42.0.0/16"
 
 # Configure L2 announcements (LB-IPAM configuration)
 l2announcements:
@@ -38,7 +45,7 @@ ingressController:
   loadbalancerMode: shared
   service:
     annotations:
-      io.cilium/lb-ipam-ips: 192.168.192.2
+      io.cilium/lb-ipam-ips: 192.168.178.202
 
 # required for exposing services via tailscale operator
 # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
