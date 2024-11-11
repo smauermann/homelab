@@ -23,7 +23,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: recyclarr
-              image: ghcr.io/recyclarr/recyclarr:7.3.0 # renovate: docker=ghcr.io/recyclarr/recyclarr
+              image: ghcr.io/recyclarr/recyclarr:7.4.0 # renovate: docker=ghcr.io/recyclarr/recyclarr
               imagePullPolicy: IfNotPresent
               envFrom:
                 - configMapRef:
