@@ -35,11 +35,12 @@ spec:
               cpu: 150m
               memory: 150Mi
           volumeMounts:
-            - mountPath: /etc/ntfy/server.yml
+            - name: config
+              mountPath: /etc/ntfy
               subPath: server.yml
-              name: config
-            - mountPath: /var/cache/ntfy
-              name: cache
+              readOnly: true
+            - name: cache
+              mountPath: /var/cache/ntfy
       volumes:
         - name: config
           configMap:
