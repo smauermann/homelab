@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ntfy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ntfy
+    spec:
+      containers:
+        - name: ntfy
+          image: binwiederhier/ntfy:v1.28.0 # renovate: docker=binwiederhier/ntfy
+          args: ["serve"]
+          env:
+            - name: TZ
+              value: "Europe/Berlin"
+            - name: NTFY_DEBUG
+              value: "false"
+            - name: NTFY_LOG_LEVEL
+              value: INFO
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            limits:
+              memory: 300Mi
+              cpu:  200m
+            requests:
+              cpu: 150m
+              memory: 150Mi
+          volumeMounts:
+            - mountPath: /etc/ntfy/server.yml
+              subPath: server.yml
+              name: config
+            - mountPath: /var/cache/ntfy
+              name: cache
+      volumes:
+        - name: config
+          configMap:
+            name: server-config
+        - name: cache
+          emptyDir: {}

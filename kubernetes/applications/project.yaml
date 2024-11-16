@@ -11,6 +11,8 @@ spec:
       server: '*'
     - namespace: homepage-dashboard
       server: '*'
+    - namespace: ntfy
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

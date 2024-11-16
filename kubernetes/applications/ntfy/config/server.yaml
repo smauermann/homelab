@@ -1,0 +1,11 @@
+upstream-base-url: "https://ntfy.sh"
+base-url: "https://ntfy.costanza.cloud"
+
+cache-file: "/var/cache/ntfy/cache.db"
+cache-duration: 2h
+attachment-cache-dir: "/var/cache/ntfy/attachments"
+
+behind-proxy: true
+keepalive-interval: "45s"
+
+#auth-default-access: "deny-all"
