@@ -21,7 +21,7 @@ spec:
               service:
                 name: ntfy
                 port:
-                  number: 80
+                  name: http
   tls:
     - hosts:
         - ntfy.costanza.cloud
