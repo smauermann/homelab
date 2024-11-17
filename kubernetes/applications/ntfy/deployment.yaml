@@ -32,7 +32,7 @@ spec:
               memory: 150Mi
           volumeMounts:
             - name: config
-              mountPath: /etc/ntfy
+              mountPath: /etc/ntfy/server.yml
               subPath: server.yml
               readOnly: true
             - name: cache
