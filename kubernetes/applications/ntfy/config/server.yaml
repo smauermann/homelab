@@ -8,4 +8,5 @@ attachment-cache-dir: "/var/cache/ntfy/attachments"
 behind-proxy: true
 keepalive-interval: "45s"
 
-#auth-default-access: "deny-all"
+log-level: debug
+log-format: json

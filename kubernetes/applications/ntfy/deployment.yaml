@@ -20,10 +20,6 @@ spec:
           env:
             - name: TZ
               value: "Europe/Berlin"
-            - name: NTFY_DEBUG
-              value: "false"
-            - name: NTFY_LOG_LEVEL
-              value: INFO
           ports:
             - containerPort: 80
               name: http
