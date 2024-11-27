@@ -115,7 +115,7 @@ filters:
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_48.txt
     name: HaGeZi's Pro Blocklist
     id: 1727212690
-  - enabled: true
+  - enabled: false
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_56.txt
     name: HaGeZi's The World's Most Abused TLDs
     id: 1727249702
@@ -123,6 +123,18 @@ filters:
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt
     name: Dandelion Sprout's Anti-Malware List
     id: 1727249848
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_3.txt
+    name: Peter Lowe's Blocklist
+    id: 1732636479
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_50.txt
+    name: uBlock₀ filters – Badware risks
+    id: 1732636480
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt
+    name: OISD Blocklist Big
+    id: 1732636481
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
@@ -176,6 +188,8 @@ filtering:
   rewrites:
     - domain: '*.costanza.cloud'
       answer: 192.168.192.2
+    - domain: nas.costanza.cloud
+      answer: 192.168.178.99
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
