@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nas-migration
+  name: nas-migration
+spec:
+  selector:
+    matchLabels:
+      app: nas-migration
+  template:
+    metadata:
+      labels:
+        app: nas-migration
+    spec:
+      containers:
+        - image: registry.fedoraproject.org/fedora:latest
+          name: fedora
+          command: ["/bin/bash", "-c", "--"]
+          args: ["while true; do sleep 30; done;"]
+          volumeMounts:
+            - name: servarr-media
+              mountPath: /mnt/media
+            - name: servarr-media-nfs
+              mountPath: /mnt/media-nfs
+      volumes:
+        - name: servarr-media
+          persistentVolumeClaim:
+            claimName: servarr-media
+        - name: servarr-media-nfs
+          persistentVolumeClaim:
+            claimName: servarr-media-nfs
