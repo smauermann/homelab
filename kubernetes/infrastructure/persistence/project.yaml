@@ -5,13 +5,16 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - https://github.com/smauermann/homelab
     - https://charts.longhorn.io
     - https://cloudnative-pg.github.io/charts
+    - https://github.com/smauermann/homelab
+    - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
   destinations:
     - namespace: argocd
       server: '*'
     - namespace: cnpg-system
+      server: '*'
+    - namespace: kube-system
       server: '*'
     - namespace: longhorn-system
       server: '*'

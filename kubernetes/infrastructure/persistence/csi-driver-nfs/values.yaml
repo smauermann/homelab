@@ -1,0 +1,5 @@
+# deploy the snapshot controller and snapshot CRDs
+externalSnapshotter:
+  enabled: true
+  customResourceDefinitions:
+    enabled: true
