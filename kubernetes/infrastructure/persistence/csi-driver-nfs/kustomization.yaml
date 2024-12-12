@@ -3,8 +3,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - storage-class-delete.yaml
-  - storage-class-retain.yaml
+  - storageclasses.yaml
 
 helmCharts:
   - name: csi-driver-nfs
