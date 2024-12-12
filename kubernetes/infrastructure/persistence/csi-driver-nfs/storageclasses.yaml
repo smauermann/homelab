@@ -9,7 +9,7 @@ parameters:
   share: /volume1/kubernetes
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
-mountOptions: &mountOptions
+mountOptions:
   - hard
   - nfsvers=4.1
   - nconnect=8
@@ -27,4 +27,10 @@ parameters:
   share: /volume1/kubernetes
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
-mountOptions: *mountOptions
+mountOptions:
+  - hard
+  - nfsvers=4.1
+  - nconnect=8
+  - noacl
+  - noatime
+  - nodiratime
