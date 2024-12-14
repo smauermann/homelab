@@ -5,6 +5,7 @@ metadata:
     app: nas-migration
   name: nas-migration
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app: nas-migration
