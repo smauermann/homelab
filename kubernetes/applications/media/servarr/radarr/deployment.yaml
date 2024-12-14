@@ -57,6 +57,6 @@ spec:
             claimName: radarr-config
         - name: media
           persistentVolumeClaim:
-            claimName: servarr-media
+            claimName: servarr-media-nfs
         - name: tmp
           emptyDir: {}
