@@ -22,8 +22,8 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - image: debian:stable-slim
-          name: debian
+        - image: corpusops/rsync:latest
+          name: rsync
           command: ["/bin/bash", "-c", "--"]
           args: ["while true; do sleep 30; done;"]
           volumeMounts:
