@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: valkey
     repo:  https://charts.bitnami.com/bitnami
-    version: 2.0.2
+    version: 2.2.1
     releaseName: unbound-cache
     namespace: dns
     valuesFile: values.yaml
