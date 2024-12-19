@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: argocd
 
 resources:
+  - github-repo-secret.yaml
   - namespace.yaml
   - oidc-secret.yaml
-  - repo.yaml
   - webhook-secret.yaml
 
 helmCharts:
