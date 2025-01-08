@@ -1,5 +1,5 @@
-# deploy the snapshot controller and snapshot CRDs
+# do not deploy the snapshot controller and snapshot CRDs, we deploy the snapshot controller individually
 externalSnapshotter:
-  enabled: true
+  enabled: false
   customResourceDefinitions:
-    enabled: true
+    enabled: false
