@@ -8,13 +8,12 @@ configMapGenerator:
       - TZ="Europe/Berlin"
 
 resources:
+  - namespace.yaml
+  - pvc.yaml
   - jellyfin
   - jellyseerr
-  - namespace.yaml
   - prowlarr
-  - pvc.yaml
   - radarr
   - recyclarr
   - sabnzbd
   - sonarr
-  - nas-migration.yaml
