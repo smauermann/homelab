@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: jellyseerr
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
