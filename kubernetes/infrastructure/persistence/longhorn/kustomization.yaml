@@ -9,7 +9,7 @@ helmCharts:
   - name: longhorn
     releaseName: longhorn
     repo: https://charts.longhorn.io
-    version: 1.7.2
+    version: 1.8.0
     namespace: longhorn-system
     includeCRDs: true
     valuesFile: values.yaml
