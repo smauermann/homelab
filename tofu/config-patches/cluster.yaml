@@ -1,9 +1,0 @@
----
-# yaml-language-server: $schema=https://www.talos.dev/v1.8/schemas/v1alpha1_config.schema.json
-cluster:
-  allowSchedulingOnControlPlanes: true
-  network:
-    cni:
-      name: none
-  proxy:
-    disabled: true
