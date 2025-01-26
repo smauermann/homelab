@@ -48,6 +48,11 @@ deschedulerPolicy:
               - CreateContainerConfigError
               - Error
               - Completed
+            exitCodes:
+              - 0
+              - 1
+            excludeOwnerKinds:
+              - Job
             includingInitContainers: true
             minPodLifetimeSeconds: 3600
         - name: RemovePodsHavingTooManyRestarts
