@@ -1,6 +1,6 @@
 clusterName := "homelab"
 clusterEndpoint := "https://192.168.178.201:6443"
-nodes := "192.168.178.101 192.168.178.102"
+nodes := "192.168.178.100 192.168.178.101 192.168.178.102"
 talosDir := "talos"
 talosVersion := "v1.9.1"
 

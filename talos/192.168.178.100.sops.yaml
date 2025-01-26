@@ -77,7 +77,7 @@ machine:
       forwardKubeDNSToHost: true
   nodeLabels:
     topology.kubernetes.io/region: ber
-    topology.kubernetes.io/zone: jerry
+    topology.kubernetes.io/zone: george
   disks:
     - device: /dev/disk/by-id/nvme-WD_BLACK_SN770_2TB_24225P800820
       partitions:
