@@ -12,3 +12,15 @@ helmCharts:
     releaseName: descheduler
     namespace: descheduler
     valuesFile: values.yaml
+
+patches:
+  # patch in PDB permissions until fixed upstream https://github.com/kubernetes-sigs/descheduler/issues/1595
+  - patch: |-
+      - op: add
+        path: /rules/-
+        value:
+          verbs: [ "get", "watch", "list" ]
+          apiGroups: [ "policy" ]
+          resources: [ "poddisruptionbudgets" ]
+    target:
+      kind: ClusterRole
