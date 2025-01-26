@@ -11,83 +11,60 @@ resources:
     cpu: 500m
     memory: 256Mi
 
-# podSecurityContext -- [Security context for pod](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-podSecurityContext: {}
-  # fsGroup: 1000
-
 # Specifies the replica count for Deployment
 # Set leaderElection if you want to use more than 1 replica
-# Set affinity.podAntiAffinity rule if you want to schedule onto a node
-# only if that node is in the same zone as at least one already-running descheduler
 replicas: 1
 
-# Specifies whether Leader Election resources should be created
 # Required when running as a Deployment
-# NOTE: Leader election can't be activated if DryRun enabled
 leaderElection:
   enabled: true
 
-# deschedulerPolicy contains the policies the descheduler will execute.
-# To use policies stored in an existing configMap use:
-# NOTE: The name of the cm should comply to {{ template "descheduler.fullname" . }}
-# deschedulerPolicy: {}
 deschedulerPolicy:
-  # nodeSelector: "key1=value1,key2=value2"
-  # maxNoOfPodsToEvictPerNode: 10
-  # maxNoOfPodsToEvictPerNamespace: 10
-  # metricsCollector:
-  #   enabled: true
-  # ignorePvcPods: true
-  # evictLocalStoragePods: true
-  # evictDaemonSetPods: true
-  # tracing:
-  #   collectorEndpoint: otel-collector.observability.svc.cluster.local:4317
-  #   transportCert: ""
-  #   serviceName: ""
-  #   serviceNamespace: ""
-  #   sampleRate: 1.0
-  #   fallbackToNoOpProviderOnError: true
   profiles:
     - name: default
       pluginConfig:
         - name: DefaultEvictor
           args:
-            ignorePvcPods: false
             evictLocalStoragePods: true
-        - name: RemoveDuplicates
-        - name: RemovePodsHavingTooManyRestarts
-          args:
-            podRestartThreshold: 100
-            includingInitContainers: true
-        - name: RemovePodsViolatingNodeAffinity
-          args:
-            nodeAffinityType:
-            - requiredDuringSchedulingIgnoredDuringExecution
-        - name: RemovePodsViolatingNodeTaints
-        - name: RemovePodsViolatingInterPodAntiAffinity
-        - name: RemovePodsViolatingTopologySpreadConstraint
+            evictSystemCriticalPods: true
+            evictFailedBarePods: true
+            nodeFit: true
         - name: LowNodeUtilization
           args:
             thresholds:
-              cpu: 5
-              memory: 5
-              pods: 10
+              cpu: 20
+              memory: 20
             targetThresholds:
               cpu: 50
               memory: 50
-              pods: 50
+        - name: RemovePodsViolatingTopologySpreadConstraint
+          args:
+            constraints:
+              - DoNotSchedule
+              - ScheduleAnyway
+        - name: RemoveFailedPods
+          args:
+            reasons:
+              - CreateContainerConfigError
+              - Error
+              - Completed
+            includingInitContainers: true
+            minPodLifetimeSeconds: 3600
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 42
+            includingInitContainers: true
+            states:
+              - CrashLoopBackOff
       plugins:
         balance:
           enabled:
-            - RemoveDuplicates
-            - RemovePodsViolatingTopologySpreadConstraint
             - LowNodeUtilization
+            - RemovePodsViolatingTopologySpreadConstraint
         deschedule:
           enabled:
+            - RemoveFailedPods
             - RemovePodsHavingTooManyRestarts
-            - RemovePodsViolatingNodeTaints
-            - RemovePodsViolatingNodeAffinity
-            - RemovePodsViolatingInterPodAntiAffinity
 
 serviceMonitor:
   enabled: false
