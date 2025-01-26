@@ -12,7 +12,7 @@ defaultSettings:
 
 persistence:
   defaultClass: true
-  defaultClassReplicaCount: 2
+  defaultClassReplicaCount: 3
 
 longhornUI:
   replicas: 1
