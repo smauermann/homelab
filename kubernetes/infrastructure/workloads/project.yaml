@@ -10,8 +10,11 @@ spec:
     - https://github.com/smauermann/homelab
     - https://intel.github.io/helm-charts/
     - https://kubernetes-sigs.github.io/node-feature-discovery/charts
+    - https://kubernetes-sigs.github.io/descheduler
   destinations:
     - namespace: argocd
+      server: '*'
+    - namespace: descheduler
       server: '*'
     - namespace: intel-device-plugins
       server: '*'
