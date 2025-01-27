@@ -102,6 +102,6 @@ server:
       gethomepage.dev/description: GitOps Controller
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Workloads
-      gethomepage.dev/icon: argocd.png
+      gethomepage.dev/icon: argo-cd.png
       gethomepage.dev/name: ArgoCD
       gethomepage.dev/pod-selector: ""
