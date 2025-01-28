@@ -158,3 +158,13 @@ bootstrap-argocd:
 
   # create the meta apps (root apps that apply all other apps)
   kubectl apply -k bootstrap/argo-apps
+
+#########
+# Misc
+#######
+@dump-adguard-conf:
+  kubectl exec -it -n dns deploy/adguard -c adguard -- cat /opt/adguardhome/conf/AdGuardHome.yaml | yq 'del(.users)'
+
+clean-pods:
+  kubectl delete pods --field-selector=status.phase==Succeeded -A
+  kubectl delete pods --field-selector=status.phase==Failed -A
