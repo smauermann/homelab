@@ -1,6 +1,9 @@
 global:
   domain: argocd.costanza.cloud
 
+dex:
+  enabled: false
+
 configs:
   params:
     # Run server without TLS
