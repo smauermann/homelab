@@ -83,9 +83,13 @@ serviceMonitor:
 # ref: https://github.com/TwiN/gatus#configuration
 config:
   endpoints:
-    - name: example
-      url: https://example.org
+    - name: Adguard
+      url: https://adguard.costanza.cloud
       interval: 60s
       conditions:
         - "[STATUS] == 200"
-        - "[BODY] == pat(*<h1>Example Domain</h1>*)"
+    - name: Jellyfin
+      url: https://jellyfin.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
