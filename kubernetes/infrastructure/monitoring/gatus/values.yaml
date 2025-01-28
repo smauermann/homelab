@@ -1,0 +1,91 @@
+podSecurityContext:
+  fsGroup: 65534
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+  runAsGroup: 65534
+  readOnlyRootFilesystem: true
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: true
+  ingressClassName: cilium
+  path: /
+  pathType: Prefix
+  hosts:
+    - status.costanza.cloud
+  tls:
+   - secretName: gatus-tls
+     hosts:
+       - status.costanza.cloud
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Status Page
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/icon: gatus.png
+    gethomepage.dev/name: gatus
+
+# Extra volume mounts
+extraVolumeMounts: []
+  # - name: extra-volume-0
+  #   mountPath: /mnt/volume0
+  #   readOnly: true
+  #   existingClaim: volume-claim
+  # - name: extra-volume-1
+  #   mountPath: /mnt/volume1
+  #   readOnly: true
+  #   hostPath: /usr/shared/
+  # - name: extra-volume-2
+  #   mountPath: /mnt/volume2
+  #   readOnly: true
+  #   existingConfigMap: config-map
+  # - name: extra-volume-3
+  #   mountPath: /mnt/volume3
+  #   readOnly: true
+#   existingSecret: secret-name
+
+resources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 32Mi
+#  requests:
+#    cpu: 50m
+#    memory: 16Mi
+
+persistence:
+  enabled: false
+  size: 200Mi
+  mountPath: /data
+  # subPath: ""
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+
+serviceMonitor:
+  enabled: false
+  interval: 1m
+  path: /metrics
+  scheme: http
+  tlsConfig: {}
+  labels: {}
+  scrapeTimeout: 30s
+  relabelings: []
+
+# Gatus configuration
+# ref: https://github.com/TwiN/gatus#configuration
+config:
+  endpoints:
+    - name: example
+      url: https://example.org
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+        - "[BODY] == pat(*<h1>Example Domain</h1>*)"
