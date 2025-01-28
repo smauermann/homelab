@@ -1,8 +1,10 @@
+set dotenv-load
+set dotenv-path := "talos/cluster.env"
+
 clusterName := "homelab"
 clusterEndpoint := "https://192.168.178.201:6443"
 nodes := "192.168.178.100 192.168.178.101 192.168.178.102"
 talosDir := "talos"
-talosVersion := "v1.9.1"
 
 default:
   @just --list
@@ -42,29 +44,35 @@ gen-config:
   talosctl gen config --with-secrets {{ talosDir }}/secrets.sops.yaml {{ clusterName }} {{ clusterEndpoint }} --output {{ talosDir }}
 
 get-schematic:
+  curl -X POST --silent --data-binary @{{ talosDir }}/schematic.yaml https://factory.talos.dev/schematics | yq .id
+
+get-talos-image:
   #!/usr/bin/env bash
-  set -euxo pipefail
-  cat {{ talosDir}}/schematic.yaml
-  schematic=$(curl -X POST --silent --data-binary @{{ talosDir }}/schematic.yaml https://factory.talos.dev/schematics | yq .id)
-  echo factory.talos.dev/installer/$schematic:{{ talosVersion }}
+  SCHEMATIC=$(just get-schematic)
+  echo -n factory.talos.dev/installer/${SCHEMATIC}:${TALOS_VERSION}
+
+parse-machine-config node:
+  #!/usr/bin/env bash
+  SCHEMATIC=$(just get-schematic)
+  sops -d {{ talosDir }}/{{ node }}.sops.yaml | sed -e "s|\$SCHEMATIC|$SCHEMATIC|g" -e "s|\$TALOS_VERSION|$TALOS_VERSION|g" -e "s|\$KUBERNETES_VERSION|$KUBERNETES_VERSION|g"
 
 apply-insecure node:
-  sops -d {{ talosDir }}/{{ node }}.sops.yaml | talosctl apply-config --insecure --nodes {{ node }} --file /dev/stdin
+  just parse-machine-config {{ node }} | talosctl apply-config --insecure --nodes {{ node }} --file /dev/stdin
 
 bootstrap node:
   talosctl bootstrap --nodes {{node}} --endpoints {{ node }}
 
 apply node:
-  sops -d {{ talosDir }}/{{ node }}.sops.yaml | talosctl apply-config --nodes {{ node }} --file /dev/stdin
+  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin
 
 apply-reboot node:
-  sops -d {{ talosDir }}/{{ node }}.sops.yaml | talosctl apply-config --nodes {{ node }} --file /dev/stdin --mode reboot
+  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin --mode reboot
 
 apply-all:
   #!/usr/bin/env bash
   set -euxo pipefail
   for node in {{ nodes }}; do
-    sops -d ${node}.sops.yaml | talosctl apply-config --insecure --nodes $node --file /dev/stdin
+    just apply $node
   done
 
 [confirm('Do you really want to reset this node?')]
@@ -83,21 +91,27 @@ reset-all:
     talosctl reset --graceful=false --reboot --nodes $node
   done
 
-upgrade node image:
-  talosctl upgrade --nodes {{ node }} --image {{ image }}
+upgrade node:
+  #!/usr/bin/env bash
+  TALOS_IMAGE=$(just get-talos-image)
+  talosctl upgrade --nodes {{ node }} --image $TALOS_IMAGE
 
-upgrade-all image:
+upgrade-all:
   #!/usr/bin/env bash
   set -euxo pipefail
   for node in {{ nodes }}; do
-    talosctl upgrade --nodes $node --image {{ image }}
+    just upgrade $node
   done
+
+upgrade-k8s:
+  # all nodes will be upgraded sequentially, just pick one node for the command
+  talosctl upgrade-k8s --to $KUBERNETES_VERSION -n 192.168.178.100 -e 192.168.178.100
 
 health node:
   talosctl health --nodes {{ node }}
 
-kubeconfig:
-  talosctl kubeconfig --nodes {{ nodes }} {{ talosDir }}
+kubeconfig node:
+  talosctl kubeconfig --nodes {{ node }} {{ talosDir }}
 
 services node:
   talosctl services --nodes {{ node }}
