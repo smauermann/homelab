@@ -59,13 +59,32 @@ config:
   storage:
     type: sqlite
     path: /data/data.db
+  ui:
+    title: Status
+    header: Status
   endpoints:
-    - name: Adguard
+    - name: adguard
+      group: network
       url: https://adguard.costanza.cloud
       interval: 60s
       conditions:
         - "[STATUS] == 200"
-    - name: Jellyfin
+    - name: adguard DNS
+      group: network
+      url: "192.168.178.253" # Address of the DNS server to use
+      dns:
+        query-name: "google.com"
+        query-type: "A"
+      conditions:
+        - "[DNS_RCODE] == NOERROR"
+    - name: domain expiry
+      group: network
+      url: "https://foo.costanza.cloud"
+      interval: 6h
+      conditions:
+        - "[DOMAIN_EXPIRATION] > 720h"
+    - name: jellyfin
+      group: media
       url: https://jellyfin.costanza.cloud
       interval: 60s
       conditions:
