@@ -31,7 +31,7 @@ ingress:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Monitoring
     gethomepage.dev/icon: gatus.png
-    gethomepage.dev/name: gatus
+    gethomepage.dev/name: Gatus
 
 # Extra volume mounts
 extraVolumeMounts: []
