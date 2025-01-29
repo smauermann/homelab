@@ -79,7 +79,7 @@ config:
         - "[DNS_RCODE] == NOERROR"
     - name: domain expiry
       group: network
-      url: "https://foo.costanza.cloud"
+      url: "https://argocd.costanza.cloud"
       interval: 6h
       conditions:
         - "[DOMAIN_EXPIRATION] > 720h"
@@ -89,3 +89,40 @@ config:
       interval: 60s
       conditions:
         - "[STATUS] == 200"
+    - name: sonarr
+      group: media
+      url: https://sonarr.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+    - name: radarr
+      group: media
+      url: https://radarr.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+    - name: sabnzbd
+      group: media
+      url: https://sabnzbd.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+    - name: prowlarr
+      group: media
+      url: https://prowlarr.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+    - name: argocd
+      group: workloads
+      url: https://argocd.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+    - name: authelia
+      group: auth
+      url: https://authelia.costanza.cloud
+      interval: 60s
+      conditions:
+        - "[STATUS] == 200"
+
