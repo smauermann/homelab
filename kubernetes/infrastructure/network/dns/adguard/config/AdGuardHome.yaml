@@ -135,6 +135,10 @@ filters:
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt
     name: OISD Blocklist Big
     id: 1732636481
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt
+    name: 1Hosts (Lite)
+    id: 1738101651
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
