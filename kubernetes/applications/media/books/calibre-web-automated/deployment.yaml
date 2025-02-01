@@ -12,14 +12,14 @@ spec:
       labels:
         app.kubernetes.io/name: calibre-web-automated
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 2501
-        runAsGroup: 2501
-        fsGroup: 2501
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
+#      securityContext:
+#        runAsNonRoot: true
+#        runAsUser: 2501
+#        runAsGroup: 2501
+#        fsGroup: 2501
+#        fsGroupChangePolicy: OnRootMismatch
+#        seccompProfile:
+#          type: RuntimeDefault
       containers:
       - name: calibre-web-automated
         image: crocodilestick/calibre-web-automated:V3.0.1 # renovate: docker=crocodilestick/calibre-web-automated
@@ -28,9 +28,9 @@ spec:
               name: common-env
         env:
           - name: PUID
-            value: "2501"
+            value: "1000"
           - name: PGID
-            value: "2501"
+            value: "1000"
         ports:
           - name: http
             containerPort: 8083
