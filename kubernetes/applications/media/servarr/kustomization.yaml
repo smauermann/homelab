@@ -15,7 +15,6 @@ resources:
   - jellyseerr
   - prowlarr
   - radarr
-  - readarr
   - recyclarr
   - sabnzbd
   - sonarr
