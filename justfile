@@ -63,7 +63,7 @@ bootstrap node:
   talosctl bootstrap --nodes {{node}} --endpoints {{ node }}
 
 apply node:
-  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin
+  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin && just health {{ node }}
 
 apply-reboot node:
   just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin --mode reboot
@@ -94,7 +94,7 @@ reset-all:
 upgrade node:
   #!/usr/bin/env bash
   TALOS_IMAGE=$(just get-talos-image)
-  talosctl upgrade --nodes {{ node }} --image $TALOS_IMAGE
+  talosctl upgrade --nodes {{ node }} --image $TALOS_IMAGE -e {{ node }}
 
 upgrade-all:
   #!/usr/bin/env bash
@@ -108,10 +108,10 @@ upgrade-k8s:
   talosctl upgrade-k8s --to $KUBERNETES_VERSION -n 192.168.178.100 -e 192.168.178.100
 
 health node:
-  talosctl health --nodes {{ node }}
+  talosctl health --nodes {{ node }} --server=false
 
 kubeconfig node:
-  talosctl kubeconfig --nodes {{ node }} {{ talosDir }}
+  talosctl kubeconfig --nodes {{ node }} --force --force-context-name talos {{ talosDir }}
 
 services node:
   talosctl services --nodes {{ node }}
@@ -164,6 +164,9 @@ bootstrap-argocd:
 #######
 @dump-adguard-conf:
   kubectl exec -it -n dns deploy/adguard -c adguard -- cat /opt/adguardhome/conf/AdGuardHome.yaml | yq 'del(.users)'
+
+get-failed-pods:
+  kubectl get pods -A -o wide | grep -v Running
 
 clean-pods:
   kubectl delete pods --field-selector=status.phase==Succeeded -A
