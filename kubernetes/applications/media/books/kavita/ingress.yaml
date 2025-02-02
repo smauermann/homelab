@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kavita
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Ebooks Management
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Books
+    gethomepage.dev/icon: kavita.png
+    gethomepage.dev/name: Kavita
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: kavita.costanza.cloud
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: kavita
+                port:
+                  name: web
+  tls:
+    - hosts:
+        - kavita.costanza.cloud
+      secretName: kavita-tls
