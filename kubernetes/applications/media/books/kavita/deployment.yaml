@@ -34,12 +34,12 @@ spec:
         volumeMounts:
           - name: config
             mountPath: /kavita/config
-          - name: library
-            mountPath: /books
+          - name: media
+            mountPath: /mnt/media
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: kavita-config
-      - name: library
+      - name: media
         persistentVolumeClaim:
           claimName: books-media-nfs
