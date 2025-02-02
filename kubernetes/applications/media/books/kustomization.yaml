@@ -10,5 +10,4 @@ configMapGenerator:
 resources:
   - namespace.yaml
   - pvc.yaml
-  - calibre-web-automated
   - kavita
