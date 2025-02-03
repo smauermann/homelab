@@ -31,14 +31,14 @@ pod:
 
   securityContext:
     container:
-      fsGroupChangePolicy: OnRootMismatch
-      seccompProfile:
-        type: RuntimeDefault
-    pod:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: false
       capabilities:
         drop: ["ALL"]
+    pod:
+      fsGroupChangePolicy: OnRootMismatch
+      seccompProfile:
+        type: RuntimeDefault
 
   env:
   - name: 'TZ'
