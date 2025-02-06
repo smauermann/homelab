@@ -5,7 +5,7 @@ namespace: monitoring
 helmCharts:
   - name: victoria-metrics-operator
     repo: https://victoriametrics.github.io/helm-charts
-    version: 0.41.2
+    version: 0.42.0
     includeCRDs: true
     releaseName: victoria-metrics-operator
     namespace: monitoring
