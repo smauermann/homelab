@@ -1,7 +1,7 @@
 # CronJob or Deployment
 kind: Deployment
 # Required when running as a Deployment
-deschedulingInterval: 5m
+deschedulingInterval: 30m
 
 resources:
   requests:
