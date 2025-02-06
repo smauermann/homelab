@@ -4,3 +4,5 @@ enableMonitoring: true
 nodeFeatureRule: false
 nodeSelector:
   intel.feature.node.kubernetes.io/gpu: 'true'
+
+tolerations: []
