@@ -20,6 +20,11 @@ operator:
   useCustomConfigReloader: false
 
 
+env:
+  # EnableStrictSecurity will add default securityContext to pods and containers created by operator
+  - name: VM_ENABLESTRICTSECURITY
+    value: "true"
+
 resources:
   {}
   # limits:
