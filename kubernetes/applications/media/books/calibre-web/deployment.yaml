@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+spec:
+  selector: {}
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2501
+        runAsGroup: 2501
+        fsGroup: 2501
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: calibre-web
+        image: ghcr.io/bjw-s-labs/calibre-web:0.6.24 # renovate: docker=ghcr.io/bjw-s-labs/calibre-web
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ "ALL" ]
+        envFrom:
+          - configMapRef:
+              name: common-env
+        env:
+          - name: CACHE_DIR
+            value: /cache
+        ports:
+          - name: http
+            containerPort: 8083
+        volumeMounts:
+          - name: config
+            mountPath: /config
+          - name: media
+            mountPath: /mnt/media
+          - name: cache
+            mountPath: /cache
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: calibre-web-config
+      - name: media
+        persistentVolumeClaim:
+          claimName: books-media-nfs
+      - name: cache
+        emptyDir: {}

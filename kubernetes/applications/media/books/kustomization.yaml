@@ -11,3 +11,4 @@ resources:
   - namespace.yaml
   - pvc.yaml
   - kavita
+  - calibre-web
