@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre-web-downloader
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    gethomepage.dev/description: Ebooks Downloader
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Books
+    gethomepage.dev/icon: calibre-web.png
+    gethomepage.dev/name: Calibre-Web Downloader
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: calibre-web-downloader.costanza.cloud
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: calibre-web-downloader
+                port:
+                  name: web
+  tls:
+    - hosts:
+        - calibre-web-downloader.costanza.cloud
+      secretName: calibre-web-downloader-tls

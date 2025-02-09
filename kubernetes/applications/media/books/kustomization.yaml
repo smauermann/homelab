@@ -12,3 +12,4 @@ resources:
   - pvc.yaml
   - kavita
   - calibre-web
+  - calibre-web-downloader

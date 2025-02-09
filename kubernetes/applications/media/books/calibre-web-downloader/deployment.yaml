@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web-downloader
+spec:
+  selector: {}
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2501
+        runAsGroup: 2501
+        fsGroup: 2501
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: calibre-web-downloader
+        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250125 # renovate: docker=ghcr.io/calibrain/calibre-web-automated-book-downloader
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ "ALL" ]
+        envFrom:
+          - configMapRef:
+              name: common-env
+        env:
+          - name: INGEST_DIR
+            value: /mnt/media/library/downloads
+          - name: UID
+            value: "2501"
+          - name: GID
+            value: "2501"
+          - name: USE_CF_BYPASS
+            value: "false"
+        ports:
+          - name: http
+            containerPort: 8084
+        volumeMounts:
+          - name: media
+            mountPath: /mnt/media
+          - name: logs
+            mountPath: /var/log/cwa-book-downloader
+          - name: tmp
+            mountPath: /tmp/cwa-book-downloader
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: books-media-nfs
+      - name: logs
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
