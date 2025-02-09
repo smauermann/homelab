@@ -19,9 +19,9 @@ spec:
         image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250125 # renovate: docker=ghcr.io/calibrain/calibre-web-automated-book-downloader
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop: [ "ALL" ]
+          readOnlyRootFilesystem: false
+#          capabilities:
+#            drop: [ "ALL" ]
         envFrom:
           - configMapRef:
               name: common-env
