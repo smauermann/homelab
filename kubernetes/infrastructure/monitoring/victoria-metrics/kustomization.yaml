@@ -5,3 +5,4 @@ namespace: monitoring
 resources:
   - namespace.yaml
   - operator
+  - vm-single.yaml
