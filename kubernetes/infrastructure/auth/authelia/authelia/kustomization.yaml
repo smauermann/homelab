@@ -18,7 +18,7 @@ generatorOptions:
 helmCharts:
   - name: authelia
     repo: https://charts.authelia.com
-    version: 0.9.15
+    version: 0.9.16
     releaseName: authelia
     namespace: authelia
     valuesFile: values.yaml
