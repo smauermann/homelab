@@ -119,6 +119,15 @@ services node:
 logs node service:
   talosctl logs --nodes {{ node }} {{ service }}
 
+etcd-defrag:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  for node in {{ nodes }}; do
+    talosctl etcd defrag --nodes $node
+    sleep 2
+    just health $node
+  done
+
 #########
 # Bootstrap Apps
 #######
