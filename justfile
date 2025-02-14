@@ -43,7 +43,7 @@ gen-secrets:
 gen-config:
   talosctl gen config --with-secrets {{ talosDir }}/secrets.sops.yaml {{ clusterName }} {{ clusterEndpoint }} --output {{ talosDir }}
 
-get-schematic:
+@get-schematic:
   curl -X POST --silent --data-binary @{{ talosDir }}/schematic.yaml https://factory.talos.dev/schematics | yq .id
 
 get-talos-image:
