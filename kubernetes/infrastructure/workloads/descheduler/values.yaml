@@ -21,47 +21,35 @@ leaderElection:
 
 deschedulerPolicy:
   profiles:
-    - name: default
+    - name: ProfileName
       pluginConfig:
         - name: DefaultEvictor
           args:
+            evictFailedBarePods: true
             evictLocalStoragePods: true
             evictSystemCriticalPods: true
-            evictFailedBarePods: true
             nodeFit: true
         - name: LowNodeUtilization
           args:
-            thresholds:
-              cpu: 20
-              memory: 20
             targetThresholds:
-              cpu: 50
-              memory: 50
+              pods: 60
+            thresholds:
+              pods: 50
         - name: RemoveDuplicates
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 10
+            includingInitContainers: true
+        - name: RemovePodsViolatingInterPodAntiAffinity
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+              - requiredDuringSchedulingIgnoredDuringExecution
+        - name: RemovePodsViolatingNodeTaints
         - name: RemovePodsViolatingTopologySpreadConstraint
           args:
             constraints:
               - DoNotSchedule
-              - ScheduleAnyway
-        - name: RemoveFailedPods
-          args:
-            reasons:
-              - CreateContainerConfigError
-              - Error
-              - Completed
-            exitCodes:
-              - 0
-              - 1
-            excludeOwnerKinds:
-              - Job
-            includingInitContainers: true
-            minPodLifetimeSeconds: 3600
-        - name: RemovePodsHavingTooManyRestarts
-          args:
-            podRestartThreshold: 42
-            includingInitContainers: true
-            states:
-              - CrashLoopBackOff
       plugins:
         balance:
           enabled:
@@ -70,8 +58,10 @@ deschedulerPolicy:
             - RemovePodsViolatingTopologySpreadConstraint
         deschedule:
           enabled:
-            - RemoveFailedPods
             - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingInterPodAntiAffinity
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingNodeTaints
 
 serviceMonitor:
-  enabled: false
+  enabled: true
