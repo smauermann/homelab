@@ -69,7 +69,7 @@ datasources:
       - name: VictoriaMetrics
         type: victoriametrics-metrics-datasource
         access: proxy
-        url: http://vmsingle-main.monitoring.svc.cluster.local:8428
+        url: http://vmsingle-main.monitoring.svc.cluster.local:8429
         isDefault: true
 
 ## Configure grafana dashboard providers
