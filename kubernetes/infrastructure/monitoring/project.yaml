@@ -13,6 +13,8 @@ spec:
   destinations:
     - namespace: argocd
       server: '*'
+    - namespace: exporters
+      server: '*'
     - namespace: gatus
       server: '*'
     - namespace: monitoring
