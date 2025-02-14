@@ -4,6 +4,7 @@ namespace: monitoring
 
 resources:
   - namespace.yaml
+  - prometheus-crds
   - operator
   - vm-single.yaml
   - grafana
