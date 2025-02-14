@@ -128,6 +128,9 @@ etcd-defrag:
     just health $node
   done
 
+tail-dmesg node:
+  talosctl dmesg --tail --follow --nodes {{ node }}
+
 #########
 # Bootstrap Apps
 #######
