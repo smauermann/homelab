@@ -1,3 +1,5 @@
+fullnameOverride: node-exporter
+
 revisionHistoryLimit: 3
 
 prometheus:
