@@ -7,4 +7,5 @@ resources:
   - prometheus-crds
   - operator
   - vm-single.yaml
+  - vm-agent.yaml
   - grafana
