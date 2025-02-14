@@ -8,4 +8,5 @@ resources:
   - operator
   - vm-single.yaml
   - vm-agent.yaml
+  - node-exporter
   - grafana
