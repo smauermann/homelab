@@ -39,10 +39,7 @@ resources:
     memory: 264Mi
 
 persistence:
-  enabled: true
-  type: pvc
-  storageClassName: longhorn
-  size: 10Gi
+  enabled: false
 
 admin:
   existingSecret: grafana-admin
