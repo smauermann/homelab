@@ -62,12 +62,19 @@ plugins:
 datasources:
   datasources.yaml:
     apiVersion: 1
+    deleteDatasources:
+      - name: Prometheus
+        orgId: 1
     datasources:
-      - name: VictoriaMetrics
-        type: victoriametrics-metrics-datasource
+      - name: Prometheus
+        type: prometheus
         access: proxy
         url: http://vmsingle-main.monitoring.svc.cluster.local:8429
         isDefault: true
+        jsonData:
+          timeInterval: "15s"
+          queryTimeout: "60s"
+          httpMethod: POST
 
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
@@ -141,13 +148,13 @@ dashboards:
       # renovate: depName="Node Exporter Full"
       gnetId: 1860
       revision: 37
-      datasource: VictoriaMetrics
+      datasource: Prometheus
     longhorn:
       gnetId: 16888
       revision: 9
       datasource:
         - name: DS_PROMETHEUS
-          value: VictoriaMetrics
+          value: Prometheus
 #    node-feature-discovery:
 #      url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
 #      datasource: VictoriaMetrics
