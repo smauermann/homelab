@@ -44,3 +44,7 @@ ingress:
 # this breaks argocd
 preUpgradeChecker:
   jobEnabled: false
+
+metrics:
+  serviceMonitor:
+    enabled: true
