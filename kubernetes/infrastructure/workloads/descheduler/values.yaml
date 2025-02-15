@@ -63,5 +63,8 @@ deschedulerPolicy:
             - RemovePodsViolatingNodeAffinity
             - RemovePodsViolatingNodeTaints
 
+service:
+  enabled: true
+
 serviceMonitor:
   enabled: true
