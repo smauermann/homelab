@@ -145,6 +145,12 @@ dashboards:
       gnetId: 1860
       revision: 37
       datasource: VictoriaMetrics
+    longhorn:
+      gnetId: 16888
+      revision: 9
+      datasource:
+        - name: DS_PROMETHEUS
+          value: VictoriaMetrics
 #    node-feature-discovery:
 #      url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
 #      datasource: VictoriaMetrics
