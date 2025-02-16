@@ -1,7 +1,3 @@
-global:
-  # -- Cluster label to use for dashboards and rules
-  clusterLabel: homelab
-
 fullnameOverride: victoria-metrics-stack
 
 victoria-metrics-operator:
