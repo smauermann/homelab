@@ -162,6 +162,8 @@ cluster:
       key: ENC[AES256_GCM,data:QRuK2QBBXUKl9XP0BPBK9zA3xAhLZs0Cvdti11K8l71t5sjfApf8ePwvWUiK75zghcauYLVRrsdi0k4WZrZcDoFKS16R7bbu/nW8oUb549WwScaDM03gdKUEn1oq+U/VE/I7NMsKv0PMG6BJb6KH7TtRGJJqyqP6LQEurZo2AXA8LiDZ7sYwTklFh3CeGl6a4zOHFm8fd2FLdJMHnPJI010JV7nZ6fPg3gPvsxbklYIbf4+Tqn5yRX0JjsOECwsbo9vyAfxQinMkzQcRllxi4SMYPWryeNWm+6GYFMRgLwl/fhZTOxtjUqlzsg8np/x7IsZAXmRT+DHxyZ1R21ESHuYbI4JJy3iEzdYXxIx+FoHHl8GVm4eoR6BSwSQdbvDZfQN2cwaMFb2ANFk0k+eW2w==,iv:QIx4LqQjDzJ/tB9oppaI+uB8PTieZkY3Yziyh8XwKSI=,tag:YTJIlPF6WqQE4eXzbl/MxQ==,type:str]
     advertisedSubnets:
       - "192.168.178.0/24"
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
   inlineManifests: []
   allowSchedulingOnControlPlanes: true
 sops:

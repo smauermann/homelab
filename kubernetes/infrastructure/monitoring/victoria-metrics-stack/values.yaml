@@ -228,6 +228,13 @@ coreDns:
 
 kubeEtcd:
   enabled: true
+  endpoints:
+    - 192.168.178.100
+    - 192.168.178.101
+    - 192.168.178.102
+  service:
+    port: 2381
+    targetPort: 2381
 
 kubeScheduler:
   enabled: true
