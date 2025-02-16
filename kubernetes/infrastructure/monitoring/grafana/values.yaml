@@ -50,9 +50,8 @@ env: {}
 
 ## Pass the plugins you want installed as a list.
 plugins:
-  # - victoriametrics-metrics-datasource
-  # - digrich-bubblechart-panel
-  # - grafana-clock-panel
+  - grafana-clock-panel
+  - victoriametrics-metrics-datasource
   ## You can also use other plugin download URL, as long as they are valid zip files,
   ## and specify the name of the plugin after the semicolon. Like this:
   # - https://grafana.com/api/plugins/marcusolsson-json-datasource/versions/1.3.2/download;marcusolsson-json-datasource
@@ -71,7 +70,7 @@ datasources:
       - name: Prometheus
         type: prometheus
         access: proxy
-        url: http://vmsingle-main.monitoring.svc.cluster.local:8429
+        url: http://vmsingle-victoria-metrics-stack.monitoring.svc.cluster.local:8429
         isDefault: true
         jsonData:
           timeInterval: "15s"
