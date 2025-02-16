@@ -66,6 +66,7 @@ vmsingle:
       gethomepage.dev/group: Monitoring
       gethomepage.dev/icon: victoria-metrics.png
       gethomepage.dev/name: VictoriaMetrics
+    path: /vmui
     hosts:
       - vm.costanza.cloud
     tls:
