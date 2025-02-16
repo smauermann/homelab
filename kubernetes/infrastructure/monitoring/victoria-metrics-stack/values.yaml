@@ -31,6 +31,8 @@ victoria-metrics-operator:
 defaultDashboards:
   enabled: true
   defaultTimezone: utc
+  labels:
+    grafana_dashboard: ""
 
 defaultRules:
   create: true
@@ -160,6 +162,9 @@ vmagent:
 
 grafana:
   enabled: false
+  sidecar:
+    datasources:
+      enabled: true
 
 prometheus-node-exporter:
   enabled: true

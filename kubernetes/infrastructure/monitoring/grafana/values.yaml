@@ -186,6 +186,7 @@ sidecar:
   dashboards:
     enabled: true
     label: grafana_dashboard
+    labelValue: ""
     searchNamespace: ALL
     provider:
       # disableDelete to activate a import-only behaviour
