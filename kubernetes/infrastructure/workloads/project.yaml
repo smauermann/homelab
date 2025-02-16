@@ -11,12 +11,15 @@ spec:
     - https://intel.github.io/helm-charts/
     - https://kubernetes-sigs.github.io/node-feature-discovery/charts
     - https://kubernetes-sigs.github.io/descheduler
+    - https://kubernetes-sigs.github.io/metrics-server
   destinations:
     - namespace: argocd
       server: '*'
     - namespace: descheduler
       server: '*'
     - namespace: intel-device-plugins
+      server: '*'
+    - namespace: kube-system
       server: '*'
     - namespace: node-feature-discovery
       server: '*'
