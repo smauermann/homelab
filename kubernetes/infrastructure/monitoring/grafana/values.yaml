@@ -99,11 +99,6 @@ dashboardProviders:
 ## dashboards per provider, use provider name as key.
 dashboards:
   default:
-#    cert-manager:
-#      # renovate: depName="Cert-manager-Kubernetes"
-#      gnetId: 20842
-#      revision: 3
-#      datasource: VictoriaMetrics
 #    cloudflared:
 #      # renovate: depName="Cloudflare Tunnels (cloudflared)"
 #      gnetId: 17457
@@ -145,6 +140,11 @@ dashboards:
 #      gnetId: 11454
 #      revision: 14
 #      datasource: Prometheus
+    cert-manager:
+      # renovate: depName="Cert-manager-Kubernetes"
+      gnetId: 20842
+      revision: 3
+      datasource: Prometheus
     node-exporter-full:
       # renovate: depName="Node Exporter Full"
       gnetId: 1860
