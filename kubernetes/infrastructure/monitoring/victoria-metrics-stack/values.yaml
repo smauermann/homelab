@@ -62,7 +62,7 @@ vmsingle:
       gethomepage.dev/description: Metrics
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
-      gethomepage.dev/icon: victoria-metrics.png
+      gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmsingle"
     hosts:
@@ -92,7 +92,7 @@ alertmanager:
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
-      gethomepage.dev/icon: victoria-metrics.png
+      gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Alertmanager
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
     hosts:
@@ -118,7 +118,7 @@ vmalert:
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
-      gethomepage.dev/icon: victoria-metrics.png
+      gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Alert
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalert"
     hosts:
@@ -149,7 +149,7 @@ vmagent:
       gethomepage.dev/description: Metrics Scraping
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
-      gethomepage.dev/icon: victoria-metrics.png
+      gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Agent
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmagent"
     hosts:
