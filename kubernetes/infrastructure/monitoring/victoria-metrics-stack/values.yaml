@@ -85,7 +85,7 @@ alertmanager:
     receivers:
       - name: blackhole
   ingress:
-    enabled: false
+    enabled: true
     ingressClassName: cilium
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -116,7 +116,7 @@ vmalert:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Alerts
-      gethomepage.dev/enabled: "true"
+      gethomepage.dev/enabled: "false"
       gethomepage.dev/group: Monitoring
       gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Alert
