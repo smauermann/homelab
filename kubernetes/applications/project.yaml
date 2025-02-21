@@ -7,9 +7,11 @@ spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
   destinations:
-    - namespace: 'argocd'
+    - namespace: argocd
       server: '*'
     - namespace: homepage-dashboard
+      server: '*'
+    - namespace: mealie
       server: '*'
     - namespace: ntfy
       server: '*'

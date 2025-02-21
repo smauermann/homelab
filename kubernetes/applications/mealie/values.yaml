@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.71/charts/other/app-template/values.schema.json
+controllers:
+  mealie:
+    pod:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    containers:
+      app:
+        image:
+          repository: ghcr.io/mealie-recipes/mealie
+          tag: v2.6.0
+        env:
+          BASE_URL: https://mealie.costanza.cloud
+          API_DOCS: false
+#          OIDC_AUTH_ENABLED: true
+#          OIDC_SIGNUP_ENABLED: true
+#          OIDC_CONFIGURATION_URL: https://auth.${DOMAIN}/.well-known/openid-configuration
+#          OIDC_CLIENT_ID: mealie
+#          OIDC_USER_CLAIM: preferred_username
+#          OIDC_AUTO_REDIRECT: false
+#          OIDC_GROUPS_CLAIM: groups
+#          OIDC_ADMIN_GROUP: admins
+#          OIDC_USER_GROUP: family
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 400Mi
+          limits:
+            memory: 600Mi
+
+service:
+  app:
+    controller: mealie
+    ports:
+      http:
+        port: 9000
+
+ingress:
+  app:
+    className: cilium
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/description: Recipes
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Personal
+      gethomepage.dev/icon: mealie.png
+      gethomepage.dev/name: Mealie
+    hosts:
+      - host: &host mealie.costanza.cloud
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - *host
+        secretName: mealie-tls
+
+persistence:
+  config:
+    existingClaim: mealie-data
+    globalMounts:
+      - path: /app/data
