@@ -14,13 +14,11 @@ spec:
     - https://kubernetes-sigs.github.io/metrics-server
     - oci://ghcr.io/actions/actions-runner-controller-charts
   destinations:
-    - namespace: actions-runner-controller
+    - namespace: actions-runner-system
       server: '*'
     - namespace: argocd
       server: '*'
     - namespace: descheduler
-      server: '*'
-    - namespace: homelab-runner
       server: '*'
     - namespace: intel-device-plugins
       server: '*'
