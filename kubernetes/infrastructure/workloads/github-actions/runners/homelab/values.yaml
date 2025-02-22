@@ -1,0 +1,29 @@
+githubConfigUrl: https://github.com/smauermann/homelab
+githubConfigSecret: github-app-credentials
+minRunners: 1
+maxRunners: 3
+containerMode:
+  type: kubernetes
+  kubernetesModeWorkVolumeClaim:
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: longhorn-single-replica
+    resources:
+      requests:
+        storage: 25Gi
+controllerServiceAccount:
+  name: actions-runner-controller
+  namespace: actions-runner-controller
+template:
+  spec:
+    serviceAccountName: homelab-runner
+    containers:
+      - name: runner
+        image: ghcr.io/onedr0p/actions-runner:2.322.0@sha256:01162b8a1e1a562b5b29a5ee198b0bddb9eed85a6f22d6533e9cf08d42851b47
+        command: ["/home/runner/run.sh"]
+        env:
+          - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+            value: "false"
+          - name: NODE
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP

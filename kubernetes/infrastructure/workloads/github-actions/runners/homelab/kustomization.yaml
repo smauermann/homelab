@@ -7,10 +7,10 @@ resources:
   - rbac.yaml
   - github-app-credentials.yaml
 
-#helmCharts:
-#  - name: gha-runner-scale-set
-#    repo: oci://ghcr.io/actions/actions-runner-controller-charts
-#    version: 0.10.1
-#    releaseName: homelab-runner
-#    namespace: homelab-runner
-#    valuesFile: values.yaml
+helmCharts:
+  - name: gha-runner-scale-set
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
+    version: 0.10.1
+    releaseName: homelab-runner
+    namespace: homelab-runner
+    valuesFile: values.yaml
