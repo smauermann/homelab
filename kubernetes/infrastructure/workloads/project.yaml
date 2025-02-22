@@ -20,6 +20,8 @@ spec:
       server: '*'
     - namespace: descheduler
       server: '*'
+    - namespace: homelab-runner
+      server: '*'
     - namespace: intel-device-plugins
       server: '*'
     - namespace: kube-system
