@@ -2,4 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - homelab
+  - rbac.yaml
+
+helmCharts:
+  - name: gha-runner-scale-set
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
+    version: 0.10.1
+    releaseName: homelab-runner
+    namespace: actions-runner-system
+    valuesFile: values.yaml
