@@ -4,6 +4,7 @@ namespace: actions-runner-controller
 
 resources:
   - namespace.yaml
+  - github-app-credentials.yaml
 
 helmCharts:
   - name: gha-runner-scale-set-controller
