@@ -16,7 +16,7 @@ spec:
   destinations:
     - namespace: arc-runners
       server: '*'
-    - namespace: arc-systems
+    - namespace: arc-system
       server: '*'
     - namespace: argocd
       server: '*'
