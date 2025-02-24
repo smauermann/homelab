@@ -4,7 +4,6 @@ namespace: &namespace arc-system
 
 resources:
   - namespace.yaml
-  - github-app-credentials.yaml
 
 helmCharts:
   - name: gha-runner-scale-set-controller
