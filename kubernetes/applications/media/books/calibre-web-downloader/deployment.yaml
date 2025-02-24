@@ -4,6 +4,7 @@ metadata:
   name: calibre-web-downloader
 spec:
   selector: {}
+  replicas: 0
   template:
     spec:
       securityContext:
