@@ -1,7 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: &namespace arc-runners
 
 resources:
+  - namespace.yaml
+  - github-app-credentials.yaml
   - rbac.yaml
 
 helmCharts:
@@ -9,5 +12,5 @@ helmCharts:
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     version: 0.10.1
     releaseName: homelab-runner
-    namespace: actions-runner-system
+    namespace: *namespace
     valuesFile: values.yaml

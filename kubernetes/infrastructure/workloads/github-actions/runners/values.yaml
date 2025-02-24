@@ -12,7 +12,7 @@ containerMode:
         storage: 25Gi
 controllerServiceAccount:
   name: actions-runner-controller
-  namespace: actions-runner-system
+  namespace: arc-systems
 template:
   spec:
     serviceAccountName: homelab-runner
