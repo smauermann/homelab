@@ -4,7 +4,6 @@ namespace: &namespace arc-runners
 
 resources:
   - namespace.yaml
-  - github-app-credentials.yaml
   - rbac.yaml
 
 helmCharts:
