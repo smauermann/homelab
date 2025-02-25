@@ -12,13 +12,42 @@ jobs:
   hello:
     runs-on: homelab-runner
     steps:
-      - name: Echo Hello World
-        run: echo "Hello, world!"
-      - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-      - name: install argocd
-        run: brew install argocd
-      - name: argocd version
-        run: argocd version --core
-      - name: argocd login
-        run: argocd login cd.argoproj.io --core
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git checkout -b base_branch origin/${{ github.event.pull_request.base.ref }}
+
+      - name: Install Kustomize
+        run: |
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/latest/download/kustomize-linux-amd64 -o /usr/local/bin/kustomize
+          chmod +x /usr/local/bin/kustomize
+
+      - name: ls
+        run: ls
+
+#      - name: Render manifests for PR branch
+#        run: |
+#          mkdir -p /tmp/manifests/pr
+#          kustomize build ./path/to/kustomization > /tmp/manifests/pr/output.yaml
+#
+#      - name: Render manifests for base branch
+#        run: |
+#          git checkout base_branch
+#          mkdir -p /tmp/manifests/base
+#          kustomize build ./path/to/kustomization > /tmp/manifests/base/output.yaml
+#
+#      - name: Generate diff
+#        run: |
+#          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
+#        id: diff
+#
+#      - name: Post diff as PR comment
+#        uses: mshick/add-pr-comment@v2
+#        with:
+#          message: "```diff\n${{ steps.diff.outputs.stdout }}\n```"
+#          repo-token: ${{ secrets.GITHUB_TOKEN }}
