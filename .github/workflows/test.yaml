@@ -35,12 +35,14 @@ jobs:
         run: |
           mkdir -p /tmp/manifests/pr
           kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/pr/output.yaml
+          cat /tmp/manifests/pr/output.yaml
 
       - name: Render manifests for base branch
         run: |
           git checkout main
           mkdir -p /tmp/manifests/base
           kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/base/output.yaml
+          cat /tmp/manifests/base/output.yaml
 
       - name: Generate diff
         run: |
