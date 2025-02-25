@@ -31,22 +31,22 @@ jobs:
       - name: ls
         run: ls
 
-#      - name: Render manifests for PR branch
-#        run: |
-#          mkdir -p /tmp/manifests/pr
-#          kustomize build ./path/to/kustomization > /tmp/manifests/pr/output.yaml
-#
-#      - name: Render manifests for base branch
-#        run: |
-#          git checkout base_branch
-#          mkdir -p /tmp/manifests/base
-#          kustomize build ./path/to/kustomization > /tmp/manifests/base/output.yaml
-#
-#      - name: Generate diff
-#        run: |
-#          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
-#        id: diff
-#
+      - name: Render manifests for PR branch
+        run: |
+          mkdir -p /tmp/manifests/pr
+          kustomize build ./kubernetes/applications/mealie > /tmp/manifests/pr/output.yaml
+
+      - name: Render manifests for base branch
+        run: |
+          git checkout main
+          mkdir -p /tmp/manifests/base
+          kustomize build ./kubernetes/applications/mealie > /tmp/manifests/base/output.yaml
+
+      - name: Generate diff
+        run: |
+          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
+        id: diff
+
 #      - name: Post diff as PR comment
 #        uses: mshick/add-pr-comment@v2
 #        with:
