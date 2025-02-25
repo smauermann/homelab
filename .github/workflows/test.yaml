@@ -14,5 +14,7 @@ jobs:
     steps:
       - name: Echo Hello World
         run: echo "Hello, world!"
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
       - name: install argocd
         run: brew install argocd
