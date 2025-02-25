@@ -14,3 +14,5 @@ jobs:
     steps:
       - name: Echo Hello World
         run: echo "Hello, world!"
+      - name: install argocd
+        run: brew install argocd
