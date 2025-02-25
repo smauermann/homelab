@@ -19,6 +19,6 @@ jobs:
       - name: install argocd
         run: brew install argocd
       - name: argocd version
-        run: argocd version --cluster argocd.costanza.cloud
+        run: argocd version --core
       - name: argocd login
         run: argocd login cd.argoproj.io --core
