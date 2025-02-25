@@ -22,10 +22,11 @@ jobs:
           git fetch origin ${{ github.event.pull_request.base.ref }}
           git checkout -b base_branch origin/${{ github.event.pull_request.base.ref }}
 
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
       - name: Install Kustomize
-        run: |
-          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/latest/download/kustomize-linux-amd64 -o /usr/local/bin/kustomize
-          chmod +x /usr/local/bin/kustomize
+        run: brew install kustomize
 
       - name: ls
         run: ls
