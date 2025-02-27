@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: valkey
     repo:  oci://registry-1.docker.io/bitnamicharts
-    version: 2.4.0
+    version: 2.4.1
     releaseName: unbound-cache
     namespace: dns
     valuesFile: values.yaml
