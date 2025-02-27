@@ -11,6 +11,7 @@ on: pull_request
 jobs:
   build:
     runs-on: homelab-runner
+    permissions: write-all
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
