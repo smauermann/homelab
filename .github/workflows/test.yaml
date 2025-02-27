@@ -17,10 +17,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Checkout base branch
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          git checkout -b base_branch origin/${{ github.event.pull_request.base.ref }}
+
 
       - name: Setup Homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -28,18 +25,19 @@ jobs:
       - name: Install tools
         run: brew install kustomize helm
 
-      - name: ls
-        run: ls
-
       - name: Render manifests for PR branch
         run: |
           mkdir -p /tmp/manifests/pr
           kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/pr/output.yaml
           cat /tmp/manifests/pr/output.yaml
 
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git checkout -b base_branch origin/${{ github.event.pull_request.base.ref }}
+
       - name: Render manifests for base branch
         run: |
-          git checkout main
           mkdir -p /tmp/manifests/base
           kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/base/output.yaml
           cat /tmp/manifests/base/output.yaml
