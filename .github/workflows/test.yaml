@@ -9,21 +9,13 @@ name: test
 on: pull_request
 
 jobs:
-  hello:
+  build:
     runs-on: homelab-runner
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-
-
-
-      - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
-      - name: Install tools
-        run: brew install kustomize helm
 
       - name: Render manifests for PR branch
         run: |
@@ -43,12 +35,23 @@ jobs:
           cat /tmp/manifests/base/output.yaml
 
       - name: Generate diff
-        run: |
-          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
         id: diff
+        run: diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
 
-#      - name: Post diff as PR comment
-#        uses: mshick/add-pr-comment@v2
-#        with:
-#          message: "```diff\n${{ steps.diff.outputs.stdout }}\n```"
-#          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Diff
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Diff
+            #todo
+          edit-mode: replace
