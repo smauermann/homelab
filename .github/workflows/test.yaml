@@ -37,7 +37,7 @@ jobs:
 
       - name: Generate diff
         id: diff
-        run: diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true
+        run: echo "diff=$(diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true)" >> $GITHUB_OUTPUT
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
@@ -54,5 +54,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Diff
-            #todo
+            ```
+            ${{ steps.diff.outputs.diff }}
+            ```
           edit-mode: replace
