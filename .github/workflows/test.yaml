@@ -5,23 +5,27 @@
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
 
-name: test
-on: pull_request
+name: Diff
+
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   changed:
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    runs-on: homelab-runner
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get all changed kubernetes files
+      - name: Get all changed Kubernetes files
         id: changed-kubernetes-files
         uses: tj-actions/changed-files@v45
         with:
           files: |
             kubernetes/**
 
-      - name: List all changed files
+      - name: List all changed Kubernetes files
         if: steps.changed-kubernetes-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-kubernetes-files.outputs.all_changed_files }}
