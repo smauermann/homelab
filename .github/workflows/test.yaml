@@ -37,7 +37,20 @@ jobs:
 
       - name: Generate diff
         id: diff
-        run: echo "diff=$(diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true)" >> $GITHUB_OUTPUT
+        run: |
+          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true > diff.patch
+          cat diff.patch;
+          {
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo EOF
+          } >> "$GITHUB_OUTPUT";
+          {
+              echo "### Diff"
+              echo '```diff'
+              cat diff.patch
+              echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
@@ -45,7 +58,6 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Diff
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
@@ -54,7 +66,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Diff
-            ```
+            ```diff
             ${{ steps.diff.outputs.diff }}
             ```
           edit-mode: replace
