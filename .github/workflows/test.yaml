@@ -34,11 +34,12 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u main.yaml pr.yaml || true > diff.patch
-          cat diff.patch
-          echo 'diff<<EOF' >> "$GITHUB_OUTPUT"
-          cat diff.patch >> "$GITHUB_OUTPUT"
-          echo EOF >> "$GITHUB_OUTPUT"
+          diff -u main.yaml pr.yaml > diff.patch
+          {
+            echo 'diff<<EOF'
+            cat diff.patch
+            echo EOF
+          }  >> "$GITHUB_OUTPUT"
           {
               echo "### Diff"
               echo '```diff'
