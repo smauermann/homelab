@@ -11,8 +11,7 @@ on: pull_request
 jobs:
   diff:
     runs-on: homelab-runner
-    permissions:
-      pull-requests: write
+    permissions: write-all
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
