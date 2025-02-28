@@ -9,9 +9,10 @@ name: test
 on: pull_request
 
 jobs:
-  build:
+  diff:
     runs-on: homelab-runner
-    permissions: write-all
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
@@ -20,9 +21,7 @@ jobs:
 
       - name: Render manifests for PR branch
         run: |
-          mkdir -p /tmp/manifests/pr
-          kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/pr/output.yaml
-          cat /tmp/manifests/pr/output.yaml
+          kustomize build --enable-helm ./kubernetes/applications/mealie > pr.yaml
 
       - name: Checkout base branch
         run: |
@@ -31,26 +30,22 @@ jobs:
 
       - name: Render manifests for base branch
         run: |
-          mkdir -p /tmp/manifests/base
-          kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/manifests/base/output.yaml
-          cat /tmp/manifests/base/output.yaml
+          kustomize build --enable-helm ./kubernetes/applications/mealie > main.yaml
 
       - name: Generate diff
         id: diff
         run: |
-          diff -u /tmp/manifests/base/output.yaml /tmp/manifests/pr/output.yaml || true > diff.patch
-          cat diff.patch;
+          diff -u main.yaml pr.yaml || true > diff.patch
+          cat diff.patch
+          echo 'diff<<EOF' >> "$GITHUB_OUTPUT"
+          cat diff.patch >> "$GITHUB_OUTPUT"
+          echo EOF >> "$GITHUB_OUTPUT"
           {
-              echo 'diff<<EOF'
+              echo "### Diff"
+              echo '```diff'
               cat diff.patch
-              echo EOF
-          } >> "$GITHUB_OUTPUT";
-          # {
-          #     echo "### Diff"
-          #     echo '```diff'
-          #     cat diff.patch
-          #     echo '```'
-          # } >> "$GITHUB_STEP_SUMMARY"
+              echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
