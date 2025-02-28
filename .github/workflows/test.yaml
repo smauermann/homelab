@@ -35,17 +35,18 @@ jobs:
         id: diff
         run: |
           diff -u main.yaml pr.yaml > diff.patch;
-          {
-              echo 'diff<<EOF'
-              cat diff.patch
-              echo EOF
-          }  >> "$GITHUB_OUTPUT";
-          {
-              echo "### Diff"
-              echo '```diff'
-              cat diff.patch
-              echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          cat diff.patch
+#          {
+#              echo 'diff<<EOF'
+#              cat diff.patch
+#              echo EOF
+#          }  >> "$GITHUB_OUTPUT";
+#          {
+#              echo "### Diff"
+#              echo '```diff'
+#              cat diff.patch
+#              echo '```'
+#          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
