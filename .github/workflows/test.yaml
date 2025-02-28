@@ -9,14 +9,32 @@ name: test
 on: pull_request
 
 jobs:
+  changed:
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get all changed kubernetes files
+        id: changed-kubernetes-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            kubernetes/**
+
+      - name: List all changed files
+        if: steps.changed-kubernetes-files.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-kubernetes-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
+
   diff:
     runs-on: homelab-runner
     permissions: write-all
     steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/checkout@v4
 
       - name: Render manifests for PR branch
         run: |
@@ -63,7 +81,6 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Diff
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
