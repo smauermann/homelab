@@ -20,7 +20,8 @@ jobs:
 
       - name: Render manifests for PR branch
         run: |
-          kustomize build --enable-helm ./kubernetes/applications/mealie > pr.yaml
+          mkdir -p /tmp/diff/mealie/pr
+          kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/diff/mealie/pr/manifest.yaml
 
       - name: Checkout base branch
         run: |
@@ -29,24 +30,25 @@ jobs:
 
       - name: Render manifests for base branch
         run: |
-          kustomize build --enable-helm ./kubernetes/applications/mealie > main.yaml
+          mkdir -p /tmp/diff/mealie/main
+          kustomize build --enable-helm ./kubernetes/applications/mealie > /tmp/diff/mealie/main/manifest.yaml
 
       - name: Generate diff
         id: diff
         run: |
-          diff -u main.yaml pr.yaml > diff.patch;
+          diff -u /tmp/diff/mealie/main/manifest.yaml /tmp/diff/mealie/pr/manifest.yaml > diff.patch
           cat diff.patch
-#          {
-#              echo 'diff<<EOF'
-#              cat diff.patch
-#              echo EOF
-#          }  >> "$GITHUB_OUTPUT";
-#          {
-#              echo "### Diff"
-#              echo '```diff'
-#              cat diff.patch
-#              echo '```'
-#          } >> "$GITHUB_STEP_SUMMARY"
+          {
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo EOF
+          }  >> "$GITHUB_OUTPUT";
+          {
+              echo "### Diff"
+              echo '```diff'
+              cat diff.patch
+              echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
