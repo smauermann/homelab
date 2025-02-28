@@ -36,9 +36,9 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          cat /tmp/diff/mealie/main/manifest.yaml
-          cat /tmp/diff/mealie/pr/manifest.yaml
-#          diff -u /tmp/diff/mealie/main/manifest.yaml /tmp/diff/mealie/pr/manifest.yaml > diff.patch
+#          cat /tmp/diff/mealie/main/manifest.yaml
+#          cat /tmp/diff/mealie/pr/manifest.yaml
+          diff -u /tmp/diff/mealie/main/manifest.yaml /tmp/diff/mealie/pr/manifest.yaml
 #          cat diff.patch
 #          {
 #              echo 'diff<<EOF'
