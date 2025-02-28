@@ -36,9 +36,9 @@ jobs:
         run: |
           diff -u main.yaml pr.yaml > diff.patch;
           {
-            echo 'diff<<EOF'
-            cat diff.patch
-            echo EOF
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo EOF
           }  >> "$GITHUB_OUTPUT";
           {
               echo "### Diff"
