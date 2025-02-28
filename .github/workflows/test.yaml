@@ -45,12 +45,12 @@ jobs:
               cat diff.patch
               echo EOF
           } >> "$GITHUB_OUTPUT";
-          {
-              echo "### Diff"
-              echo '```diff'
-              cat diff.patch
-              echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          # {
+          #     echo "### Diff"
+          #     echo '```diff'
+          #     cat diff.patch
+          #     echo '```'
+          # } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
