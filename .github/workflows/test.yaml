@@ -36,21 +36,19 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u /tmp/diff/mealie/main/manifest.yaml /tmp/diff/mealie/pr/manifest.yaml
-#          cat /tmp/diff/mealie/main/manifest.yaml
-#          cat /tmp/diff/mealie/pr/manifest.yaml
-#          cat diff.patch
-#          {
-#              echo 'diff<<EOF'
-#              cat diff.patch
-#              echo EOF
-#          }  >> "$GITHUB_OUTPUT";
-#          {
-#              echo "### Diff"
-#              echo '```diff'
-#              cat diff.patch
-#              echo '```'
-#          } >> "$GITHUB_STEP_SUMMARY"
+          diff -u /tmp/diff/mealie/main/manifest.yaml /tmp/diff/mealie/pr/manifest.yaml > diff.patch || true
+          cat diff.patch
+          {
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo EOF
+          }  >> "$GITHUB_OUTPUT";
+          {
+              echo "### Diff"
+              echo '```diff'
+              cat diff.patch
+              echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
 #      - name: Find Comment
 #        uses: peter-evans/find-comment@v3
