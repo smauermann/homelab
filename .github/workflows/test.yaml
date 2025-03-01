@@ -34,9 +34,6 @@ jobs:
     runs-on: homelab-runner
     needs: changed
     if: ${{ needs.changed.outputs.any_changed == 'true' }}
-    strategy:
-      matrix:
-        apps: []
     permissions:
       contents: read
       pull-requests: write
