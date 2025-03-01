@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       any_changed: ${{ steps.changed-files.outputs.any_changed }}
-      changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+      changed_files: ${{ steps.build-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,12 +22,14 @@ jobs:
         with:
           files: kubernetes/**
 
-      - name: List all changed files
+      - name: Build Diff Matrix
+        id: build-matrix
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           echo $ALL_CHANGED_FILES | tr ' ' ','
-          echo "changed_files={\"apps\": [$(echo -n $ALL_CHANGED_FILES | tr ' ' ',')]}"
+          echo "matrix={\"apps\": [$(echo "\"$(echo "$ALL_CHANGED_FILES" | sed 's/ /","/g')\"")]}"
+          echo "matrix={\"apps\": [$(echo "\"$(echo "$ALL_CHANGED_FILES" | sed 's/ /","/g')\"")]}" >> "$GITHUB_OUTPUT"
 
   diff:
     name: Render Diff
