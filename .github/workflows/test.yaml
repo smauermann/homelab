@@ -73,6 +73,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
+          body-includes: Here's what's changed
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
@@ -80,6 +81,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
+            ### Here's what's changed :shipit:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
