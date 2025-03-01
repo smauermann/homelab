@@ -30,7 +30,8 @@ jobs:
           # Extract unique directories and format as JSON array
           DIRS_JSON=$(echo "$ALL_CHANGED_FILES" | xargs -n1 dirname | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
-          echo "matrix={\"directory\":$DIRS_JSON}" >> $GITHUB_OUTPUT
+          echo "matrix={\"apps\":$DIRS_JSON}"
+          echo "matrix={\"apps\":$DIRS_JSON}" >> $GITHUB_OUTPUT
 
   diff:
     name: Render Diff
