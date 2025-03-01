@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       any_changed: ${{ steps.changed-files.outputs.any_changed }}
-      matrix: ${{ steps.build-matrix.outputs.matrix }}
+      matrix: ${{ steps.setup-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,15 +22,14 @@ jobs:
         with:
           files: kubernetes/**
 
-      - name: Build Diff Matrix
-        id: build-matrix
+      - name: Set up Diff Matrix
+        id: setup-matrix
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           # Extract unique directories and format as JSON array
           DIRS_JSON=$(echo "$ALL_CHANGED_FILES" | xargs -n1 dirname | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
-          echo "matrix={\"apps\":$DIRS_JSON}"
           echo "matrix={\"apps\":$DIRS_JSON}" >> $GITHUB_OUTPUT
 
   diff:
@@ -38,6 +37,8 @@ jobs:
     runs-on: homelab-runner
     needs: changed
     if: ${{ needs.changed.outputs.any_changed == 'true' }}
+    strategy:
+      matrix: ${{ fromJSON(needs.changed.outputs.matrix) }}
     permissions:
       contents: read
       pull-requests: write
@@ -56,11 +57,11 @@ jobs:
 
       - name: Render manifests for PR branch
         run: |
-          kustomize build --enable-helm pull/kubernetes/applications/mealie > pull/manifests.yaml
+          kustomize build --enable-helm pull/${{ matrix.apps }} > pull/manifests.yaml
 
       - name: Render manifests for base branch
         run: |
-          kustomize build --enable-helm default/kubernetes/applications/mealie > default/manifests.yaml
+          kustomize build --enable-helm default/${{ matrix.apps }} > default/manifests.yaml
 
       - name: Generate diff
         id: diff
@@ -85,7 +86,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Here's what's changed
+          body-includes: Here's what's changed in `${{ matrix.apps }}`
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
@@ -93,7 +94,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ### Here's what's changed :shipit:
+            ### Here's what's changed in `${{ matrix.apps }}` :shipit:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
