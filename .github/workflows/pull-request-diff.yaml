@@ -40,6 +40,7 @@ jobs:
     if: ${{ needs.changed.outputs.any_changed == 'true' }}
     strategy:
       matrix: ${{ fromJSON(needs.changed.outputs.matrix) }}
+      max-parallel: 4
     permissions:
       contents: read
       pull-requests: write
