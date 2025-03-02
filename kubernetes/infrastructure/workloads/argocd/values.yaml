@@ -19,9 +19,11 @@ configs:
   rbac:
     policy.csv: |
       g, argocd:admins, role:admin
+      g, githubActions, role:readonly
 
   cm:
     url: https://argocd.costanza.cloud
+    accounts.githubActions: apiKey
     oidc.config: |
       name: 'Authelia'
       issuer: 'https://authelia.costanza.cloud'
