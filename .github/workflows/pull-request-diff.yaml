@@ -71,7 +71,7 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u default/manifests.yaml pull/manifests.yaml | head -n 500 > diff.patch || true
+          diff -u default/manifests.yaml pull/manifests.yaml | head -n 1000 > diff.patch || true
           cat diff.patch
           {
               echo 'diff<<EOF'
