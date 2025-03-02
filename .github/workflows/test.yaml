@@ -68,7 +68,7 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u default/manifests.yaml pull/manifests.yaml | head -n 100 > diff.patch || true
+          diff -u default/manifests.yaml pull/manifests.yaml | head -n 500 > diff.patch || true
           cat diff.patch
           {
               echo 'diff<<EOF'
@@ -88,7 +88,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Here's what's changed in `${{ matrix.apps }}`
+          body-includes: Diff for `${{ matrix.apps }}`
 
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v4
@@ -96,8 +96,11 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ### Here's what's changed in `${{ matrix.apps }}` :shipit:
+            ### Diff for `${{ matrix.apps }}`
+            <details>
+            <summary>${{ matrix.apps }}</summary>
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+            </details>
           edit-mode: replace
