@@ -2,6 +2,8 @@ name: Pull Request Diff
 
 on:
   pull_request:
+    paths:
+      - kubernetes/**
     branches:
       - main
 
