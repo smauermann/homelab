@@ -36,7 +36,6 @@ jobs:
 
   diff:
     name: Render Diff
-    runs-on: homelab-runner
     needs: changed
     if: ${{ needs.changed.outputs.any_changed == 'true' }}
     strategy:
@@ -44,6 +43,9 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/smauermann/actions-runner:2.322.0
 
     steps:
       - name: Checkout Pull Request Branch
@@ -97,10 +99,13 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ### Diff for `${{ matrix.apps }}`
+            
             <details>
             <summary>${{ matrix.apps }}</summary>
+            
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+            
             </details>
           edit-mode: replace
