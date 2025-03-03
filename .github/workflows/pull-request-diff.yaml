@@ -104,7 +104,7 @@ jobs:
             ### Diff for `${{ matrix.apps }}`
             
             <details>
-            <summary>${{ matrix.apps }}</summary>
+            <summary>Expand Diff</summary>
             
             ```diff
             ${{ steps.diff.outputs.diff }}
