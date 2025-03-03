@@ -71,7 +71,9 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u -I 'app\.kubernetes\.io\/version|helm\.sh\/chart|ca\.crt|ca\.key|tls\.crt|tls\.key' default/manifests.yaml pull/manifests.yaml | head -n 1000 > diff.patch || true
+          diff -u -I 'app\.kubernetes\.io\/version:' -I 'helm\.sh\/chart:' \
+            -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' \
+            default/manifests.yaml pull/manifests.yaml | head -n 1000 > diff.patch || true
           cat diff.patch
           {
               echo 'diff<<EOF'
