@@ -95,7 +95,7 @@ jobs:
         if: ${{ steps.diff.outputs.has_differences == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: diff-${{ matrix.apps }}
+          name: diff-${{ github.run_id }}
           path: diff.patch
           retention-days: 1
 
@@ -112,7 +112,7 @@ jobs:
         if: steps.diff.outputs.has_differences == 'true'
         uses: actions/download-artifact@v4
         with:
-          name: diff-${{ matrix.apps }}
+          name: diff-${{ github.run_id }}
           path: artifacts
 
       - name: Create comment
