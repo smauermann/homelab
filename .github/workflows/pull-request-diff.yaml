@@ -73,42 +73,68 @@ jobs:
         run: |
           diff -u -I 'app\.kubernetes\.io\/version:' -I 'helm\.sh\/chart:' \
             -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' -I 'caBundle:' \
-            default/manifests.yaml pull/manifests.yaml | head -n 1000 > diff.patch || true
-          cat diff.patch
-          {
-              echo 'diff<<EOF'
-              cat diff.patch
-              echo EOF
-          }  >> "$GITHUB_OUTPUT";
-          {
-              echo "### Diff"
-              echo '```diff'
-              cat diff.patch
-              echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+            default/manifests.yaml pull/manifests.yaml > artifacts/diff.patch || true
+          
+          # Check if diff is empty
+          if [ ! -s diff.patch ]; then
+            echo "has_differences=false" >> $GITHUB_OUTPUT
+            echo "No differences found in ${{ matrix.apps }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "has_differences=true" >> $GITHUB_OUTPUT
+            echo "Found differences in ${{ matrix.apps }}"
+            cat artifacts/diff.patch
+            {
+                echo "### Diff"
+                echo '```diff'
+                cat artifacts/diff.patch
+                echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload diff artifact
+        if: ${{ steps.diff.outputs.has_differences == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-${{ matrix.apps }}
+          path: artifacts/diff.patch
+          retention-days: 1
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: fc
+        if: ${{ steps.diff.outputs.has_differences == 'true' }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: Diff for `${{ matrix.apps }}`
 
-      - name: Create or update comment
+      - name: Download diff artifact
+        if: steps.diff.outputs.has_differences == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: diff-${{ matrix.apps }}
+          path: artifacts
+
+      - name: Create comment
+        if: steps.diff.outputs.has_differences == 'true'
+        run: |
+          DIFF_CONTENT=$(cat artifacts/diff.patch)
+          echo "### Diff for \`${{ matrix.apps }}\`
+          
+          <details>
+          <summary>Expand Diff</summary>
+          
+          \`\`\`diff
+          ${DIFF_CONTENT}
+          \`\`\`
+          
+          </details>" > comment.md
+
+      - name: Post comment
         uses: peter-evans/create-or-update-comment@v4
+        if: ${{ steps.diff.outputs.has_differences == 'true' }}
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ### Diff for `${{ matrix.apps }}`
-            
-            <details>
-            <summary>Expand Diff</summary>
-            
-            ```diff
-            ${{ steps.diff.outputs.diff }}
-            ```
-            
-            </details>
+          body-path: comment.md
           edit-mode: replace
