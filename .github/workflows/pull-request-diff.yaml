@@ -73,7 +73,7 @@ jobs:
         run: |
           diff -u -I 'app\.kubernetes\.io\/version:' -I 'helm\.sh\/chart:' \
             -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' -I 'caBundle:' \
-            default/manifests.yaml pull/manifests.yaml > artifacts/diff.patch || true
+            default/manifests.yaml pull/manifests.yaml > diff.patch || true
           
           # Check if diff is empty
           if [ ! -s diff.patch ]; then
@@ -82,11 +82,11 @@ jobs:
           else
             echo "has_differences=true" >> $GITHUB_OUTPUT
             echo "Found differences in ${{ matrix.apps }}"
-            cat artifacts/diff.patch
+            cat diff.patch
             {
                 echo "### Diff"
                 echo '```diff'
-                cat artifacts/diff.patch
+                cat diff.patch
                 echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -96,7 +96,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: diff-${{ matrix.apps }}
-          path: artifacts/diff.patch
+          path: diff.patch
           retention-days: 1
 
       - name: Find Comment
@@ -118,7 +118,7 @@ jobs:
       - name: Create comment
         if: steps.diff.outputs.has_differences == 'true'
         run: |
-          DIFF_CONTENT=$(cat artifacts/diff.patch)
+          DIFF_CONTENT=$(cat diff.patch)
           echo "### Diff for \`${{ matrix.apps }}\`
           
           <details>
