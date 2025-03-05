@@ -15,11 +15,30 @@ cgroup:
 ipam:
   mode: kubernetes
 
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+
+dashboards:
+  enabled: true
+  label: grafana_dashboard
+  labelValue: ""
+
 # Cilium operator config
 operator:
   replicas: 1  # Uncomment this if you only have one node
   # Roll out cilium-operator pods automatically when configmap is updated.
   rollOutPods: true
+  prometheus:
+    serviceMonitor:
+      enabled: true
+
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: ""
 
 # Roll out cilium agent pods automatically when ConfigMap is updated.
 rollOutCiliumPods: true
@@ -51,3 +70,4 @@ ingressController:
 # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
 socketLB:
   hostNamespaceOnly: true
+
