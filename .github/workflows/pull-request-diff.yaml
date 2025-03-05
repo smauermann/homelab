@@ -18,13 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get changed Files
+      - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
           files: kubernetes/**
 
-      - name: Set up Diff Matrix
+      - name: Set up diff matrix
         id: setup-matrix
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -49,12 +49,12 @@ jobs:
       image: ghcr.io/smauermann/actions-runner:2.322.0
 
     steps:
-      - name: Checkout Pull Request Branch
+      - name: Checkout pull request branch
         uses: actions/checkout@v4
         with:
           path: pull
 
-      - name: Checkout Default Branch
+      - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           ref: "${{ github.event.repository.default_branch }}"
@@ -91,15 +91,7 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload diff artifact
-        if: ${{ steps.diff.outputs.has_differences == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: diff-${{ github.run_id }}
-          path: diff.patch
-          retention-days: 1
-
-      - name: Find Comment
+      - name: Find comment
         uses: peter-evans/find-comment@v3
         id: fc
         if: ${{ steps.diff.outputs.has_differences == 'true' }}
@@ -108,15 +100,8 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: Diff for `${{ matrix.apps }}`
 
-      - name: Download diff artifact
-        if: steps.diff.outputs.has_differences == 'true'
-        uses: actions/download-artifact@v4
-        with:
-          name: diff-${{ github.run_id }}
-          path: artifacts
-
       - name: Create comment
-        if: steps.diff.outputs.has_differences == 'true'
+        if: ${{ steps.diff.outputs.has_differences == 'true'}}
         run: |
           DIFF_CONTENT=$(cat diff.patch)
           echo "### Diff for \`${{ matrix.apps }}\`
