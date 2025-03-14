@@ -62,11 +62,19 @@ jobs:
 
       - name: Render manifests for PR branch
         run: |
-          kustomize build --enable-helm pull/${{ matrix.apps }} > pull/manifests.yaml
+          if [ -d "pull/${{ matrix.apps }}" ]; then
+            kustomize build --enable-helm pull/${{ matrix.apps }} > pull/manifests.yaml
+          else
+            echo "" > pull/manifests.yaml
+          fi
 
       - name: Render manifests for base branch
         run: |
-          kustomize build --enable-helm default/${{ matrix.apps }} > default/manifests.yaml
+          if [ -d "default/${{ matrix.apps }}" ]; then
+            kustomize build --enable-helm default/${{ matrix.apps }} > default/manifests.yaml
+          else
+            echo "" > default/manifests.yaml
+          fi
 
       - name: Generate diff
         id: diff
