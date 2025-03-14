@@ -62,7 +62,7 @@ jobs:
 
       - name: Render manifests for PR branch
         run: |
-          if [ -d "pull/${{ matrix.apps }}" ]; then
+          if [ -d "pull/${{ matrix.apps }}" ] && [ -f "pull/${{ matrix.apps }}/kustomization.yaml" ]; then
             kustomize build --enable-helm pull/${{ matrix.apps }} > pull/manifests.yaml
           else
             echo "" > pull/manifests.yaml
@@ -70,7 +70,7 @@ jobs:
 
       - name: Render manifests for base branch
         run: |
-          if [ -d "default/${{ matrix.apps }}" ]; then
+          if [ -d "default/${{ matrix.apps }}" ] && [ -f "default/${{ matrix.apps }}/kustomization.yaml" ]; then
             kustomize build --enable-helm default/${{ matrix.apps }} > default/manifests.yaml
           else
             echo "" > default/manifests.yaml
