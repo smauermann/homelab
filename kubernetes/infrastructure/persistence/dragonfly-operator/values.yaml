@@ -1,12 +1,13 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.71/charts/other/app-template/values.schema.json
 controllers:
   dragonfly-operator:
+    replicas: 1
     strategy: RollingUpdate
     containers:
       app:
         image:
           repository: ghcr.io/dragonflydb/operator
-          tag: v1.1.7
+          tag: v1.1.10@sha256:3668b8ab7017b81b8b9747424f34ee3c583008c597855e068534cadad366326f
         command: ["/manager"]
         args:
           - --health-probe-bind-address=:8081
@@ -44,21 +45,18 @@ controllers:
           readOnlyRootFilesystem: true
           capabilities:
             drop: ["ALL"]
-
-defaultPodOptions:
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 65534
-    runAsGroup: 65534
-    seccompProfile: { type: RuntimeDefault }
-  topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/name: dragonfly-operator
-
+    pod:
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: dragonfly-operator
 service:
   app:
     controller: dragonfly-operator
@@ -81,3 +79,4 @@ serviceMonitor:
 serviceAccount:
   create: true
   name: dragonfly-operator
+

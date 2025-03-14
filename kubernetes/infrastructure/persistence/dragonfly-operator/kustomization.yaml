@@ -2,7 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  # renovate: github-releases=dragonflydb/dragonfly-operator
+  - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/v1.1.10/manifests/crd.yaml
   - namespace.yaml
+  - rbac.yaml
 
 helmCharts:
   - name: app-template
