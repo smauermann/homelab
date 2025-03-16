@@ -16,7 +16,7 @@ jobs:
       matrix: ${{ steps.setup-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Get changed files
         id: changed-files
@@ -50,12 +50,12 @@ jobs:
 
     steps:
       - name: Checkout pull request branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: pull
 
       - name: Checkout default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: "${{ github.event.repository.default_branch }}"
           path: default
@@ -100,7 +100,7 @@ jobs:
           fi
 
       - name: Find comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
         id: fc
         if: ${{ steps.diff.outputs.has_differences == 'true' }}
         with:
@@ -124,7 +124,7 @@ jobs:
           </details>" > comment.md
 
       - name: Post comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
         if: ${{ steps.diff.outputs.has_differences == 'true' }}
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
