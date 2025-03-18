@@ -14,7 +14,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/mealie-recipes/mealie
-          tag: v2.7.1
+          tag: v2.8.0
         env:
           BASE_URL: https://mealie.costanza.cloud
           API_DOCS: false
