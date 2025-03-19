@@ -18,6 +18,7 @@ controllers:
         env:
           BASE_URL: https://mealie.costanza.cloud
           API_DOCS: false
+          NLTK_DATA: /app/data/nltk_data
 #          OIDC_AUTH_ENABLED: true
 #          OIDC_SIGNUP_ENABLED: true
 #          OIDC_CONFIGURATION_URL: https://auth.${DOMAIN}/.well-known/openid-configuration
