@@ -2,6 +2,15 @@
 ---
 controllers:
   paperless:
+    pod:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2501
+        runAsGroup: 2501
+        fsGroup: 2501
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     containers:
       app:
         image:
@@ -33,7 +42,8 @@ controllers:
           # Configure redis integration
           PAPERLESS_REDIS: redis://paperless-dragonfly.paperless.svc.cluster.local:6379
           # Configure user permissions
-          USERMAP_GID: "65542"
+          USERMAP_UID: "2501"
+          USERMAP_GID: "2501"
           # Configure admin user
           PAPERLESS_ADMIN_USER:
             valueFrom:
@@ -61,6 +71,11 @@ controllers:
             memory: 2Gi
           limits:
             memory: 6Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ "ALL" ]
 
 service:
   app:
