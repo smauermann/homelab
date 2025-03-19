@@ -1,4 +1,5 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.71/charts/other/app-template/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+---
 controllers:
   mealie:
     pod:
@@ -18,7 +19,6 @@ controllers:
         env:
           BASE_URL: https://mealie.costanza.cloud
           API_DOCS: false
-          NLTK_DATA: /app/data/nltk_data
 #          OIDC_AUTH_ENABLED: true
 #          OIDC_SIGNUP_ENABLED: true
 #          OIDC_CONFIGURATION_URL: https://auth.${DOMAIN}/.well-known/openid-configuration
@@ -74,3 +74,8 @@ persistence:
     existingClaim: mealie-data
     globalMounts:
       - path: /app/data
+  nltk:
+    type: emptyDir
+    globalMounts:
+      - path: /nltk_data
+
