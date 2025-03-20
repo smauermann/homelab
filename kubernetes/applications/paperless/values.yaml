@@ -4,7 +4,6 @@ controllers:
   paperless:
     pod:
       securityContext:
-        runAsNonRoot: true
         runAsUser: 2501
         runAsGroup: 2501
         fsGroup: 2501
@@ -71,11 +70,6 @@ controllers:
             memory: 2Gi
           limits:
             memory: 6Gi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop: [ "ALL" ]
 
 service:
   app:
@@ -83,6 +77,33 @@ service:
     ports:
       http:
         port: &port 8000
+
+ingress:
+  app:
+    enabled: true
+    className: cilium
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Paperless
+      gethomepage.dev/description: Documents
+      gethomepage.dev/group: Applications
+      gethomepage.dev/icon: paperless.png
+      gethomepage.dev/pod-selector: >-
+        app in (
+          paperless
+        )
+    hosts:
+      - host: &host paperless.costanza.cloud
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - *host
+        secretName: paperless-tls
 
 persistence:
   data:
