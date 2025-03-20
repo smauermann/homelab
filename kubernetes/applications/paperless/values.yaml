@@ -78,6 +78,31 @@ service:
       http:
         port: &port 8000
 
+ingress:
+  app:
+    enabled: true
+    className: cilium
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: Paperless
+      gethomepage.dev/description: Documents
+      gethomepage.dev/group: Applications
+      gethomepage.dev/icon: paperless.png
+      gethomepage.dev/pod-selector: >-
+        app in (
+          paperless
+        )
+    hosts:
+      - host: &host paperless.costanza.cloud
+        paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - *host
+
 persistence:
   data:
     existingClaim: paperless-data
