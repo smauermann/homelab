@@ -116,6 +116,9 @@ configMap:
 
   identity_providers:
     oidc:
+      claims_policies:
+        default:
+          id_token: [ 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name' ]
       enabled: true
       hmac_secret:
         secret_name: encryption-keys
@@ -140,6 +143,7 @@ configMap:
       clients:
         - client_id: argocd
           client_name: ArgoCD
+          claims_policy: default
           authorization_policy: 'one_factor'
           client_secret:
             path: '/secrets/argocd-oidc-client-secret/secretHashed'
