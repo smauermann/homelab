@@ -17,7 +17,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: calibre-web-downloader
-        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250214 # renovate: docker=ghcr.io/calibrain/calibre-web-automated-book-downloader
+        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250322 # renovate: docker=ghcr.io/calibrain/calibre-web-automated-book-downloader
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
