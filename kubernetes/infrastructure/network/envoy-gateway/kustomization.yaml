@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - https://raw.githubusercontent.com/envoyproxy/gateway/refs/tags/v1.3.1/charts/gateway-helm/crds/gatewayapi-crds.yaml
+  - https://raw.githubusercontent.com/envoyproxy/gateway/refs/tags/v1.3.1/charts/gateway-helm/crds/gatewayapi-crds.yaml # renovate: github-releases=envoyproxy/gateway
 
 helmCharts:
   - name: gateway-helm
