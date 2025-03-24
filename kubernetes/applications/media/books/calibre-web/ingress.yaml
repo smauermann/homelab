@@ -6,7 +6,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Ebooks Management
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Books
+    gethomepage.dev/group: Media
     gethomepage.dev/icon: calibre-web.png
     gethomepage.dev/name: Calibre-Web
 spec:
