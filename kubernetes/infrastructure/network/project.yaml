@@ -5,10 +5,11 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - 'https://charts.jetstack.io'
-    - 'https://github.com/smauermann/homelab'
-    - 'https://helm.cilium.io'
-    - 'https://pkgs.tailscale.com/helmcharts'
+    - https://charts.jetstack.io
+    - oci://docker.io/envoyproxy
+    - https://github.com/smauermann/homelab
+    - https://helm.cilium.io
+    - https://pkgs.tailscale.com/helmcharts
   destinations:
     - namespace: argocd
       server: '*'
@@ -19,6 +20,8 @@ spec:
     - namespace: cloudflared
       server: '*'
     - namespace: dns
+      server: '*'
+    - namespace: envoy-gateway-system
       server: '*'
     - namespace: 'kube-system'
       server: '*'

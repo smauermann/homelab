@@ -1,0 +1,13 @@
+podDisruptionBudget:
+  minAvailable: 0
+  # maxUnavailable: 1
+
+deployment:
+  envoyGateway:
+    resources:
+      limits:
+        memory: 1024Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  replicas: 1
