@@ -51,7 +51,6 @@ ingress:
   app:
     className: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Recipes
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Personal
@@ -67,7 +66,6 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: mealie-tls
 
 persistence:
   config:
