@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - lb-ip-pool.yaml
   - l2-announce-policy.yaml
+  - wildcard-certificate.yaml
 
 helmCharts:
   - name: cilium
