@@ -9,7 +9,7 @@ helmCharts:
   - name: snapshot-controller
     releaseName: snapshot-controller
     repo: https://piraeus.io/helm-charts
-    version: 4.0.1
+    version: 4.0.2
     namespace: volsync-system
     includeCRDs: true
     valuesFile: values.yaml
