@@ -4,8 +4,6 @@ metadata:
   name: homepage
   labels:
     app.kubernetes.io/name: homepage
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: cilium
   rules:
@@ -22,4 +20,3 @@ spec:
   tls:
     - hosts:
         - homepage.costanza.cloud
-      secretName: homepage-tls
