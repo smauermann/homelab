@@ -4,7 +4,6 @@ metadata:
   name: adguard
   namespace: dns
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     cert-manager.io/common-name: adguard.costanza.cloud
     gethomepage.dev/description: DNS-based Adblocker
     gethomepage.dev/enabled: "true"
@@ -28,4 +27,3 @@ spec:
   tls:
     - hosts:
         - adguard.costanza.cloud
-      secretName: adguard-tls

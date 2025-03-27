@@ -58,7 +58,6 @@ vmsingle:
     enabled: true
     ingressClassName: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Metrics
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
@@ -66,11 +65,10 @@ vmsingle:
       gethomepage.dev/name: VictoriaMetrics
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmsingle"
     hosts:
-      - vm.costanza.cloud
+      - &vmHost vm.costanza.cloud
     tls:
-      - secretName: vmsingle-ingress-tls
-        hosts:
-          - vm.costanza.cloud
+      - hosts:
+          - *vmHost
 
 alertmanager:
   enabled: true
@@ -88,7 +86,6 @@ alertmanager:
     enabled: true
     ingressClassName: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
@@ -96,11 +93,10 @@ alertmanager:
       gethomepage.dev/name: VictoriaMetrics Alertmanager
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
     hosts:
-      - alertmanager.costanza.cloud
+      - &amHost alertmanager.costanza.cloud
     tls:
-      - secretName: alertmanager-ingress-tls
-        hosts:
-          - alertmanager.costanza.cloud
+      - hosts:
+          - *amHost
 
 vmalert:
   enabled: true
@@ -114,7 +110,6 @@ vmalert:
     enabled: true
     ingressClassName: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "false"
       gethomepage.dev/group: Monitoring
@@ -122,11 +117,10 @@ vmalert:
       gethomepage.dev/name: VictoriaMetrics Alert
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalert"
     hosts:
-      - vmalert.costanza.cloud
+      - &vmAlertHost vmalert.costanza.cloud
     tls:
-      - secretName: vmalert-ingress-tls
-        hosts:
-          - vmalert.costanza.cloud
+      - hosts:
+          - *vmAlertHost
 
 vmagent:
   enabled: true
@@ -145,7 +139,6 @@ vmagent:
     enabled: true
     ingressClassName: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/description: Metrics Scraping
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Monitoring
@@ -153,11 +146,10 @@ vmagent:
       gethomepage.dev/name: VictoriaMetrics Agent
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmagent"
     hosts:
-      - vmagent.costanza.cloud
+      - &vmAgentHost vmagent.costanza.cloud
     tls:
-      - secretName: vmagent-ingress-tls
-        hosts:
-          - vmagent.costanza.cloud
+      - hosts:
+          - *vmAgentHost
 
 grafana:
   enabled: false

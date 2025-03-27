@@ -20,13 +20,11 @@ ingress:
   path: /
   pathType: Prefix
   hosts:
-    - status.costanza.cloud
+    - &host status.costanza.cloud
   tls:
-   - secretName: gatus-tls
-     hosts:
-       - status.costanza.cloud
+   - hosts:
+       - *host
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Status Page
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Monitoring

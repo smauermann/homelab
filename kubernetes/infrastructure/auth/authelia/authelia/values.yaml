@@ -7,7 +7,6 @@ ingress:
   className: cilium
 
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: SSO
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Auth
@@ -15,8 +14,6 @@ ingress:
     gethomepage.dev/name: Authelia
   tls:
     enabled: true
-    secret: 'authelia-tls'
-
     hostNameOverride: authelia.costanza.cloud
 
 pod:
