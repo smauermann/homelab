@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: calibre-web
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Ebooks Management
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Media
@@ -12,7 +11,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-    - host: calibre.costanza.cloud
+    - host: &host calibre.costanza.cloud
       http:
         paths:
           - path: "/"
@@ -24,5 +23,4 @@ spec:
                   name: web
   tls:
     - hosts:
-        - calibre.costanza.cloud
-      secretName: calibre-web-tls
+        - *host
