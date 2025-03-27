@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: jellyseerr
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Media Requests
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Media
@@ -12,7 +11,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-    - host: requests.costanza.cloud
+    - host: &host requests.costanza.cloud
       http:
         paths:
           - path: "/"
@@ -24,5 +23,4 @@ spec:
                   name: http
   tls:
     - hosts:
-        - requests.costanza.cloud
-      secretName: jellyseerr-tls
+        - *host
