@@ -83,7 +83,6 @@ ingress:
     enabled: true
     className: cilium
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Paperless
       gethomepage.dev/description: Documents
@@ -103,7 +102,6 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: paperless-tls
 
 persistence:
   data:

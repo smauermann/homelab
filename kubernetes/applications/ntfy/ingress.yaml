@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: ntfy
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Notifications
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Misc
@@ -25,4 +24,3 @@ spec:
   tls:
     - hosts:
         - ntfy.costanza.cloud
-      secretName: ntfy-tls
