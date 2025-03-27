@@ -27,10 +27,7 @@ ingress:
   enabled: true
   ingressClassName: cilium
   pathType: Prefix
-
   host: longhorn.costanza.cloud
-  tls: true
-
   annotations:
     gethomepage.dev/description: Storage Controller
     gethomepage.dev/enabled: "true"
@@ -38,6 +35,8 @@ ingress:
     gethomepage.dev/icon: longhorn.png
     gethomepage.dev/name: Longhorn
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=longhorn"
+  tls: true
+  tlsSecret: null
 
 # this breaks argocd
 preUpgradeChecker:
