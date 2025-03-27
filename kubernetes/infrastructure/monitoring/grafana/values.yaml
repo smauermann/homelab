@@ -18,18 +18,16 @@ ingress:
   enabled: true
   ingressClassName: cilium
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Observability
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Monitoring
     gethomepage.dev/icon: grafana.png
     gethomepage.dev/name: Grafana
   hosts:
-    - grafana.costanza.cloud
+    - &host grafana.costanza.cloud
   tls:
-    - secretName: grafana-tls
-      hosts:
-        - grafana.costanza.cloud
+    - hosts:
+        - *host
 
 resources:
   requests:

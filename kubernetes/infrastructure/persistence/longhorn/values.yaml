@@ -30,10 +30,8 @@ ingress:
 
   host: longhorn.costanza.cloud
   tls: true
-  tlsSecret: longhorn-tls
 
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: Storage Controller
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Persistence

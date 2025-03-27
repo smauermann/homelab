@@ -94,8 +94,6 @@ server:
     ## Default ingress path
     path: /
     pathType: Prefix
-    # Enable tls. argocd-server-tls secret is created automatically for hostname
-    tls: true
 
     ## Ingress annotations
     annotations:
@@ -105,8 +103,6 @@ server:
       # Possible Cluster-Issuer values:
       #   * 'letsencrypt-issuer' (valid TLS certificate using IONOS API)
       #   * 'ca-issuer' (CA-signed certificate, not valid)
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      cert-manager.io/common-name: argocd.costanza.cloud
       gethomepage.dev/description: GitOps Controller
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Workloads
