@@ -4,7 +4,6 @@ metadata:
   name: adguard
   namespace: dns
   annotations:
-    cert-manager.io/common-name: adguard.costanza.cloud
     gethomepage.dev/description: DNS-based Adblocker
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: DNS
