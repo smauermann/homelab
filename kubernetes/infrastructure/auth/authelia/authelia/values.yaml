@@ -1,5 +1,5 @@
 service:
-  type: 'ClusterIP'
+  type: ClusterIP
   port: 80
 
 ingress:
@@ -7,6 +7,7 @@ ingress:
   className: cilium
 
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     gethomepage.dev/description: SSO
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Auth
@@ -14,7 +15,7 @@ ingress:
     gethomepage.dev/name: Authelia
   tls:
     enabled: true
-    hostNameOverride: authelia.costanza.cloud
+    secret: authelia-tls
 
 pod:
   # Must be Deployment, DaemonSet, or StatefulSet.
