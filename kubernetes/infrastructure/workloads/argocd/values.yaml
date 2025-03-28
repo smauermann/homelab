@@ -83,26 +83,15 @@ configs:
           - "*"
 
 server:
-  # Ingress Resource.
   ingress:
-    ## Enable creation of ingress resource
     enabled: true
-    ## Add ingressClassName to the Ingress
     ingressClassName: cilium
-    # ingress host
-    hostname: argocd.costanza.cloud
-    ## Default ingress path
-    path: /
-    pathType: Prefix
+    hostname: &host argocd.costanza.cloud
+    extraTls:
+      - hosts:
+          - *host
 
-    ## Ingress annotations
     annotations:
-      # Linkerd configuration. Configure Service as Upstream
-      # nginx.ingress.kubernetes.io/service-upstream: "true"
-      # Enable cert-manager to create automatically the SSL certificate and store in Secret
-      # Possible Cluster-Issuer values:
-      #   * 'letsencrypt-issuer' (valid TLS certificate using IONOS API)
-      #   * 'ca-issuer' (CA-signed certificate, not valid)
       gethomepage.dev/description: GitOps Controller
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Workloads
