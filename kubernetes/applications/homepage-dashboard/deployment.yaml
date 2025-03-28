@@ -29,7 +29,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v0.10.9 # renovate: docker=ghcr.io/gethomepage/homepage
+          image: ghcr.io/gethomepage/homepage:v1.1.1 # renovate: docker=ghcr.io/gethomepage/homepage
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
