@@ -10,4 +10,4 @@ deployment:
       requests:
         cpu: 100m
         memory: 256Mi
-  replicas: 1
+  replicas: 2
