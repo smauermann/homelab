@@ -23,6 +23,8 @@ jobs:
         uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46.0.3
         with:
           files: kubernetes/**
+          dir_names: true
+          dir_names_max_depth: 4
 
       - name: Set up diff matrix
         id: setup-matrix
@@ -30,7 +32,7 @@ jobs:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           # Extract unique directories and format as JSON array
-          DIRS_JSON=$(echo "$ALL_CHANGED_FILES" | xargs -n1 dirname | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          DIRS_JSON=$(echo "$ALL_CHANGED_FILES" | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
           
           echo "matrix={\"apps\":$DIRS_JSON}" >> $GITHUB_OUTPUT
 
