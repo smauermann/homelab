@@ -45,8 +45,6 @@ jobs:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/smauermann/actions-runner:2.322.0
 
     steps:
       - name: Checkout pull request branch
