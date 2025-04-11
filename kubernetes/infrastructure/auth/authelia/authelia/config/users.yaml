@@ -1,7 +1,9 @@
+# yaml-language-server: $schema=https://www.authelia.com/schemas/latest/json-schema/user-database.json
+---
 users:
   stephan:
     displayname: "stephan"
-    password: "$argon2id$v=19$m=65536,t=3,p=4$5gWOhxWERQb2X4tAWTrWuA$SThhqfd/WU4uRibju/v5lLdCRkoVnKrmfu0unYGBjeI"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$SVEj4X+GZOdVvZcDpgOsBw$Trpn5ywjnprpoTzo9Z4T6bXgm6ZFvASpTMWKeDTYeyM"
     email: authelia@mauermann.io
     groups:
       - admins
