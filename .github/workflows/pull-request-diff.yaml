@@ -25,16 +25,15 @@ jobs:
           files: kubernetes/**
           dir_names: true
           dir_names_max_depth: 4
+          matrix: true
 
       - name: Set up diff matrix
         id: setup-matrix
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          # Extract unique directories and format as JSON array
-          DIRS_JSON=$(echo "$ALL_CHANGED_FILES" | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
-          
-          echo "matrix={\"apps\":$DIRS_JSON}" >> $GITHUB_OUTPUT
+          echo $ALL_CHANGED_FILES
+          echo "matrix={\"apps\":$ALL_CHANGED_FILES}" >> $GITHUB_OUTPUT
 
   diff:
     name: Render Diff
