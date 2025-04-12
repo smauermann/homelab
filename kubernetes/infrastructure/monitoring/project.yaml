@@ -5,12 +5,13 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
+    - oci://ghcr.io/home-operations/charts-mirror
     - https://github.com/smauermann/homelab
     - https://grafana.github.io/helm-charts
+    - https://helm.vector.dev
     - https://kubernetes-sigs.github.io/metrics-server
     - https://prometheus-community.github.io/helm-charts
     - https://twin.github.io/helm-charts
-    - https://helm.vector.dev
     - https://victoriametrics.github.io/helm-charts
   destinations:
     - namespace: argocd
