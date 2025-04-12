@@ -2,7 +2,7 @@
 # Agent = DaemonSet
 # Aggregator = StatefulSet
 # Stateless-Aggregator = Deployment
-role: agent
+role: Agent
 
 resources:
   requests:
