@@ -10,17 +10,18 @@ spec:
     - https://kubernetes-sigs.github.io/metrics-server
     - https://prometheus-community.github.io/helm-charts
     - https://twin.github.io/helm-charts
+    - https://helm.vector.dev
     - https://victoriametrics.github.io/helm-charts
   destinations:
     - namespace: argocd
-      server: '*'
-    - namespace: exporters
       server: '*'
     - namespace: gatus
       server: '*'
     - namespace: kube-system
       server: '*'
     - namespace: monitoring
+      server: '*'
+    - namespace: vector
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

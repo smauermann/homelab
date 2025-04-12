@@ -1,0 +1,62 @@
+# Each role is created with the following workloads:
+# Agent = DaemonSet
+# Aggregator = StatefulSet
+# Stateless-Aggregator = Deployment
+role: agent
+
+resources:
+  requests:
+    memory: 64Mi
+    cpu: 250m
+  limits:
+    memory: 1024Mi
+
+# customConfig -- Override Vector's default configs, if used **all** options need to be specified. This section supports
+# using helm templates to populate dynamic values. See Vector's [configuration documentation](https://vector.dev/docs/reference/configuration/)
+# for all options.
+customConfig: {}
+  # data_dir: /vector-data-dir
+  # api:
+  #   enabled: true
+  #   address: 127.0.0.1:8686
+  #   playground: false
+  # sources:
+  #   vector:
+  #     address: 0.0.0.0:6000
+  #     type: vector
+  #     version: "2"
+  # sinks:
+  #   stdout:
+  #     type: console
+  #     inputs: [vector]
+#     encoding:
+#       codec: json
+
+podMonitor:
+  # podMonitor.enabled -- If true, create a PodMonitor for Vector.
+  enabled: false
+  # podMonitor.jobLabel -- Override the label to retrieve the job name from.
+  jobLabel: app.kubernetes.io/name
+  # podMonitor.port -- Override the port to scrape.
+  port: prom-exporter
+  # podMonitor.path -- Override the path to scrape.
+  path: /metrics
+  # podMonitor.interval -- Override the interval at which metrics should be scraped.
+  interval:
+  # podMonitor.scrapeTimeout -- Override the timeout after which the scrape is ended.
+  scrapeTimeout:
+  # podMonitor.relabelings -- [RelabelConfigs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
+  # to apply to samples before scraping.
+  relabelings: []
+  # podMonitor.metricRelabelings -- [MetricRelabelConfigs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs)
+  # to apply to samples before ingestion.
+  metricRelabelings: []
+  # podMonitor.podTargetLabels -- [podTargetLabels](https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.PodMonitorSpec)
+  # transfers labels on the Kubernetes Pod onto the target.
+  podTargetLabels: []
+  # podMonitor.additionalLabels -- Adds additional labels to the PodMonitor.
+  additionalLabels: {}
+  # podMonitor.honorLabels -- If true, honor_labels is set to true in the [scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+  honorLabels: false
+  # podMonitor.honorTimestamps -- If true, honor_timestamps is set to true in the [scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+  honorTimestamps: true
