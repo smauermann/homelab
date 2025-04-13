@@ -36,6 +36,9 @@ customConfig:
       inputs:
         - kubernetes_logs
       endpoint: http://loki.monitoring.svc.cluster.local:3100
+      encoding:
+        codec: json
+      remove_timestamp: true
 
 podMonitor:
   # podMonitor.enabled -- If true, create a PodMonitor for Vector.
