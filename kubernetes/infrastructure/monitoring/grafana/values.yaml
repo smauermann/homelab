@@ -62,9 +62,18 @@ datasources:
     deleteDatasources:
       - name: Alertmanager
         orgId: 1
+      - name: Loki
+        orgId: 1
       - name: Prometheus
         orgId: 1
     datasources:
+      - name: Loki
+        type: loki
+        uid: loki
+        access: proxy
+        url: http://loki-headless.monitoring.svc.cluster.local:3100
+        jsonData:
+          maxLines: 250
       - name: Prometheus
         type: prometheus
         access: proxy
@@ -74,7 +83,6 @@ datasources:
           timeInterval: "15s"
           queryTimeout: "60s"
           httpMethod: POST
-
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
