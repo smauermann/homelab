@@ -38,7 +38,7 @@ spec:
               mountPath: /combined-config
       containers:
         - name: adguard
-          image: docker.io/adguard/adguardhome:v0.107.60 # renovate: docker=docker.io/adguard/adguardhome
+          image: docker.io/adguard/adguardhome:v0.107.61 # renovate: docker=docker.io/adguard/adguardhome
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
