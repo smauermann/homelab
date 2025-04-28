@@ -29,7 +29,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v1.1.1 # renovate: docker=ghcr.io/gethomepage/homepage
+          image: ghcr.io/gethomepage/homepage:v1.2.0 # renovate: docker=ghcr.io/gethomepage/homepage
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.costanza.cloud
