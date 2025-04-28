@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: valkey
     repo:  oci://registry-1.docker.io/bitnamicharts
-    version: 2.4.7
+    version: 3.0.3
     releaseName: authelia-valkey
     namespace: authelia
     valuesFile: values.yaml
