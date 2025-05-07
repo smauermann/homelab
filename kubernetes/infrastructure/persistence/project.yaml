@@ -6,6 +6,7 @@ metadata:
 spec:
   sourceRepos:
     - https://backube.github.io/helm-charts/
+    - https://bjw-s-labs.github.io/helm-charts
     - https://charts.longhorn.io
     - https://cloudnative-pg.github.io/charts
     - https://github.com/smauermann/homelab

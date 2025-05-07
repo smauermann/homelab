@@ -6,6 +6,7 @@ metadata:
 spec:
   sourceRepos:
     - 'https://github.com/smauermann/homelab'
+    - https://bjw-s-labs.github.io/helm-charts
   destinations:
     - namespace: argocd
       server: '*'
