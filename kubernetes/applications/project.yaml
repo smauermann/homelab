@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - 'https://github.com/smauermann/homelab'
+    - https://github.com/smauermann/homelab
     - https://bjw-s-labs.github.io/helm-charts
   destinations:
     - namespace: argocd
@@ -13,6 +13,8 @@ spec:
     - namespace: homepage-dashboard
       server: '*'
     - namespace: mealie
+      server: '*'
+    - namespace: miniflux
       server: '*'
     - namespace: ntfy
       server: '*'
