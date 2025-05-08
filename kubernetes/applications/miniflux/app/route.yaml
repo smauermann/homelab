@@ -1,0 +1,29 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    gethomepage.dev/description: RSS Reader
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: News
+    gethomepage.dev/icon: miniflux.png
+    gethomepage.dev/name: Miniflux
+  labels:
+    app.kubernetes.io/instance: miniflux
+    app.kubernetes.io/name: miniflux
+  name: miniflux
+spec:
+  hostnames:
+    - miniflux.costanza.cloud
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: private
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: miniflux
+          namespace: miniflux
+          port: 80
+          weight: 1
