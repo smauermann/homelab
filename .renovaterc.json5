@@ -1,49 +1,48 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    "config:recommended",
-    "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
-    "github>smauermann/homelab//.renovate/autoMerge.json5",
-    "github>smauermann/homelab//.renovate/customManagers.json5",
-    "github>smauermann/homelab//.renovate/grafanaDashboards.json5",
-    "github>smauermann/homelab//.renovate/groups.json5",
-    "github>smauermann/homelab//.renovate/labels.json5",
-    "github>smauermann/homelab//.renovate/semanticCommits.json5",
-    ":automergeBranch",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
-    ":semanticCommits",
-    ":timezone(Europe/Berlin)"
+    'config:recommended',
+    'docker:enableMajor',
+    'helpers:pinGitHubActionDigests',
+    'github>smauermann/homelab//.renovate/autoMerge.json5',
+    'github>smauermann/homelab//.renovate/customManagers.json5',
+    'github>smauermann/homelab//.renovate/grafanaDashboards.json5',
+    'github>smauermann/homelab//.renovate/groups.json5',
+    'github>smauermann/homelab//.renovate/labels.json5',
+    'github>smauermann/homelab//.renovate/semanticCommits.json5',
+    ':automergeBranch',
+    ':disableRateLimiting',
+    ':dependencyDashboard',
+    ':semanticCommits',
+    ':timezone(Europe/Berlin)',
   ],
-  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
   suppressNotifications: [
-    "prEditedNotification",
-    "prIgnoreNotification"
+    'prEditedNotification',
+    'prIgnoreNotification',
   ],
   ignorePaths: [
-    "**/*.sops.*",
-    "**/resources/**"
+    '**/*.sops.*',
+    '**/resources/**',
   ],
   kustomize: {
-    "fileMatch": ["(^|/)kustomization\\.ya?ml(\\.j2)?$"]
-  },
-  kubernetes: {
-    fileMatch: ["(^|/)kubernetes/.+\\.ya?ml$"]
+    managerFilePatterns: [
+      '/(^|/)kustomization\\.ya?ml(\\.j2)?$/',
+    ],
   },
   packageRules: [
     {
-      "matchManagers": [
-        "terraform"
+      matchManagers: [
+        'terraform',
       ],
-      "matchDepTypes": [
-        "provider",
-        "required_provider"
+      matchDepTypes: [
+        'provider',
+        'required_provider',
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
-    }
-  ]
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+    },
+  ],
 }
