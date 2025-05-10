@@ -19,5 +19,14 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
     },
+    {
+      description: "Talos Linux",
+      groupName: "Talos-Linux",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/siderolabs/kubelet", "/siderolabs/installer"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    }
   ],
 }
