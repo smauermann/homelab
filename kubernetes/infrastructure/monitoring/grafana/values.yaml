@@ -119,7 +119,7 @@ dashboards:
     node-exporter-full:
       # renovate: depName="Node Exporter Full"
       gnetId: 1860
-      revision: 37
+      revision: 40
       datasource: Prometheus
     longhorn:
       # renovate: depName="Longhorn"
