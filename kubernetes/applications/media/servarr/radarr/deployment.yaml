@@ -24,7 +24,8 @@ spec:
           type: RuntimeDefault
       containers:
         - name: radarr
-          image: ghcr.io/home-operations/radarr:5.23.1.9914@sha256:794fb31c2773491429cdf50906443c301c61298b1e53f1e95ccf723c30c73d3f # renovate: docker=ghcr.io/home-operations/radarr
+          # renovate: datasource=docker depName=ghcr.io/home-operations/radarr
+          image: ghcr.io/home-operations/radarr:5.23.1.9914@sha256:794fb31c2773491429cdf50906443c301c61298b1e53f1e95ccf723c30c73d3f
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
