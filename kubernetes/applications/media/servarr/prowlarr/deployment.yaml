@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: prowlarr
-          # renovate: datasource=docker depName=ghcr.io/home-operations/prowlarr
+          # renovate: datasource=docker
           image: ghcr.io/home-operations/prowlarr:1.35.1.5034@sha256:f9c4e4c7dedcbc9ec9c9616cbaacc5ca908a063b86d4f052db0e83f27c48bf3f
           securityContext:
             allowPrivilegeEscalation: false

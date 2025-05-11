@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: cloudflared
-          # renovate: datasource=docker depName=cloudflare/cloudflared
+          # renovate: datasource=docker
           image: cloudflare/cloudflared:2025.4.2@sha256:698f5c59bf0b9ece62f8c60061004bdfcf7718fbac5d72b87e214af7b9d1d7ac
           imagePullPolicy: IfNotPresent
           args:

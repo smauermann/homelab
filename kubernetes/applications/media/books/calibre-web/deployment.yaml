@@ -16,7 +16,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: calibre-web
-        # renovate: datasource=docker depName=ghcr.io/bjw-s-labs/calibre-web
+        # renovate: datasource=docker
         image: ghcr.io/bjw-s-labs/calibre-web:0.6.24
         securityContext:
           allowPrivilegeEscalation: false
