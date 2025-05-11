@@ -44,5 +44,11 @@
         'patch',
       ],
     },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": true
+    }
   ],
 }
