@@ -10,6 +10,10 @@
         "(^|/).+\\.ya?ml(?:\\.j2)?$",
       ],
       matchStrings: [
+        // # extract depName from image if present
+        // # renovate: datasource=docker
+        // # image: ghcr.io/bjw-s-labs/calibre-web:0.6.24
+        "datasource=(?<datasource>\\S+)\\s+image(?::\\s*)(?<depName>\\S+):(?<currentValue>\\S+)",
         // # renovate: datasource=github-releases depName=k3s-io/k3s
         // k3s_release_version: &version v1.29.0+k3s1
         // # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
