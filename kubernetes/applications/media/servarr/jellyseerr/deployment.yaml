@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: jellyseerr
-          # renovate: datasource=docker depName=fallenbagel/jellyseerr
+          # renovate: datasource=docker
           image: fallenbagel/jellyseerr:2.5.2@sha256:2a611369ad1d0d501c2d051fc89b6246ff081fb4a30879fdc75642cf6a37b1a6
           securityContext:
             allowPrivilegeEscalation: false
