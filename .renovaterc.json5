@@ -30,6 +30,11 @@
       '/(^|/)kustomization\\.ya?ml(\\.j2)?$/',
     ],
   },
+  kubernetes: {
+    managerFilePatterns: [
+      "/kubernetes/.+\\.ya?ml$/"
+    ],
+  },
   packageRules: [
     {
       matchManagers: [
