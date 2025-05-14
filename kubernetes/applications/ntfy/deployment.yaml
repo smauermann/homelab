@@ -23,7 +23,6 @@ spec:
           type: RuntimeDefault
       containers:
         - name: ntfy
-          # renovate: datasource=docker
           image: binwiederhier/ntfy:v2.11.0@sha256:4a7d0f0adc6d5d9fc36e64ab55ef676e76e124a2bdd50ce115b6d9c1c7430294
           securityContext:
             allowPrivilegeEscalation: false
