@@ -25,14 +25,9 @@
     '**/*.sops.*',
     '**/resources/**',
   ],
-  kustomize: {
-    managerFilePatterns: [
-      '/(^|/)kustomization\\.ya?ml(\\.j2)?$/',
-    ],
-  },
   kubernetes: {
     managerFilePatterns: [
-      "/kubernetes/.+\\.ya?ml$/"
+      "/^kubernetes/.+\\.ya?ml$/"
     ],
   },
   packageRules: [
