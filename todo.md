@@ -1,1 +1,0 @@
-- make authelia postgres HA so that I can be moved to another node (fails right now because of PDB)
