@@ -1,8 +1,11 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.71/charts/other/app-template/values.schema.json
+---
 controllers:
   dragonfly-operator:
     replicas: 1
     strategy: RollingUpdate
+    serviceAccount:
+      identifier: dragonfly-operator
     containers:
       app:
         image:
@@ -57,6 +60,7 @@ controllers:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: dragonfly-operator
+
 service:
   app:
     controller: dragonfly-operator
@@ -77,6 +81,4 @@ serviceMonitor:
         scrapeTimeout: 10s
 
 serviceAccount:
-  create: true
-  name: dragonfly-operator
-
+  dragonfly-operator: {}
