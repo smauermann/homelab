@@ -15,7 +15,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/paperless-ngx/paperless-ngx
-          tag: 2.15.3
+          tag: 2.16.0@sha256:4d193161a41764f1e84c9eb8718a675329ee205fe80a2a75ff8a17beeff34a4c
         env:
           PAPERLESS_SECRET_KEY:
             valueFrom:
