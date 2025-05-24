@@ -64,7 +64,7 @@ ingressController:
   loadbalancerMode: shared
   service:
     annotations:
-      io.cilium/lb-ipam-ips: 192.168.178.202
+      io.cilium/lb-ipam-ips: 192.168.178.202,192.168.192.168
   defaultSecretNamespace: kube-system
   defaultSecretName: costanza-cloud-tls
 
