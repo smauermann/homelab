@@ -33,6 +33,10 @@ spec:
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.costanza.cloud
+            - name: PUID
+              value: 1000
+            - name: PGID
+              value: 1000
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
