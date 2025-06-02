@@ -9,3 +9,8 @@ helmCharts:
     releaseName: victoria-metrics-stack
     namespace: monitoring
     valuesFile: values.yaml
+  - name: prometheus-operator-crds
+    repo: https://prometheus-community.github.io/helm-charts
+    version: v0.82.0
+    releaseName: prometheus-operator-crds
+    namespace: monitoring
