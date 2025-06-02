@@ -1,0 +1,1 @@
+// this file prevents homepage from crashing when it inevitably tries to copy it over from a template on startup
