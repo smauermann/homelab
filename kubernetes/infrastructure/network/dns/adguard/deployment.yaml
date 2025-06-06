@@ -23,7 +23,7 @@ spec:
           type: RuntimeDefault
       initContainers:
         - name: config-init
-          image: busybox
+          image: busybox:latest
           command: ['sh', '-c', 'cat /config/AdGuardHome.yaml /config/users.yaml > /combined-config/AdGuardHome.yaml']
           securityContext:
             allowPrivilegeEscalation: false
