@@ -1,6 +1,6 @@
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  name: honeycomb-api-key
+  name: honeycomb
 spec:
   itemPath: "vaults/Homelab/items/honeycomb-api-key"
