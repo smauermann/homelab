@@ -10,6 +10,7 @@ spec:
     - https://grafana.github.io/helm-charts
     - https://helm.vector.dev
     - https://kubernetes-sigs.github.io/metrics-server
+    - https://open-telemetry.github.io/opentelemetry-helm-charts
     - https://prometheus-community.github.io/helm-charts
     - https://twin.github.io/helm-charts
     - https://victoriametrics.github.io/helm-charts
@@ -17,6 +18,8 @@ spec:
     - namespace: argocd
       server: '*'
     - namespace: gatus
+      server: '*'
+    - namespace: honeycomb
       server: '*'
     - namespace: kube-system
       server: '*'
