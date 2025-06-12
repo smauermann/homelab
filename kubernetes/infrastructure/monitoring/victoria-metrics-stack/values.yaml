@@ -23,6 +23,8 @@ victoria-metrics-operator:
     # EnableStrictSecurity will add default securityContext to pods and containers created by operator
     - name: VM_ENABLESTRICTSECURITY
       value: "true"
+  admissionWebhooks:
+    enabled: false
 
 defaultDashboards:
   enabled: true
@@ -228,7 +230,4 @@ kubeEtcd:
     targetPort: 2381
 
 kubeScheduler:
-  enabled: true
-
-prometheus-operator-crds:
   enabled: true
