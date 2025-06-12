@@ -59,16 +59,16 @@ config:
 
   exporters:
     otlp:
-      endpoint: "api.eu1.honeycomb.io:443"
+      endpoint: "api.honeycomb.io:443"
       headers:
         "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
     otlp/k8s-metrics:
-      endpoint: "api.eu1.honeycomb.io:443"
+      endpoint: "api.honeycomb.io:443"
       headers:
         "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
         "x-honeycomb-dataset": "k8s-metrics"
     otlp/k8s-logs:
-      endpoint: "api.eu1.honeycomb.io:443"
+      endpoint: "api.honeycomb.io:443"
       headers:
         "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
         "x-honeycomb-dataset": "k8s-logs"
