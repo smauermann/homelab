@@ -24,10 +24,6 @@ extraEnvs:
         key: api-key
 
 presets:
-  # enable shipping pod logs to honeycomb
-  logsCollection:
-    enabled: true
-    includeCollectorLogs: false
   # enables the k8sattributesprocessor and adds it to the traces, metrics, and logs pipelines
   kubernetesAttributes:
     enabled: true
