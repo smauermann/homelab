@@ -64,12 +64,12 @@ config:
 
   exporters:
     otlp/k8s-metrics:
-      endpoint: "api.honeycomb.io:443"
+      endpoint: "api.eu1.honeycomb.io:443"
       headers:
         "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
         "x-honeycomb-dataset": "k8s-metrics"
     otlp/k8s-events:
-      endpoint: "api.honeycomb.io:443"
+      endpoint: "api.eu1.honeycomb.io:443"
       headers:
         "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
         "x-honeycomb-dataset": "k8s-events"
