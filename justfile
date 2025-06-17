@@ -94,7 +94,7 @@ reset-all:
 upgrade node:
   #!/usr/bin/env bash
   TALOS_IMAGE=$(just get-talos-image)
-  talosctl upgrade --nodes {{ node }} --image $TALOS_IMAGE -e {{ node }}
+  talosctl upgrade --image $TALOS_IMAGE --nodes {{ node }} --endpoints {{ node }} --debug
   just health {{ node }}
 
 upgrade-all:
