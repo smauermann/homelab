@@ -26,7 +26,7 @@ presets:
 config:
   receivers:
     k8s_cluster:
-      collection_interval: 30s
+      collection_interval: 120s
       metrics:
         # Disable replicaset metrics by default. These are typically high volume, low signal metrics.
         # If volume is not a concern, then the following blocks can be removed.
