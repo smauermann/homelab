@@ -82,6 +82,9 @@ config:
         exporters: [otlp/k8s-metrics]
       logs:
         exporters: [otlp/k8s-logs]
+    telemetry:
+      metrics:
+        level: none
 
 ports:
   jaeger-compact:
