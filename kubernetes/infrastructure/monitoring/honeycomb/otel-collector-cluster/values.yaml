@@ -82,6 +82,9 @@ config:
       logs:
         processors: [ memory_limiter, transform/events, batch ]
         exporters: [ otlp/k8s-events ]
+    telemetry:
+      metrics:
+        level: none
 
 ports:
   jaeger-compact:
