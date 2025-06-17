@@ -39,7 +39,7 @@ config:
     zipkin: null
     kubeletstats:
       insecure_skip_verify: true # required as most clusters use self-signed certificates
-      collection_interval: 30s
+      collection_interval: 120s
       metric_groups:
         - node
         - pod
