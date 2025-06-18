@@ -37,6 +37,7 @@ config:
   receivers:
     jaeger: null
     zipkin: null
+    prometheus: null
     kubeletstats:
       insecure_skip_verify: true # required as most clusters use self-signed certificates
       collection_interval: 120s

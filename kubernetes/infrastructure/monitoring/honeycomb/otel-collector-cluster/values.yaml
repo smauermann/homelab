@@ -36,6 +36,7 @@ config:
           enabled: false
     jaeger: null
     zipkin: null
+    prometheus: null
   processors:
     transform/events:
       error_mode: ignore
