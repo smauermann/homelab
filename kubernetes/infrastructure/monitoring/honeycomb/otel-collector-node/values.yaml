@@ -81,6 +81,7 @@ config:
         exporters: [otlp]
       metrics:
         exporters: [otlp/k8s-metrics]
+        receivers: [otlp, kubeletstats]
       logs:
         exporters: [otlp/k8s-logs]
     telemetry:

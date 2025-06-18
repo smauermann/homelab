@@ -80,6 +80,7 @@ config:
       traces: null
       metrics:
         exporters: [ otlp/k8s-metrics ]
+        receivers: [ otlp, k8s_cluster ]
       logs:
         processors: [ memory_limiter, transform/events, batch ]
         exporters: [ otlp/k8s-events ]
