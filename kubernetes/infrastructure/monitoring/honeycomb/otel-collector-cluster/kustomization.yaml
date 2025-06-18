@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: opentelemetry-collector
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
-    version: 0.126.0
+    version: 0.127.1
     releaseName: otel-collector-cluster
     namespace: honeycomb
     valuesFile: values.yaml
