@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-4.1.1/charts/library/common/values.schema.json
 ---
 controllers:
   mealie:
@@ -67,6 +67,22 @@ ingress:
       - hosts:
           - *host
 
+route:
+  app:
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: Recipes
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Personal
+      gethomepage.dev/icon: mealie.png
+      gethomepage.dev/name: Mealie
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - mealie.costanza.cloud
+
 persistence:
   config:
     existingClaim: mealie-data
@@ -76,4 +92,3 @@ persistence:
     type: emptyDir
     globalMounts:
       - path: /nltk_data
-
