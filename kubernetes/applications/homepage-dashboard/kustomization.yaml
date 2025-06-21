@@ -16,9 +16,4 @@ configMapGenerator:
 
 resources:
   - namespace.yaml
-  - serviceaccount.yaml
-  - service.yaml
-  - rbac.yaml
-  - deployment.yaml
-  - ingress.yaml
-  - httproute.yaml
+  - app
