@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+---
+controllers:
+  homepage:
+    strategy: RollingUpdate
+    containers:
+      app:
+        image:
+          repository: ghcr.io/gethomepage/homepage
+          tag: v1.3.2@sha256:4f923bf0e9391b3a8bc5527e539b022e92dcc8a3a13e6ab66122ea9ed030e196
+        env:
+          HOMEPAGE_ALLOWED_HOSTS: homepage.costanza.cloud
+          PUID: "1000"
+          PGID: "1000"
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: &port 3000
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness: *probes
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+    seccompProfile: { type: RuntimeDefault }
+
+service:
+  app:
+    controller: homepage
+    ports:
+      http:
+        port: *port
+
+serviceAccount:
+  homepage: {}
+
+rbac:
+  roles:
+    homepage:
+      type: ClusterRole
+      rules:
+        - apiGroups:
+            - ""
+          resources:
+            - namespaces
+            - pods
+            - nodes
+          verbs:
+            - get
+            - list
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingresses
+          verbs:
+            - get
+            - list
+        - apiGroups:
+            - gateway.networking.k8s.io
+          resources:
+            - httproutes
+          verbs:
+            - get
+            - list
+        - apiGroups:
+            - metrics.k8s.io
+          resources:
+            - nodes
+            - pods
+          verbs:
+            - get
+            - list
+
+  bindings:
+    homepage:
+      type: ClusterRoleBinding
+      roleRef:
+        identifier: homepage
+      subjects:
+        - identifier: homepage
+
+route:
+  app:
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: Dashboard
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Applications
+      gethomepage.dev/icon: homepage.png
+      gethomepage.dev/name: Homepage
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - homepage.costanza.cloud
+
+persistence:
+  config:
+    type: configMap
+    name: homepage
+    advancedMounts:
+      homepage:
+        app:
+          - path: /app/config/bookmarks.yaml
+            subPath: bookmarks.yaml
+          - path: /app/config/custom.css
+            subPath: custom.css
+          - path: /app/config/custom.js
+            subPath: custom.js
+          - path: /app/config/docker.yaml
+            subPath: docker.yaml
+          - path: /app/config/kubernetes.yaml
+            subPath: kubernetes.yaml
+          - path: /app/config/services.yaml
+            subPath: services.yaml
+          - path: /app/config/settings.yaml
+            subPath: settings.yaml
+          - path: /app/config/widgets.yaml
+            subPath: widgets.yaml
+  logs:
+    type: emptyDir
+    globalMounts:
+      - path: /app/config/logs 
