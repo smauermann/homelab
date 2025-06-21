@@ -15,6 +15,7 @@ controllers:
         ports:
           - name: http
             containerPort: &port 3000
+            protocol: TCP
         probes:
           liveness: &probes
             enabled: true
