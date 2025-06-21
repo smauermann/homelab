@@ -5,6 +5,12 @@ metadata:
   labels:
     app.kubernetes.io/instance: calibre-web
     app.kubernetes.io/name: calibre-web
+  annotations:
+    gethomepage.dev/description: Ebooks Management
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: calibre-web.png
+    gethomepage.dev/name: Calibre-Web
 spec:
   parentRefs:
     - name: private

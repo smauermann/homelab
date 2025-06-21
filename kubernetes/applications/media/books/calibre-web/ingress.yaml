@@ -2,12 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: calibre-web
-  annotations:
-    gethomepage.dev/description: Ebooks Management
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: calibre-web.png
-    gethomepage.dev/name: Calibre-Web
 spec:
   ingressClassName: cilium
   rules:
