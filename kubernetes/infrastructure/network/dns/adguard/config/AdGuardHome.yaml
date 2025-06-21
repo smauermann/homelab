@@ -139,6 +139,10 @@ filters:
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt
     name: 1Hosts (Lite)
     id: 1738101651
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt
+    name: Perflyst and Dandelion Sprout's Smart-TV Blocklist
+    id: 1750263090
 whitelist_filters: []
 user_rules:
   - '@@||mp3.medito.space^$important'
@@ -195,6 +199,8 @@ filtering:
     - domain: nas.costanza.cloud
       answer: 192.168.178.99
     - domain: miniflux.costanza.cloud
+      answer: 192.168.178.210
+    - domain: homepage.costanza.cloud
       answer: 192.168.178.210
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
