@@ -13,11 +13,6 @@ spec:
   hostnames:
     - homepage.costanza.cloud
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: "/"
-      backendRefs:
+    - backendRefs:
         - name: homepage
           port: 3000
-          weight: 1 
