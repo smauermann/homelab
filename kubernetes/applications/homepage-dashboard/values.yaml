@@ -9,7 +9,7 @@ controllers:
           repository: ghcr.io/gethomepage/homepage
           tag: v1.3.2@sha256:4f923bf0e9391b3a8bc5527e539b022e92dcc8a3a13e6ab66122ea9ed030e196
         env:
-          HOMEPAGE_ALLOWED_HOSTS: homepage.costanza.cloud
+          HOMEPAGE_ALLOWED_HOSTS: &host homepage.costanza.cloud
           PUID: "1000"
           PGID: "1000"
         ports:
@@ -108,18 +108,12 @@ rbac:
 route:
   app:
     kind: HTTPRoute
-    annotations:
-      gethomepage.dev/description: Dashboard
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Applications
-      gethomepage.dev/icon: homepage.png
-      gethomepage.dev/name: Homepage
     parentRefs:
       - name: private
         kind: Gateway
         namespace: envoy-gateway-system
     hostnames:
-      - homepage.costanza.cloud
+      - *host
 
 persistence:
   config:
