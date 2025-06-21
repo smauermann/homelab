@@ -16,4 +16,11 @@ configMapGenerator:
 
 resources:
   - namespace.yaml
-  - app
+
+helmCharts:
+  - name: app-template
+    repo: https://bjw-s-labs.github.io/helm-charts
+    version: 4.1.1
+    releaseName: homepage
+    namespace: homepage-dashboard
+    valuesFile: values.yaml 
