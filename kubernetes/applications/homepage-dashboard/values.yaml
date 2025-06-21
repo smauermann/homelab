@@ -12,6 +12,9 @@ controllers:
           HOMEPAGE_ALLOWED_HOSTS: homepage.costanza.cloud
           PUID: "1000"
           PGID: "1000"
+        ports:
+          - name: http
+            containerPort: &port 3000
         probes:
           liveness: &probes
             enabled: true
@@ -19,7 +22,7 @@ controllers:
             spec:
               httpGet:
                 path: /
-                port: &port 3000
+                port: *port
               initialDelaySeconds: 30
               periodSeconds: 10
               timeoutSeconds: 5
