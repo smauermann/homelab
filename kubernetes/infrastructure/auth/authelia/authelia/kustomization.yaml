@@ -6,6 +6,7 @@ resources:
   - cert-ecdsa-jwk.yaml
   - cert-rsa-jwk.yaml
   - encryption-keys.yaml
+  - route.yaml
 
 secretGenerator:
   - name: users
