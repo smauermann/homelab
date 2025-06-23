@@ -47,26 +47,6 @@ service:
       http:
         port: 9000
 
-ingress:
-  app:
-    className: cilium
-    annotations:
-      gethomepage.dev/description: Recipes
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Personal
-      gethomepage.dev/icon: mealie.png
-      gethomepage.dev/name: Mealie
-    hosts:
-      - host: &host mealie.costanza.cloud
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - hosts:
-          - *host
-
 route:
   app:
     kind: HTTPRoute
