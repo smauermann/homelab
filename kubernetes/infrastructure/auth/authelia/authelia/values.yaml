@@ -3,19 +3,7 @@ service:
   port: 80
 
 ingress:
-  enabled: true
-  annotations:
-    gethomepage.dev/description: SSO
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Auth
-    gethomepage.dev/name: Authelia
-    gethomepage.dev/icon: authelia.png
-
-  gatewayAPI:
-    enabled: true
-    parentRefs:
-      - name: private
-        namespace: envoy-gateway-system
+  enabled: false
 
 pod:
   # Must be Deployment, DaemonSet, or StatefulSet.
