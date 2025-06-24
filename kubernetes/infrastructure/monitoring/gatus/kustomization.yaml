@@ -4,6 +4,7 @@ namespace: gatus
 
 resources:
   - namespace.yaml
+  - route.yaml
 
 helmCharts:
   - name: gatus

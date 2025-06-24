@@ -15,21 +15,7 @@ service:
   labels: {}
 
 ingress:
-  enabled: true
-  ingressClassName: cilium
-  path: /
-  pathType: Prefix
-  hosts:
-    - &host status.costanza.cloud
-  tls:
-   - hosts:
-       - *host
-  annotations:
-    gethomepage.dev/description: Status Page
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Monitoring
-    gethomepage.dev/icon: gatus.png
-    gethomepage.dev/name: Gatus
+  enabled: false
 
 resources:
   limits:
