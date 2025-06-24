@@ -5,6 +5,7 @@ namespace: longhorn-system
 resources:
   - namespace.yaml
   - storageclass.yaml
+  - route.yaml
 
 helmCharts:
   - name: longhorn
