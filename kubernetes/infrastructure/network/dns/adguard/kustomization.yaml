@@ -11,4 +11,4 @@ resources:
   - users.yaml
   - service.yaml
   - deployment.yaml
-  - ingress.yaml
+  - route.yaml

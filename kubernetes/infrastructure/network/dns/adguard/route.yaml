@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: adguard
+  annotations:
+    gethomepage.dev/description: DNS-based Adblocker
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: DNS
+    gethomepage.dev/icon: adguard-home.png
+    gethomepage.dev/name: AdGuardHome
+  labels:
+    app.kubernetes.io/name: adguard
+spec:
+  hostnames:
+    - adguard.costanza.cloud
+  parentRefs:
+    - kind: Gateway
+      name: private
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: adguard
+          namespace: dns
+          port: 3000 
