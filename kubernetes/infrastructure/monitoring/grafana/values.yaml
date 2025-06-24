@@ -14,20 +14,30 @@ serviceMonitor:
   basicAuth: {}
   targetLabels: []
 
+route:
+  main:
+    enabled: true
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: Observability
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Monitoring
+      gethomepage.dev/icon: grafana.png
+      gethomepage.dev/name: Grafana
+    hostnames:
+      - grafana.costanza.cloud
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: private
+        namespace: envoy-gateway-system
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
+
 ingress:
-  enabled: true
-  ingressClassName: cilium
-  annotations:
-    gethomepage.dev/description: Observability
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Monitoring
-    gethomepage.dev/icon: grafana.png
-    gethomepage.dev/name: Grafana
-  hosts:
-    - &host grafana.costanza.cloud
-  tls:
-    - hosts:
-        - *host
+  enabled: false
 
 resources:
   requests:
