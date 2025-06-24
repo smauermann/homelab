@@ -208,6 +208,12 @@ filtering:
       answer: 192.168.178.210
     - domain: authelia.costanza.cloud
       answer: 192.168.178.210
+    - domain: grafana.costanza.cloud
+      answer: 192.168.178.210
+    - domain: ntfy.costanza.cloud
+      answer: 192.168.178.210
+    - domain: status.costanza.cloud
+      answer: 192.168.178.210
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
