@@ -1,0 +1,27 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gatus
+  annotations:
+    gethomepage.dev/description: Status Page
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/icon: gatus.png
+    gethomepage.dev/name: Gatus
+  labels:
+    app.kubernetes.io/instance: gatus
+    app.kubernetes.io/name: gatus
+spec:
+  hostnames:
+    - status.costanza.cloud
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: private
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: gatus
+          namespace: gatus
+          port: 80
