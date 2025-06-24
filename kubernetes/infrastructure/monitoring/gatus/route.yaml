@@ -15,8 +15,7 @@ spec:
   hostnames:
     - status.costanza.cloud
   parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
+    - kind: Gateway
       name: private
       namespace: envoy-gateway-system
   rules:
