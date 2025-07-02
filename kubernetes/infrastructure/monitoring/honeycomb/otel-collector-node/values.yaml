@@ -2,7 +2,7 @@ mode: daemonset
 
 image:
   repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
-  tag: 0.128.0
+  tag: 0.129.1@sha256:ba603e80c6a8563cd432ee20ff1787bdb2650a3c05fe15f6c6be5729a81d40c6
   digest: sha256:3790ed0bb11e47c0b0a3268df92afc546cb53a720c7970eb96b6d5dbb073fa56
 
 # Required to use the kubeletstats cpu/memory utilization metrics
