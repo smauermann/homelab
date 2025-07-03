@@ -9,21 +9,24 @@ spec:
     - oci://docker.io/envoyproxy
     - https://github.com/smauermann/homelab
     - https://helm.cilium.io
+    - https://kubernetes-sigs.github.io/external-dns
     - https://pkgs.tailscale.com/helmcharts
   destinations:
     - namespace: argocd
       server: '*'
-    - namespace: 'cert-manager'
+    - namespace: cert-manager
       server: '*'
-    - namespace: 'cilium-secrets'
+    - namespace: cilium-secrets
       server: '*'
     - namespace: cloudflared
       server: '*'
     - namespace: dns
       server: '*'
+    - namespace: external-dns
+      server: '*'
     - namespace: envoy-gateway-system
       server: '*'
-    - namespace: 'kube-system'
+    - namespace: kube-system
       server: '*'
     - namespace: tailscale
       server: '*'
