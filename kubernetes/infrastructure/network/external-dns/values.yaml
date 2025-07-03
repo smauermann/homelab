@@ -10,6 +10,6 @@ env:
 domainFilters:
   - costanza.cloud
 
-extraArgs:
-  - --source=ingress
-  - --source=gateway-httproute
+sources:
+  - ingress
+  - gateway-httproute
