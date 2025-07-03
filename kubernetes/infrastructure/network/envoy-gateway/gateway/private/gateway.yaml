@@ -4,11 +4,13 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: private
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &ip 192.168.178.210
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: &ip 192.168.178.210
+      io.cilium/lb-ipam-ips: *ip
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
