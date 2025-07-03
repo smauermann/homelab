@@ -18,12 +18,3 @@ resource "cloudflare_dns_record" "argocd-webhook" {
   proxied = true
   ttl     = 1
 }
-
-resource "cloudflare_dns_record" "ingress" {
-  zone_id = var.zone_id
-  name    = "*.${var.domain}"
-  content = "192.168.192.168"
-  type    = "A"
-  proxied = false
-  ttl     = 1
-}
