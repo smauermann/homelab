@@ -1,0 +1,15 @@
+provider: cloudflare
+
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: token
+
+domainFilters:
+  - costanza.cloud
+
+extraArgs:
+  - --source=ingress
+  - --source=gateway-httproute
