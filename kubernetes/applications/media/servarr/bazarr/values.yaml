@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+---
+controllers:
+  bazarr:
+    strategy: Recreate
+    containers:
+      app:
+        image:
+          repository: ghcr.io/home-operations/bazarr
+          tag: 1.5.2@sha256:dbc87e5ce9e199709188e152e82b3ff5d33e6521a1b3d61e465aa75b4b739e7f
+        envFrom:
+          - configMapRef:
+              name: common-env
+              optional: true
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: &port 6767
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 1Gi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 2501
+    runAsGroup: 2501
+    fsGroup: 2501
+    fsGroupChangePolicy: OnRootMismatch
+    seccompProfile: { type: RuntimeDefault }
+
+service:
+  app:
+    controller: bazarr
+    ports:
+      http:
+        port: *port
+
+route:
+  app:
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: Subtitle Management
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Servarr
+      gethomepage.dev/icon: bazarr.png
+      gethomepage.dev/name: Bazarr
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - bazarr.costanza.cloud
+
+persistence:
+  config:
+    existingClaim: bazarr-config
+    globalMounts:
+      - path: /config
+  media:
+    existingClaim: servarr-media-nfs
+    globalMounts:
+      - path: /app/data
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: /config/cache
+  log:
+    type: emptyDir
+    globalMounts:
+      - path: /config/log 
