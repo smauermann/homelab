@@ -5,6 +5,11 @@ commonLabels:
 
 resources:
   - pvc.yaml
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
+
+helmCharts:
+  - name: app-template
+    repo:  https://bjw-s-labs.github.io/helm-charts
+    version: 4.1.2
+    releaseName: jellyfin
+    namespace: servarr
+    valuesFile: values.yaml
