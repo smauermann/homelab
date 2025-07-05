@@ -76,17 +76,4 @@ configs:
 
 server:
   ingress:
-    enabled: true
-    ingressClassName: cilium
-    hostname: &host argocd.costanza.cloud
-    extraTls:
-      - hosts:
-          - *host
-
-    annotations:
-      gethomepage.dev/description: GitOps Controller
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Workloads
-      gethomepage.dev/icon: argo-cd.png
-      gethomepage.dev/name: ArgoCD
-      gethomepage.dev/pod-selector: ""
+    enabled: false
