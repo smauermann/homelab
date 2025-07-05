@@ -13,6 +13,11 @@ controllers:
               name: common-env
               optional: true
         probes:
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
           liveness: &probes
             enabled: true
             custom: true
@@ -22,7 +27,7 @@ controllers:
                 port: &port 8096
               initialDelaySeconds: 0
               periodSeconds: 10
-              timeoutSeconds: 1
+              timeoutSeconds: 2
               failureThreshold: 3
           readiness: *probes
         securityContext:
