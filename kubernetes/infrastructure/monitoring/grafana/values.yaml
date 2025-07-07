@@ -119,11 +119,12 @@ dashboards:
       gnetId: 20842
       revision: 3
       datasource: Prometheus
-    node-exporter-full:
-      # renovate: depName="Node Exporter Full"
-      gnetId: 1860
-      revision: 41
-      datasource: Prometheus
+    # the dashboard is also created by the victoria-metrics-stack chart, disable it here for now
+    # node-exporter-full:
+    #   # renovate: depName="Node Exporter Full"
+    #   gnetId: 1860
+    #   revision: 41
+    #   datasource: Prometheus
     longhorn:
       # renovate: depName="Longhorn"
       gnetId: 16888
