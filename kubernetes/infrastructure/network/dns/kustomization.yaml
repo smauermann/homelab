@@ -6,4 +6,3 @@ resources:
   - namespace.yaml
   - adguard
   - unbound
-  - unbound-cache
