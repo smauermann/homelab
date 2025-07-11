@@ -3,9 +3,8 @@ kind: Kustomization
 
 configMapGenerator:
   - name: unbound-config
-    namespace: dns
     files:
-      - unbound.conf
+      - config/unbound.conf
 
 resources:
   - deployment.yaml

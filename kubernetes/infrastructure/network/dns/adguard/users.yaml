@@ -2,6 +2,5 @@ apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
   name: adguard-users
-  namespace: dns
 spec:
   itemPath: "vaults/Homelab/items/adguard-users"
