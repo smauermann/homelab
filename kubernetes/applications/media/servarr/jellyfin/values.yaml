@@ -60,22 +60,36 @@ service:
       http:
         port: *port
 
-route:
+#route:
+#  app:
+#    kind: HTTPRoute
+#    annotations:
+#      gethomepage.dev/description: Media Player
+#      gethomepage.dev/enabled: "true"
+#      gethomepage.dev/group: Media
+#      gethomepage.dev/icon: jellyfin.png
+#      gethomepage.dev/name: Jellyfin
+#    parentRefs:
+#      - name: private
+#        kind: Gateway
+#        namespace: envoy-gateway-system
+#    hostnames:
+#      - jellyfin.costanza.cloud
+
+ingress:
   app:
-    kind: HTTPRoute
     annotations:
       gethomepage.dev/description: Media Player
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Media
       gethomepage.dev/icon: jellyfin.png
       gethomepage.dev/name: Jellyfin
-    parentRefs:
-      - name: private
-        kind: Gateway
-        namespace: envoy-gateway-system
-    hostnames:
-      - jellyfin.costanza.cloud
-
+    className: cilium
+    hosts:
+      - host: jellyfin.costanza.cloud
+        paths:
+          - path: /
+            pathType: Prefix
 persistence:
   config:
     existingClaim: jellyfin-config
