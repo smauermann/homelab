@@ -20,7 +20,7 @@ template:
       fsGroup: 123
     containers:
       - name: runner
-        image: ghcr.io/smauermann/actions-runner:2.323.0@sha256:aabb4e4556ddd5a5fe7bfd6353e6e7a602fb3bdcccf588c73faa1f7b68cc6b52
+        image: ghcr.io/smauermann/actions-runner:2.326.0@sha256:a75936d9a381d7402283d7ecfc9605c61b8b6843dbccee21cc610ef17120573b
         command: ["/home/runner/run.sh"]
         env:
           - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
