@@ -19,13 +19,9 @@ spec:
       server: '*'
     - namespace: gatus
       server: '*'
-    - namespace: honeycomb
-      server: '*'
     - namespace: kube-system
       server: '*'
     - namespace: monitoring
-      server: '*'
-    - namespace: vector
       server: '*'
   clusterResourceWhitelist:
     - group: '*'
