@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - route.yaml
+  - oidc-secret.yaml
 
 helmCharts:
   - name: app-template

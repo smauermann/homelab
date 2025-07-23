@@ -9,6 +9,22 @@ controllers:
           repository: ghcr.io/miniflux/miniflux
           tag: 2.2.10-distroless@sha256:61ac6988d60804e2c03f2e4cbd94e73d0a0819ec253425243fbe162ce760031d
         env:
+          OAUTH2_PROVIDER: oidc
+          OAUTH2_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: oidc-secret
+                key: client-id
+          OAUTH2_CLIENT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: oidc-secret
+                key: client-secret
+          OAUTH2_REDIRECT_URL: https://miniflux.costanza.cloud/oauth2/oidc/callback
+          OAUTH2_OIDC_DISCOVERY_ENDPOINT: https://pid.costanza.cloud
+          OAUTH2_OIDC_PROVIDER_NAME: PocketID
+          OAUTH2_USER_CREATION: "1" # optional, if you want nes users to be created automatically
+          DISABLE_LOCAL_AUTH: "1" # optional, if you want to disable local authentication
           ADMIN_USERNAME:
             valueFrom:
               secretKeyRef:
