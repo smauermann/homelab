@@ -51,7 +51,6 @@ route:
     parentRefs:
       - name: private
         namespace: envoy-gateway-system
-        sectionName: https
 
 persistence:
   config:
