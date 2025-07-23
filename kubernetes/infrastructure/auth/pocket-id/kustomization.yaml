@@ -4,6 +4,7 @@ namespace: &app pocket-id
 
 resources:
   - namespace.yaml
+  - pvc.yaml
 
 helmCharts:
   - name: app-template

@@ -54,10 +54,9 @@ route:
 
 persistence:
   config:
-    existingClaim: "${VOLSYNC_CLAIM}"
+    existingClaim:  pocket-id-data
     globalMounts:
       - path: /app/data
-
   var:
     type: emptyDir
     sizeLimit: 1Gi
