@@ -1,0 +1,64 @@
+controllers:
+  main:
+    pod:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: Always
+    containers:
+      app:
+        image:
+          repository: ghcr.io/pocket-id/pocket-id
+          tag: v1.6.2@sha256:da768baa319f23d6815d048d0d49ce4aacd9eea15ad46d48a5c01ca15fbde392
+        env:
+          ANALYTICS_DISABLED: "true"
+          APP_URL: https://pid.costanza.cloud
+          DB_CONNECTION_STRING: file:/app/data/pocket-id.db?_journal_mode=WAL&_busy_timeout=2500&_txlock=immediate
+          TRUST_PROXY: true
+          TZ: Europe/Berlin
+          UPLOAD_PATH: /app/data/uploads
+        probes:
+          liveness: &probe
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 1411
+          readiness: *probe
+        resources:
+          requests:
+            memory: 250M
+            cpu: 10m
+          limits:
+            memory: 400M
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: [ "ALL" ] }
+
+service:
+  app:
+    ports:
+      http:
+        port: 1411
+
+route:
+  app:
+    hostnames: ["pid.costanza.cloud"]
+    parentRefs:
+      - name: private
+        namespace: envoy-gateway-system
+        sectionName: https
+
+persistence:
+  config:
+    existingClaim: "${VOLSYNC_CLAIM}"
+    globalMounts:
+      - path: /app/data
+
+  var:
+    type: emptyDir
+    sizeLimit: 1Gi
