@@ -47,10 +47,18 @@ service:
 
 route:
   app:
-    hostnames: ["pid.costanza.cloud"]
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: Passkey-based SSO
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Auth
+      gethomepage.dev/icon: sh-pocket-id-dark.png
+      gethomepage.dev/name: Pocket ID
     parentRefs:
       - name: private
         namespace: envoy-gateway-system
+    hostnames:
+      - pid.costanza.cloud
 
 persistence:
   config:
