@@ -56,6 +56,9 @@ admin:
 
 env: {}
 
+envFromSecrets:
+  - name: oidc-secret
+
 ## Pass the plugins you want installed as a list.
 plugins:
   - grafana-clock-panel
@@ -154,6 +157,21 @@ grafana.ini:
     root_url: https://grafana.costanza.cloud
   auth.anonymous:
     enabled: false
+  auth.generic_oauth:
+    allow_assign_grafana_admin: true
+    api_url:  $__env{OIDC_API_URL}
+    auth_url: $__env{OIDC_AUTH_URL}
+    client_id: $__env{OIDC_CLIENT_ID}
+    client_secret: $__env{OIDC_CLIENT_SECRET}
+    enabled: true
+    name: Pocket ID
+    role_attribute_path: contains(groups[*], 'admins') && 'GrafanaAdmin' || 'Viewer'
+    scopes: openid profile email groups
+    signout_redirect_url: $__env{OIDC_SIGNOUT_URL}
+    token_url: $__env{OIDC_TOKEN_URL}
+    use_pkce: true
+  news:
+    news_feed_enabled: false
 
 ## Sidecars that collect the configmaps with specified label and stores the included files them into the respective folders
 ## Requires at least Grafana 5 to work and can't be used together with parameters dashboardProviders, datasources and dashboards

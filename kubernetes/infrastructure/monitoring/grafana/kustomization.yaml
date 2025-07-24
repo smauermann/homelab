@@ -4,6 +4,7 @@ namespace: monitoring
 
 resources:
   - grafana-admin.yaml
+  - oidc-secret.yaml
 
 helmCharts:
   - name: grafana
