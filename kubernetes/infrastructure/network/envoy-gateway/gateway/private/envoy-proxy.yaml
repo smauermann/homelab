@@ -11,6 +11,7 @@ spec:
         replicas: 3
       envoyService:
         name: envoy-gateway-private
+        externalTrafficPolicy: Cluster # Cilium's L2 announce doesn't support Local, since it announces on a different node than the pod is running on https://github.com/cilium/cilium/issues/27800
         patch:
           type: StrategicMerge
           value:
