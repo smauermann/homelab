@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: private
   annotations:
-    external-dns.alpha.kubernetes.io/target: &ip 192.168.178.210
+    external-dns.alpha.kubernetes.io/target: &ip 192.168.192.210
 spec:
   gatewayClassName: envoy
   infrastructure:
