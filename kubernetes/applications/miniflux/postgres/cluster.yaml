@@ -10,7 +10,8 @@ spec:
       owner: miniflux
       secret:
         name: postgres-user
-
   storage:
     storageClass: longhorn
     size: 10Gi
+  monitoring:
+    enablePodMonitor: true
