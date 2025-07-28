@@ -138,7 +138,11 @@ dashboards:
 #    node-feature-discovery:
 #      url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
 #      datasource: VictoriaMetrics
-
+    cloudnative-pg:
+      # renovate: depName="CloudNativePG"
+      gnetId: 20417
+      revision: 4
+      datasource: Prometheus
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
 ## ref: http://docs.grafana.org/installation/configuration/
