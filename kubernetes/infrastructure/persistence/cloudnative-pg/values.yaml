@@ -16,6 +16,3 @@ resources:
 
 monitoring:
   podMonitorEnabled: true
-  grafanaDashboard:
-    create: true
-    sidecarLabelValue: ""
