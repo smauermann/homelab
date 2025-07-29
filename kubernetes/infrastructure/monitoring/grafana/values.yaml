@@ -111,23 +111,11 @@ dashboardProviders:
 ## dashboards per provider, use provider name as key.
 dashboards:
   default:
-#    cloudflared:
-#      # renovate: depName="Cloudflare Tunnels (cloudflared)"
-#      gnetId: 17457
-#      revision: 6
-#      datasource:
-#        - { name: DS_PROMETHEUS, value: Prometheus }
     cert-manager:
       # renovate: depName="Cert-manager-Kubernetes"
       gnetId: 20842
       revision: 3
       datasource: Prometheus
-    # the dashboard is also created by the victoria-metrics-stack chart, disable it here for now
-    # node-exporter-full:
-    #   # renovate: depName="Node Exporter Full"
-    #   gnetId: 1860
-    #   revision: 41
-    #   datasource: Prometheus
     longhorn:
       # renovate: depName="Longhorn"
       gnetId: 16888
@@ -135,14 +123,7 @@ dashboards:
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus
-#    node-feature-discovery:
-#      url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
-#      datasource: VictoriaMetrics
-    cloudnative-pg:
-      # renovate: depName="CloudNativePG"
-      gnetId: 20417
-      revision: 4
-      datasource: Prometheus
+
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
 ## ref: http://docs.grafana.org/installation/configuration/
