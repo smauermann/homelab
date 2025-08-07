@@ -1,0 +1,28 @@
+{
+  "name": "homelab",
+  "version": "0.0.0",
+  "description": "A modern, Kubernetes-based homelab infrastructure built with Talos Linux, ArgoCD, and other cloud-native tools",
+  "private": true,
+  "scripts": {
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.1.0",
+    "@semantic-release/npm": "^10.0.4",
+    "semantic-release": "^21.1.1"
+  },
+  "release": {
+    "branches": ["main"],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  }
+} 
