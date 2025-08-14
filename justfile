@@ -138,6 +138,7 @@ tail-dmesg node:
 bootstrap-apps:
   just bootstrap-cilium
   just bootstrap-onepassword
+  just bootstrap-external-secrets
   just bootstrap-argocd
 
 bootstrap-cilium:
@@ -153,10 +154,21 @@ bootstrap-onepassword:
   #!/usr/bin/env bash
   set -euxo pipefail
 
-  kubectl apply kubernetes/infrastructure/workloads/onepassword/namespace.yaml
+  kubectl apply -f kubernetes/infrastructure/workloads/onepassword/namespace.yaml
   sops -d bootstrap/onepassword/op-secrets.sops.yaml | kubectl apply -f -
 
   APP_DIR="kubernetes/infrastructure/workloads/onepassword"
+  rm -rf $APP_DIR/charts
+  kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
+
+bootstrap-external-secrets:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+
+  kubectl apply -f kubernetes/infrastructure/workloads/external-secrets/namespace.yaml
+  sops -d bootstrap/external-secrets/op-secrets.sops.yaml | kubectl apply -f -
+
+  APP_DIR="kubernetes/infrastructure/workloads/external-secrets"
   rm -rf $APP_DIR/charts
   kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
 
