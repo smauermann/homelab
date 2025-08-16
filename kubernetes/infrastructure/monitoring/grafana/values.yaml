@@ -128,6 +128,13 @@ dashboards:
       gnetId: 20417
       revision: 4
       datasource: Prometheus
+    volsync:
+      # renovate: depName="VolSync Dashboard"
+      gnetId: 21356
+      revision: 3
+      datasource:
+        - name: DS_PROMETHEUS
+          value: Prometheus
 
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
