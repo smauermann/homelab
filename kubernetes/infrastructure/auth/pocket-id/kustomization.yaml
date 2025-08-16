@@ -5,6 +5,8 @@ namespace: &app pocket-id
 resources:
   - namespace.yaml
   - pvc.yaml
+  - volsync-b2-credentials.yaml
+  - replicationsource.yaml
 
 helmCharts:
   - name: app-template

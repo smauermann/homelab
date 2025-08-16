@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: pocket-id-data-b2
+spec:
+  sourcePVC: pocket-id-data
+  trigger:
+    # Daily at 01:00
+    schedule: "0 1 * * *"
+  restic:
+    # Optional: small cache for restic metadata (adjust or remove if undesired)
+    cacheCapacity: 2Gi
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 65534
+      runAsGroup: 65534
+      fsGroup: 65534
+      fsGroupChangePolicy: Always
+    pruneIntervalDays: 7
+    # keep 7 daily backups, 4 weekly backups
+    retain:
+      daily: 7
+      weekly: 4
+    repository: pocket-id-volsync-b2
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapshot
