@@ -4,6 +4,14 @@ kind: EnvoyProxy
 metadata:
   name: private-proxy-config
 spec:
+  telemetry:
+    metrics:
+      prometheus: {}
+  shutdown:
+    drainTimeout: 300s
+  logging:
+    level:
+      default: info
   provider:
     type: Kubernetes
     kubernetes:
