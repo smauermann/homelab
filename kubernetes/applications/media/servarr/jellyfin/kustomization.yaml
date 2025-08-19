@@ -5,6 +5,7 @@ commonLabels:
 
 resources:
   - pvc.yaml
+  - backend-traffic-policy.yaml
 
 helmCharts:
   - name: app-template

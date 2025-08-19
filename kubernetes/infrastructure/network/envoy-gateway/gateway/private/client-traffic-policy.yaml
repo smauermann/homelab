@@ -1,0 +1,16 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: stream-timeouts
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: private
+  timeout:
+    http:
+      requestReceivedTimeout: 60s
+      streamIdleTimeout: 30m
+  connection:
+    connectionLimit:
+      value: 1000
