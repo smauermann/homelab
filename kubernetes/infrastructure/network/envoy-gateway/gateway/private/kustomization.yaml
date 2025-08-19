@@ -5,3 +5,4 @@ namespace: envoy-gateway-system
 resources:
   - envoy-proxy.yaml
   - gateway.yaml
+  - client-traffic-policy.yaml
