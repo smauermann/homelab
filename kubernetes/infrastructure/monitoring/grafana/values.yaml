@@ -135,7 +135,25 @@ dashboards:
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus
-
+    envoy-clusters:
+      # renovate: datasource=github-releases depName=envoyproxy/gateway
+      url: https://raw.githubusercontent.com/envoyproxy/gateway/main/charts/gateway-addons-helm/dashboards/envoy-clusters.json
+      datasource: Prometheus
+    envoy-gateway-global:
+      # renovate: datasource=github-releases depName=envoyproxy/gateway
+      url: https://raw.githubusercontent.com/envoyproxy/gateway/main/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+      datasource: Prometheus
+    envoy-proxy-global:
+      # renovate: datasource=github-releases depName=envoyproxy/gateway
+      url: https://raw.githubusercontent.com/envoyproxy/gateway/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
+      datasource: Prometheus
+    envoy:
+      # renovate: depName="Envoy Proxy Monitoring gRPC"
+      gnetId: 23239
+      revision: 1
+      datasource:
+        - name: DS_AFRANET_PROMETHEUS
+          value: Prometheus
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
 ## ref: http://docs.grafana.org/installation/configuration/
