@@ -8,8 +8,7 @@ spec:
       kind: HTTPRoute
       name: jellyfin
   connection:
-    bufferLimit: 64Mi  # default 32Ki
+    bufferLimit: 512Mi  # default 32Ki
+    socketBufferLimit: 512Mi
   loadBalancer:
-    type: ConsistentHash
-    consistentHash:
-      type: SourceIP      # Session affinity for Apple TV
+    type: RoundRobin
