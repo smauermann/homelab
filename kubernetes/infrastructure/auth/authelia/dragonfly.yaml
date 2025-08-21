@@ -7,21 +7,19 @@ spec:
   replicas: 1
   image:
     repository: docker.dragonflydb.io/dragonflydb/dragonfly
+  authentication:
+    passwordFromSecret:
+      name: dragonfly-auth-secret
+      key: password
   env:
     - name: MAX_MEMORY
       valueFrom:
         resourceFieldRef:
           resource: limits.memory
           divisor: 1Mi
-    - name: DRAGONFLY_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: dragonfly-secret
-          key: password
   args:
     - --maxmemory=$(MAX_MEMORY)Mi
     - --cluster_mode=emulated
-    - --requirepass=$(DRAGONFLY_PASSWORD)
   resources:
     requests:
       memory: 128Mi
