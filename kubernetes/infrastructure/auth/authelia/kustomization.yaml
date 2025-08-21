@@ -7,4 +7,5 @@ resources:
   - postgres
   - postgres-user.yaml
   - dragonfly.yaml
+  - dragonfly-secret.yaml
   - app
