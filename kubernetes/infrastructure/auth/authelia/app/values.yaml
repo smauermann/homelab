@@ -73,6 +73,8 @@ configMap:
       enabled: true
       host: 'authelia-dragonfly.authelia.svc.cluster.local'
       port: 6379
+      password:
+        secret_name: dragonfly-secret
 
   ## The available providers are: `local`, `mysql`, `postgres`. You must use one and only one of these providers.
   storage:
@@ -148,6 +150,10 @@ configMap:
 secret:
   additionalSecrets:
     users: {}
+    dragonfly-secret:
+      items:
+        - key: password
+          path: session.redis.password.txt
     postgres-user:
       items:
         - key: password
