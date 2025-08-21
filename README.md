@@ -66,11 +66,11 @@ This homelab is built on a foundation of modern infrastructure tools:
 
 ```
 .
-├── bootstrap/           # Initial setup configurations
-├── infra/               # Infrastructure as Code
+├── bootstrap/           # Initial setup before ArgoCD takes over
+├── infra/               # Adjacent infrastructure like S3 buckets
 ├── kubernetes/          # Kubernetes manifests
-│   ├── infrastructure/  # Core infrastructure components
-│   └── workloads/       # Application workloads
+│   ├── applications/    # Application workloads
+│   └── infrastructure/  # Core infrastructure components
 ├── talos/               # Talos Linux configurations
 └── hack/                # Utility scripts
 ```
