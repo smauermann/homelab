@@ -2,11 +2,8 @@ apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
   name: authelia-dragonfly
-  namespace: authelia
 spec:
-  replicas: 1
-  image:
-    repository: docker.dragonflydb.io/dragonflydb/dragonfly
+  replicas: 2
   authentication:
     passwordFromSecret:
       name: dragonfly-auth-secret
