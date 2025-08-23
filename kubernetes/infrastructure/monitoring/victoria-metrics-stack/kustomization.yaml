@@ -5,14 +5,14 @@ namespace: monitoring
 helmCharts:
   - name: victoria-metrics-k8s-stack
     repo: https://victoriametrics.github.io/helm-charts
-    version: 0.59.2
+    version: 0.59.3
     releaseName: victoria-metrics-stack
     namespace: monitoring
     includeCRDs: true
     valuesFile: values.yaml
   - name: prometheus-operator-crds
     repo: https://prometheus-community.github.io/helm-charts
-    version: 22.0.2
+    version: 23.0.0
     releaseName: prometheus-operator-crds
     includeCRDs: true
     namespace: monitoring
