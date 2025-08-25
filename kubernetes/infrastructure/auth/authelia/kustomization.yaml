@@ -6,6 +6,6 @@ resources:
   - namespace.yaml
   - postgres
   - postgres-user.yaml
-  - valkey
-  - valkey-secret.yaml
+  - dragonfly.yaml
+  - dragonfly-secret.yaml
   - app
