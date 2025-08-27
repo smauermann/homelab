@@ -81,8 +81,8 @@ route:
               type: PathPrefix
               value: /
         timeouts:
-          request: 1m
-          backendRequest: 30s
+          request: 30m
+          backendRequest: 30m
         backendRefs:
           - name: jellyfin
             port: *port
