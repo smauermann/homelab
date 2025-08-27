@@ -83,6 +83,9 @@ route:
         timeouts:
           request: 1m
           backendRequest: 30s
+        backendRefs:
+          - name: jellyfin
+            port: *port
 
 ingress:
   app:
