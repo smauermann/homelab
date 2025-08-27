@@ -75,6 +75,14 @@ route:
         namespace: envoy-gateway-system
     hostnames:
       - jellyfin.costanza.cloud
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        timeouts:
+          request: 1m
+          backendRequest: 30s
 
 ingress:
   app:
