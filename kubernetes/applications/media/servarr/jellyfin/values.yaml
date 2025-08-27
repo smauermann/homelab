@@ -74,7 +74,7 @@ route:
         kind: Gateway
         namespace: envoy-gateway-system
     hostnames:
-      - jellyfin-gateway.costanza.cloud
+      - jellyfin.costanza.cloud
 
 ingress:
   app:
@@ -86,7 +86,7 @@ ingress:
       gethomepage.dev/name: Jellyfin Ingress
     className: cilium
     hosts:
-      - host: &host jellyfin.costanza.cloud
+      - host: &host jellyfin-ingress.costanza.cloud
         paths:
           - path: /
             pathType: Prefix
