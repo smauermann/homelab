@@ -9,7 +9,7 @@ spec:
       name: private
   timeout:
     http:
-      requestReceivedTimeout: 60s
+      requestReceivedTimeout: 300s
       streamIdleTimeout: 30m
   connection:
     connectionLimit:
