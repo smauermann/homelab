@@ -5,8 +5,6 @@ namespace: &app pocket-id
 resources:
   - namespace.yaml
   - pvc.yaml
-  - volsync-b2-credentials.yaml
-  - replicationsource.yaml
 
 helmCharts:
   - name: app-template
@@ -14,4 +12,12 @@ helmCharts:
     version: 4.2.0
     releaseName: *app
     namespace: *app
-    valuesFile: values.yaml 
+    valuesFile: values.yaml
+  - name: pvc-backup
+    repo: https://smauermann.github.io/helm-charts
+    version: 0.1.1
+    releaseName: pocket-id-backup
+    namespace: *app
+    valuesInline:
+      appName: pocket-id
+      pvcName: pocket-id-data 
