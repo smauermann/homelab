@@ -1,6 +1,7 @@
 service:
   type: ClusterIP
   port: 80
+  externalTrafficPolicy: null
 
 ingress:
   enabled: false
