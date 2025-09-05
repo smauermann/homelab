@@ -18,6 +18,7 @@ configs:
 
   rbac:
     policy.csv: |
+      g, admins, role:admin
       g, argocd:admins, role:admin
       g, githubActions, role:readonly
 
@@ -25,15 +26,16 @@ configs:
     url: https://argocd.costanza.cloud
     accounts.githubActions: apiKey
     oidc.config: |
-      name: 'Authelia'
-      issuer: 'https://authelia.costanza.cloud'
+      name: 'Pocket ID'
+      issuer: 'https://pid.costanza.cloud'
       clientID: 'argocd'
-      clientSecret: '$argocd-oidc-client-secret:secret'
+      clientSecret: '$argocd-oidc-secret:secret'
       requestedScopes:
         - 'openid'
         - 'profile'
         - 'email'
         - 'groups'
+      enablePKCEAuthentication: true
 
     # use annotation tracking method, this will be the default in v3
     application.resourceTrackingMethod: annotation+label
