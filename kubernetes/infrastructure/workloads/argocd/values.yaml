@@ -35,7 +35,6 @@ configs:
         - 'profile'
         - 'email'
         - 'groups'
-      enablePKCEAuthentication: true
 
     # use annotation tracking method, this will be the default in v3
     application.resourceTrackingMethod: annotation+label
