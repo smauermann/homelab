@@ -17,6 +17,9 @@ service:
 ingress:
   enabled: false
 
+deployment:
+  strategy: Recreate
+
 resources:
   limits:
     memory: 128Mi
