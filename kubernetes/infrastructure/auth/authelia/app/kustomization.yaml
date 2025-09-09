@@ -8,14 +8,6 @@ resources:
   - encryption-keys.yaml
   - route.yaml
 
-patches:
-  - target:
-      version: v1
-      kind: Service
-      name: authelia
-      namespace: authelia
-    path: service-patch.yaml
-
 secretGenerator:
   - name: users
     files:
