@@ -3,7 +3,8 @@ kind: Connector
 metadata:
   name: loadbalancer-cidrs
 spec:
-  hostname: loadbalancer-cidrs
+  replicas: 3
+  hostnamePrefix: loadbalancer-cidrs
   subnetRouter:
     advertiseRoutes:
       - "192.168.178.0/24"
