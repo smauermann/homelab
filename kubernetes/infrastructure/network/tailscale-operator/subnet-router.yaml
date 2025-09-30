@@ -1,3 +1,17 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: high-availability
+spec:
+  statefulSet:
+    pod:
+      priorityClassName: system-cluster-critical
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+---
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
@@ -9,3 +23,4 @@ spec:
     advertiseRoutes:
       - "192.168.178.0/24"
       - "192.168.192.0/24"
+  proxyClass: high-availability
