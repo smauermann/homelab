@@ -6,9 +6,9 @@ defaultSettings:
   # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
   storageMinimalAvailablePercentage: ~
   # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
-  storageReservedPercentageForDefaultDisk: 0
+  storageReservedPercentageForDefaultDisk: "0"
   # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
-  defaultReplicaCount: 1
+  defaultReplicaCount: "1"
 
 persistence:
   defaultClass: true
