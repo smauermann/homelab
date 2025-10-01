@@ -9,6 +9,8 @@ defaultSettings:
   storageReservedPercentageForDefaultDisk: "0"
   # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
   defaultReplicaCount: "1"
+  # -- Maximum number of engines that are allowed to concurrently upgrade on each node after Longhorn Manager is upgraded.
+  concurrentAutomaticEngineUpgradePerNodeLimit: "3"
 
 persistence:
   defaultClass: true
