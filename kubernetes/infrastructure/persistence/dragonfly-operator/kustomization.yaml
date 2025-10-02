@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
-  - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/v1.2.1/manifests/crd.yaml
+  - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/v1.3.0/manifests/crd.yaml
   - namespace.yaml
   - rbac.yaml
 
