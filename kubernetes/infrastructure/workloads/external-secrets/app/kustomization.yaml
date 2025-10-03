@@ -9,5 +9,5 @@ helmCharts:
     includeCRDs: true
     namespace: external-secrets
     releaseName: external-secrets
-    version: 0.20.1
+    version: 0.20.2
     valuesFile: values.yaml
