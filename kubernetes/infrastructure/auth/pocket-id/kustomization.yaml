@@ -15,7 +15,7 @@ helmCharts:
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
-    version: 0.2.1
+    version: 0.3.1
     releaseName: pocket-id-backup
     namespace: *app
     valuesInline:
