@@ -10,10 +10,10 @@ spec:
     - https://charts.external-secrets.io
     - https://github.com/smauermann/homelab
     - https://intel.github.io/helm-charts/
-    - https://kubernetes-sigs.github.io/node-feature-discovery/charts
     - https://kubernetes-sigs.github.io/descheduler
     - https://kubernetes-sigs.github.io/metrics-server
     - oci://ghcr.io/actions/actions-runner-controller-charts
+    - oci://registry.k8s.io/nfd/charts
   destinations:
     - namespace: arc-runners
       server: '*'
