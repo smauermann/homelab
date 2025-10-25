@@ -9,7 +9,7 @@ resources:
 helmCharts:
   - name: node-feature-discovery
     repo: oci://registry.k8s.io/nfd/charts
-    version: 0.18.1
+    version: 0.18.2
     releaseName: nfd
     namespace: node-feature-discovery
     includeCRDs: true
