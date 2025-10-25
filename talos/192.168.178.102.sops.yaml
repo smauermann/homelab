@@ -32,13 +32,6 @@ machine:
         dhcp: true
         vip:
           ip: 192.168.178.201
-    nameservers:
-      - 1.1.1.1
-      - 9.9.9.9
-    extraHostEntries:
-      - ip: 192.168.178.99
-        aliases:
-          - nas.costanza.cloud
   install:
     image: factory.talos.dev/installer/$SCHEMATIC:$TALOS_VERSION
     wipe: false
