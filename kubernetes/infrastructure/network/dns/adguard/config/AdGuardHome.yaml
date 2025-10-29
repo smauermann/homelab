@@ -23,7 +23,6 @@ dns:
     - 10.111.22.33
     - udp://unbound.dns.svc.cluster.local:53
     - tcp://unbound.dns.svc.cluster.local:53
-    - '[/fritz.box/]192.168.178.1'
   upstream_dns_file: ""
   bootstrap_dns:
     - 192.168.178.1
@@ -198,7 +197,7 @@ filtering:
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
     - domain: nas.costanza.cloud
-      answer: 192.168.178.99
+      answer: 192.168.30.9
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
