@@ -15,17 +15,14 @@ helmCharts:
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
-    version: 1.0.0
+    version: 2.0.0
     releaseName: pocket-id-backup
     namespace: *app
     valuesInline:
       appName: pocket-id
       backup:
-        pvc:
-          name: pocket-id-data
+        pvcName: pocket-id-data
       restore:
         enabled: true
-        enableFileDeletion: true
-        pvc:
-          name: pocket-id-data-restored
-          size: 10Gi
+        pvcName: pocket-id-data-restored
+        pvcSize: 10Gi
