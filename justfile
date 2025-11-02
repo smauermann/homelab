@@ -1,3 +1,6 @@
+set quiet := true
+set shell := ['bash', '-euo', 'pipefail', '-c']
+
 set dotenv-load
 set dotenv-path := "talos/cluster.env"
 
@@ -183,6 +186,15 @@ bootstrap-argocd:
 
   # create the meta apps (root apps that apply all other apps)
   kubectl apply -k bootstrap/argo-apps
+
+#########
+# VolSync
+#######
+[doc('Snapshot VolSync PVCs')]
+backup-volumes:
+  kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
+    kubectl -n "$ns" patch replicationsources "$name" --type merge -p "{\"spec\":{\"trigger\":{\"manual\":\"$(date +%s)\"}}}"; \
+  done
 
 #########
 # Misc
