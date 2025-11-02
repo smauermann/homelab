@@ -37,7 +37,7 @@ controllers:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-          capabilities: { drop: [ "ALL" ] }
+          capabilities: { drop: ["ALL"] }
 
 service:
   app:
@@ -62,7 +62,7 @@ route:
 
 persistence:
   config:
-    existingClaim:  pocket-id-data
+    existingClaim: pocket-id-data-restored
     globalMounts:
       - path: /app/data
   var:
