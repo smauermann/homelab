@@ -20,4 +20,12 @@ helmCharts:
     namespace: *app
     valuesInline:
       appName: pocket-id
-      pvcName: pocket-id-data 
+      backup:
+        pvc:
+          name: pocket-id-data
+      restore:
+        enabled: true
+        enableFileDeletion: true
+        pvc:
+          name: pocket-id-data-restored
+          size: 10Gi
