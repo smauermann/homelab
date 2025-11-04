@@ -10,6 +10,10 @@ configs:
     # Ingress NGINX finishes TLS connections
     server.insecure: true
     controller.diff.server.side: "true"
+    # Preserve the 5s delay between self-heal retries instead of the upstream 0s default.
+    controller.self.heal.timeout.seconds: "5"
+    # Keep enforcing sync policy to match pre-upgrade behaviour.
+    applicationsetcontroller.policy: sync
 
   secret:
     # authentication of GitHub webhook events
