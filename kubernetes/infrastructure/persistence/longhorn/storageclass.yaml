@@ -4,7 +4,7 @@ metadata:
   name: longhorn-single-replica
 parameters:
   dataEngine: v1
-  dataLocality: disabled
+  dataLocality: best-effort
   disableRevisionCounter: "true"
   fromBackup: ""
   fsType: ext4
