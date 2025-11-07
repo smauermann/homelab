@@ -1,0 +1,18 @@
+---
+machine:
+  type: controlplane
+  network:
+    hostname: cosmo.talos.internal
+  install:
+    diskSelector:
+      model: CT1000MX500SSD1
+  nodeLabels:
+    topology.kubernetes.io/zone: cosmo
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: storage
+provisioning:
+  diskSelector:
+    match: disk.model == "CT2000P3PSSD8" && !system_disk
+  minSize: 1TB

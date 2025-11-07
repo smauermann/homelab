@@ -4,10 +4,11 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 set dotenv-load
 set dotenv-path := "talos/cluster.env"
 
-clusterName := "homelab"
-clusterEndpoint := "https://192.168.178.201:6443"
-nodes := "192.168.178.100 192.168.178.101 192.168.178.102"
+clusterEndpoint := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 talosDir := "talos"
+
+get-hostname node:
+  @echo -n {{ replace(replace(node, ".talos.internal", ""), "", "") }}.talos.internal
 
 default:
   @just --list
@@ -17,7 +18,6 @@ default:
 #######
 encrypt:
   #!/usr/bin/env bash
-  set -euo pipefail
   # Find all files ending with sops.yaml recursively from current directory
   find . -type f -name "*sops.yaml" ! -name ".sops.yaml" | while read -r file; do
     # Check if file is already encrypted by looking for sops metadata in the file
@@ -37,107 +37,85 @@ encrypt:
 #########
 # Talos
 #######
-dashboard:
-  talosctl dashboard --nodes $(echo {{ nodes }} | tr ' ' ',')
-
 gen-secrets:
   talosctl gen secrets --output {{ talosDir }}/secrets.sops.yaml
 
 gen-config:
-  talosctl gen config --with-secrets {{ talosDir }}/secrets.sops.yaml {{ clusterName }} {{ clusterEndpoint }} --output {{ talosDir }}
+  talosctl gen config --with-secrets {{ talosDir }}/secrets.sops.yaml homelab {{ clusterEndpoint }} --output {{ talosDir }}
 
 @get-schematic:
   curl -X POST --silent --data-binary @{{ talosDir }}/schematic.yaml https://factory.talos.dev/schematics | yq .id
 
 get-talos-image:
-  #!/usr/bin/env bash
-  SCHEMATIC=$(just get-schematic)
-  echo -n factory.talos.dev/installer/${SCHEMATIC}:${TALOS_VERSION}
+  echo -n factory.talos.dev/installer/$(just get-schematic):${TALOS_VERSION}
+
+[doc('Download Talos machine image')]
+download-image:
+  curl -sfL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
+     -o "{{ talosDir }}/talos-${TALOS_VERSION}-$(just get-schematic).iso" \
+    "https://factory.talos.dev/image/$(just get-schematic)/$TALOS_VERSION/metal-amd64.iso"
 
 parse-machine-config node:
   #!/usr/bin/env bash
   SCHEMATIC=$(just get-schematic)
-  sops -d {{ talosDir }}/{{ node }}.sops.yaml | sed -e "s|\$SCHEMATIC|$SCHEMATIC|g" -e "s|\$TALOS_VERSION|$TALOS_VERSION|g" -e "s|\$KUBERNETES_VERSION|$KUBERNETES_VERSION|g"
+  sops exec-file {{ talosDir }}/base.sops.yaml "talosctl machineconfig patch {} -p @{{ talosDir }}/patches/{{ node }}.yaml" \
+    | sed -e "s|\$SCHEMATIC|$SCHEMATIC|g" -e "s|\$TALOS_VERSION|$TALOS_VERSION|g" -e "s|\$KUBERNETES_VERSION|$KUBERNETES_VERSION|g"
 
 apply-insecure node:
-  just parse-machine-config {{ node }} | talosctl apply-config --insecure --nodes {{ node }} --file /dev/stdin
+  @just parse-machine-config {{ node }} | talosctl apply-config --insecure --nodes $(just get-hostname {{ node }}) --file /dev/stdin
 
 bootstrap node:
-  talosctl bootstrap --nodes {{node}} --endpoints {{ node }}
+  talosctl bootstrap --nodes $(just get-hostname {{ node }}) --endpoints $(just get-hostname {{ node }})
 
-apply node:
-  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin && just health {{ node }}
+apply node *args:
+  @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin {{ args }}
+  @just health {{ node }}
 
 apply-reboot node:
-  just parse-machine-config {{ node }} | talosctl apply-config --nodes {{ node }} --file /dev/stdin --mode reboot
-
-apply-all:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  for node in {{ nodes }}; do
-    just apply $node
-  done
+  @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin --mode reboot
 
 [confirm('Do you really want to reset this node?')]
 reset node:
-  talosctl reset --reboot --nodes {{ node }}
+  talosctl reset --reboot --nodes $(just get-hostname {{ node }})
 
 [confirm('Do you really want to hard reset this node?')]
 reset-hard node:
-  talosctl reset --graceful=false --reboot --nodes {{ node }}
-
-[confirm('Do you really want to reset all nodes?')]
-reset-all:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  for node in {{ nodes }}; do
-    talosctl reset --graceful=false --reboot --nodes $node
-  done
+  talosctl reset --graceful=false --reboot --nodes $(just get-hostname {{ node }})
 
 upgrade node:
-  #!/usr/bin/env bash
-  TALOS_IMAGE=$(just get-talos-image)
-  talosctl upgrade --nodes {{ node }} --image $TALOS_IMAGE --endpoints {{ node }} --debug
-  just health {{ node }}
-
-upgrade-all:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  for node in {{ nodes }}; do
-    just upgrade $node
-  done
+  echo talosctl upgrade --nodes $(just get-hostname {{ node }}) --image $(just get-talos-image) --endpoints {{ clusterEndpoint }} --debug
+  echo just health {{ node }}
 
 upgrade-k8s:
-  # all nodes will be upgraded sequentially, just pick one node for the command
-  talosctl upgrade-k8s --to $KUBERNETES_VERSION -n 192.168.178.100 -e 192.168.178.100
+  talosctl upgrade-k8s --to "${KUBERNETES_VERSION}" -n {{ clusterEndpoint }} -e {{ clusterEndpoint }}
 
 health node:
-  talosctl health --nodes {{ node }} --server=false
+  talosctl health --nodes $(just get-hostname {{ node }}) --server=false
 
 kubeconfig node:
-  talosctl kubeconfig --nodes {{ node }} --force --force-context-name talos {{ talosDir }}
+  talosctl kubeconfig --nodes $(just get-hostname {{ node }}) --force --force-context-name talos {{ talosDir }}
 
 services node:
-  talosctl services --nodes {{ node }}
+  talosctl services --nodes $(just get-hostname {{ node }})
 
 logs node service:
-  talosctl logs --nodes {{ node }} {{ service }}
-
-etcd-defrag:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  for node in {{ nodes }}; do
-    talosctl etcd defrag --nodes $node
-    sleep 2
-    just health $node
-  done
+  talosctl logs --nodes $(just get-hostname {{ node }}) "{{ service }}"
 
 tail-dmesg node:
-  talosctl dmesg --tail --follow --nodes {{ node }}
+  talosctl dmesg --tail --follow --nodes $(just get-hostname {{ node }})
 
 #########
 # Bootstrap Apps
 #######
+# Helper recipe to bootstrap a Kubernetes app with optional namespace and secrets
+_bootstrap-app app_dir namespace="" secrets="":
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  [[ -n "{{ namespace }}" ]] && kubectl apply -f "{{ namespace }}"
+  [[ -n "{{ secrets }}" ]] && sops -d "{{ secrets }}" | kubectl apply -f -
+  rm -rf "{{ app_dir }}/charts"
+  kubectl kustomize --enable-helm "{{ app_dir }}" | kubectl apply -f -
+
 bootstrap-apps:
   just bootstrap-cilium
   just bootstrap-onepassword
@@ -145,46 +123,18 @@ bootstrap-apps:
   just bootstrap-argocd
 
 bootstrap-cilium:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-
-  APP_DIR="kubernetes/infrastructure/network/cilium"
-  rm -rf $APP_DIR/charts
-
-  kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
+  just _bootstrap-app kubernetes/infrastructure/network/cilium
 
 bootstrap-onepassword:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-
-  kubectl apply -f kubernetes/infrastructure/workloads/onepassword/namespace.yaml
-  sops -d bootstrap/onepassword/op-secrets.sops.yaml | kubectl apply -f -
-
-  APP_DIR="kubernetes/infrastructure/workloads/onepassword"
-  rm -rf $APP_DIR/charts
-  kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
+  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword kubernetes/infrastructure/workloads/onepassword/namespace.yaml bootstrap/onepassword/op-secrets.sops.yaml
 
 bootstrap-external-secrets:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-
-  kubectl apply -f kubernetes/infrastructure/workloads/external-secrets/namespace.yaml
-  sops -d bootstrap/external-secrets/op-secrets.sops.yaml | kubectl apply -f -
-
-  APP_DIR="kubernetes/infrastructure/workloads/external-secrets"
-  rm -rf $APP_DIR/charts
-  kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
+  just _bootstrap-app kubernetes/infrastructure/workloads/external-secrets kubernetes/infrastructure/workloads/external-secrets/namespace.yaml bootstrap/external-secrets/op-secrets.sops.yaml
 
 bootstrap-argocd:
   #!/usr/bin/env bash
   set -euxo pipefail
-
-  APP_DIR="kubernetes/infrastructure/workloads/argocd"
-  rm -rf $APP_DIR/charts
-
-  kubectl kustomize --enable-helm $APP_DIR | kubectl apply -f -
-
-  # create the meta apps (root apps that apply all other apps)
+  just _bootstrap-app kubernetes/infrastructure/workloads/argocd
   kubectl apply -k bootstrap/argo-apps
 
 #########
