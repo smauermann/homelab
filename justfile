@@ -83,8 +83,8 @@ reset-hard node:
   talosctl reset --graceful=false --reboot --nodes $(just get-hostname {{ node }})
 
 upgrade node:
-  echo talosctl upgrade --nodes $(just get-hostname {{ node }}) --image $(just get-talos-image) --endpoints {{ clusterEndpoint }} --debug
-  echo just health {{ node }}
+  talosctl upgrade --nodes $(just get-hostname {{ node }}) --image $(just get-talos-image) --endpoints {{ clusterEndpoint }} --debug
+  just health {{ node }}
 
 upgrade-k8s:
   talosctl upgrade-k8s --to "${KUBERNETES_VERSION}" -n {{ clusterEndpoint }} -e {{ clusterEndpoint }}
