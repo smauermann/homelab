@@ -1,0 +1,18 @@
+---
+machine:
+  type: controlplane
+  network:
+    hostname: jerry.talos.internal
+  install:
+    diskSelector:
+      model: SK hynix PC601 HFS256GD9TNG-L2A0A
+  nodeLabels:
+    topology.kubernetes.io/zone: jerry
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: storage
+provisioning:
+  diskSelector:
+    match: disk.model == "Samsung SSD 990 PRO 2TB" && !system_disk
+  minSize: 1TB

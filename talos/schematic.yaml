@@ -1,4 +1,20 @@
 customization:
+  extraKernelArgs:
+    # less security, faster puter
+    - -init_on_alloc
+    - -init_on_free
+    - -selinux
+    - apparmor=0
+    - mitigations=off
+    - security=none
+    - init_on_alloc=0
+    - init_on_free=0
+    - talos.auditd.disabled=1
+    # PCI Passthrough
+    - intel_iommu=on
+    - iommu=pt
+    # save moneyz
+    - cpufreq.default_governor=powersave
   systemExtensions:
     officialExtensions:
       - siderolabs/i915
