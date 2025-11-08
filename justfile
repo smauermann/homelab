@@ -140,8 +140,8 @@ bootstrap-external-secrets:
 bootstrap-argocd:
   #!/usr/bin/env bash
   set -euxo pipefail
-  just _bootstrap-app kubernetes/infrastructure/workloads/argocd
-  kubectl apply -k bootstrap/argo-apps
+  just _bootstrap-app kubernetes/infrastructure/workloads/argocd || true
+  kubectl apply --server-side=true -k bootstrap/argo-apps
 
 #########
 # VolSync
