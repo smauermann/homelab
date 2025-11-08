@@ -64,8 +64,8 @@ parse-machine-config node:
 apply-insecure node:
   @just parse-machine-config {{ node }} | talosctl apply-config --insecure --nodes $(just get-hostname {{ node }}) --file /dev/stdin
 
-bootstrap node:
-  talosctl bootstrap --nodes $(just get-hostname {{ node }}) --endpoints $(just get-hostname {{ node }})
+bootstrap-etcd:
+  talosctl bootstrap --nodes {{ clusterEndpoint }} --endpoints {{ clusterEndpoint }}
 
 apply node *args:
   @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin {{ args }}
@@ -75,12 +75,12 @@ apply-reboot node:
   @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin --mode reboot
 
 [confirm('Do you really want to reset this node?')]
-reset node:
-  talosctl reset --reboot --nodes $(just get-hostname {{ node }})
+reset node *args:
+  talosctl reset --nodes $(just get-hostname {{ node }}) {{ args }}
 
 [confirm('Do you really want to hard reset this node?')]
-reset-hard node:
-  talosctl reset --graceful=false --reboot --nodes $(just get-hostname {{ node }})
+reset-hard node *args:
+  talosctl reset --graceful=false --nodes $(just get-hostname {{ node }}) {{ args }}
 
 upgrade node:
   talosctl upgrade --nodes $(just get-hostname {{ node }}) --image $(just get-talos-image) --endpoints {{ clusterEndpoint }} --debug
@@ -123,7 +123,7 @@ bootstrap-apps:
   just bootstrap-onepassword || echo "⚠️  onepassword bootstrap failed, continuing..."
   just bootstrap-certmanager || echo "⚠️  certmanager bootstrap failed, continuing..."
   just bootstrap-external-secrets || echo "⚠️  external-secrets bootstrap failed, continuing..."
-  just bootstrap-argocd || echo "⚠️  argocd bootstrap failed, continuing..."
+  # just bootstrap-argocd || echo "⚠️  argocd bootstrap failed, continuing..."
 
 bootstrap-cilium:
   just _bootstrap-app kubernetes/infrastructure/network/cilium

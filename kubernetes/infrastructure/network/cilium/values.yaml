@@ -40,7 +40,7 @@ ingressController:
 ipam:
   mode: kubernetes
 
-ipv4NativeRoutingCIDR: 10.244.0.0/16
+ipv4NativeRoutingCIDR: 10.42.0.0/16
 
 k8sClientRateLimit:
   qps: 50
