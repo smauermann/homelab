@@ -1,4 +1,5 @@
 autoDirectNodeRoutes: true
+
 bandwidthManager:
   enabled: true
   bbr: true
@@ -84,6 +85,9 @@ prometheus:
 rollOutCiliumPods: true
 
 routingMode: native
+
+# disable tunneling for native routing
+tunnel: ""
 
 securityContext:
   capabilities:
