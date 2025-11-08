@@ -5,17 +5,10 @@ metadata:
   name: nfs-csi-delete
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: nas.costanza.cloud
+  server: nas.internal
   share: /volume1/kubernetes
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
-mountOptions:
-  - hard
-  - nfsvers=4.1
-  - nconnect=8
-  - noacl
-  - noatime
-  - nodiratime
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -23,14 +16,7 @@ metadata:
   name: nfs-csi-retain
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: nas.costanza.cloud
+  server: nas.internal
   share: /volume1/kubernetes
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
-mountOptions:
-  - hard
-  - nfsvers=4.1
-  - nconnect=8
-  - noacl
-  - noatime
-  - nodiratime
