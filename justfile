@@ -108,28 +108,34 @@ tail-dmesg node:
 # Bootstrap Apps
 #######
 # Helper recipe to bootstrap a Kubernetes app with optional namespace and secrets
-_bootstrap-app app_dir namespace="" secrets="":
+_bootstrap-app app_dir secrets="":
   #!/usr/bin/env bash
   set -euxo pipefail
-  [[ -n "{{ namespace }}" ]] && kubectl apply -f "{{ namespace }}"
+  [[ -f "{{ app_dir }}/namespace.yaml" ]] && kubectl apply -f "{{ app_dir }}/namespace.yaml"
   [[ -n "{{ secrets }}" ]] && sops -d "{{ secrets }}" | kubectl apply -f -
   rm -rf "{{ app_dir }}/charts"
-  kubectl kustomize --enable-helm "{{ app_dir }}" | kubectl apply -f -
+  kubectl kustomize --enable-helm "{{ app_dir }}" | kubectl apply --server-side=true -f - 
 
 bootstrap-apps:
-  just bootstrap-cilium
-  just bootstrap-onepassword
-  just bootstrap-external-secrets
-  just bootstrap-argocd
+  #!/usr/bin/env bash
+  set -uo pipefail
+  just bootstrap-cilium || echo "⚠️  cilium bootstrap failed, continuing..."
+  just bootstrap-onepassword || echo "⚠️  onepassword bootstrap failed, continuing..."
+  just bootstrap-certmanager || echo "⚠️  certmanager bootstrap failed, continuing..."
+  just bootstrap-external-secrets || echo "⚠️  external-secrets bootstrap failed, continuing..."
+  just bootstrap-argocd || echo "⚠️  argocd bootstrap failed, continuing..."
 
 bootstrap-cilium:
   just _bootstrap-app kubernetes/infrastructure/network/cilium
 
 bootstrap-onepassword:
-  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword kubernetes/infrastructure/workloads/onepassword/namespace.yaml bootstrap/onepassword/op-secrets.sops.yaml
+  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword bootstrap/onepassword/op-secrets.sops.yaml
+
+bootstrap-certmanager:
+  just _bootstrap-app kubernetes/infrastructure/network/cert-manager bootstrap/cert-manager/cloudflare-token.sops.yaml
 
 bootstrap-external-secrets:
-  just _bootstrap-app kubernetes/infrastructure/workloads/external-secrets kubernetes/infrastructure/workloads/external-secrets/namespace.yaml bootstrap/external-secrets/op-secrets.sops.yaml
+  just _bootstrap-app kubernetes/infrastructure/workloads/external-secrets bootstrap/external-secrets/op-secrets.sops.yaml
 
 bootstrap-argocd:
   #!/usr/bin/env bash
