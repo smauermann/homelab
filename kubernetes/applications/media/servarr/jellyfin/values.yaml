@@ -40,18 +40,17 @@ controllers:
             memory: 2Gi
           limits:
             memory: 24Gi
-            gpu.intel.com/i915: 1
+            # gpu.intel.com/i915: 1
 
 defaultPodOptions:
   securityContext:
     runAsNonRoot: true
-    runAsUser: 2501
-    runAsGroup: 2501
-    fsGroup: 2501
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch
     supplementalGroups:
       - 44
-    seccompProfile: { type: RuntimeDefault }
 
 service:
   app:
@@ -68,7 +67,7 @@ route:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Media
       gethomepage.dev/icon: jellyfin.png
-      gethomepage.dev/name: Jellyfin Gateway
+      gethomepage.dev/name: Jellyfin
     parentRefs:
       - name: private
         kind: Gateway
@@ -87,33 +86,17 @@ route:
           - name: jellyfin
             port: *port
 
-ingress:
-  app:
-    annotations:
-      gethomepage.dev/description: Media Player
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Media
-      gethomepage.dev/icon: jellyfin.png
-      gethomepage.dev/name: Jellyfin Ingress
-    className: cilium
-    hosts:
-      - host: &host jellyfin-ingress.costanza.cloud
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - *host
-
 persistence:
   config:
     existingClaim: jellyfin-config
     globalMounts:
       - path: /config
   media:
-    existingClaim: servarr-media-nfs
+    type: nfs
+    server: nas.internal
+    path: /volume1/homelab/media
     globalMounts:
-      - path: /mnt/media
+      - path: /media
   cache:
     type: emptyDir
     medium: Memory
@@ -122,4 +105,4 @@ persistence:
   tmp:
     type: emptyDir
     globalMounts:
-      - path: /tmp 
+      - path: /tmp

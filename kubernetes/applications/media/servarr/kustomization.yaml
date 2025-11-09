@@ -9,12 +9,11 @@ configMapGenerator:
 
 resources:
   - namespace.yaml
-  - pvc.yaml
-  - bazarr
+  # - bazarr
   - jellyfin
-  - jellyseerr
-  - prowlarr
-  - radarr
-  - recyclarr
-  - sabnzbd
-  - sonarr
+  # - jellyseerr
+  # - prowlarr
+  # - radarr
+  # - recyclarr
+  # - sabnzbd
+  # - sonarr

@@ -41,11 +41,10 @@ controllers:
 defaultPodOptions:
   securityContext:
     runAsNonRoot: true
-    runAsUser: 2501
-    runAsGroup: 2501
-    fsGroup: 2501
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch
-    seccompProfile: { type: RuntimeDefault }
 
 service:
   app:
@@ -74,4 +73,4 @@ persistence:
   config:
     existingClaim: jellyseerr-config
     globalMounts:
-      - path: /app/config 
+      - path: /app/config
