@@ -119,7 +119,7 @@ dashboards:
     longhorn:
       # renovate: depName="Longhorn"
       gnetId: 16888
-      revision: 10
+      revision: 11
       datasource:
         - name: DS_PROMETHEUS
           value: Prometheus
