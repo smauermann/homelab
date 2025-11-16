@@ -17,10 +17,9 @@ kind: Connector
 metadata:
   name: loadbalancer-cidrs
 spec:
-  replicas: 3
+  replicas: 2
   hostnamePrefix: loadbalancer-cidrs
   subnetRouter:
     advertiseRoutes:
-      - "192.168.178.0/24"
-      - "192.168.192.0/24"
+      - "192.168.30.0/24"
   proxyClass: high-availability
