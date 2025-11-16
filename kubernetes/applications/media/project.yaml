@@ -10,6 +10,8 @@ spec:
   destinations:
     - namespace: argocd
       server: "*"
+    - namespace: arr
+      server: "*"
     - namespace: calibre-web
       server: "*"
     - namespace: jellyfin

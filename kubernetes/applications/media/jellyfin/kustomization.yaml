@@ -10,6 +10,7 @@ helmCharts:
   - name: app-template
     repo: https://bjw-s-labs.github.io/helm-charts
     version: 4.4.0
+    namespace: *app
     releaseName: *app
     valuesFile: values.yaml
   - name: pvc-backup

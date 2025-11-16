@@ -18,7 +18,7 @@ spec:
       labels:
         cloud.costanza: *project
     spec:
-      project: *project
+      project: media
       source:
         repoURL: https://github.com/smauermann/homelab
         targetRevision: main
