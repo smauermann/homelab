@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+---
+controllers:
+  sonarr:
+    strategy: Recreate
+    containers:
+      app:
+        image:
+          repository: ghcr.io/home-operations/sonarr
+          tag: 4.0.16.2943@sha256:0a1b8f5cb5b072f7ad8c6ff64a25dc512115d1a114ecf19a58a3b4f870207ddd
+        envFrom:
+          - configMapRef:
+              name: common-env
+              optional: true
+          - secretRef:
+              name: arr-secrets
+        env:
+          SONARR__APP__INSTANCENAME: Sonarr
+          SONARR__APP__THEME: dark
+          SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
+          SONARR__LOG__LEVEL: info
+          SONARR__LOG__ANALYTICSENABLED: "False"
+          SONARR__SERVER__PORT: &port 8989
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 50m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+
+service:
+  app:
+    controller: sonarr
+    ports:
+      http:
+        port: *port
+
+route:
+  app:
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: TV Show Management
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Servarr
+      gethomepage.dev/icon: sonarr.png
+      gethomepage.dev/name: Sonarr
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - sonarr.costanza.cloud
+
+persistence:
+  config:
+    existingClaim: sonarr-config
+    globalMounts:
+      - path: /config
+  media:
+    type: nfs
+    server: nas.internal
+    path: //volume1/homelab/media
+    globalMounts:
+      - path: /media
+  tmp:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp

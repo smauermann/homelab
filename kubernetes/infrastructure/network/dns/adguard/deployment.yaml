@@ -17,13 +17,15 @@ spec:
       labels:
         app.kubernetes.io/name: adguard
     spec:
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       initContainers:
         - name: config-init
           image: busybox:latest
-          command: ['sh', '-c', 'cat /config/AdGuardHome.yaml /config/users.yaml > /combined-config/AdGuardHome.yaml']
+          command:
+            [
+              "sh",
+              "-c",
+              "cat /config/AdGuardHome.yaml /config/users.yaml > /combined-config/AdGuardHome.yaml",
+            ]
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true

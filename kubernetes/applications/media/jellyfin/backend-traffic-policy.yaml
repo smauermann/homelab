@@ -1,0 +1,20 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: jellyfin
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: jellyfin
+  connection:
+    bufferLimit: 512Mi # default 32Ki
+    socketBufferLimit: 512Mi
+  timeout:
+    tcp:
+      connectTimeout: 30s
+    http:
+      requestTimeout: 30m # Match route timeout
+      connectionIdleTimeout: 30m # Match gateway streamIdleTimeout
+  loadBalancer:
+    type: RoundRobin

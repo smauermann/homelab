@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: recyclarr
+spec:
+  schedule: "@daily"
+  timeZone: Europe/Berlin
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+          restartPolicy: OnFailure
+          containers:
+            - name: recyclarr
+              image: ghcr.io/recyclarr/recyclarr:7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - configMapRef:
+                    name: common-env
+                    optional: true
+                - secretRef:
+                    name: arr-secrets
+              args: ["sync"]
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              resources:
+                requests:
+                  cpu: 10m
+                limits:
+                  memory: 128Mi
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                - name: config-file
+                  mountPath: /config/recyclarr.yaml
+                  subPath: recyclarr.yml
+                  readOnly: true
+                - name: logs
+                  mountPath: /config/logs
+          volumes:
+            - name: config
+              persistentVolumeClaim:
+                claimName: recyclarr-config
+            - name: config-file
+              configMap:
+                name: recyclarr-config
+            - name: logs
+              emptyDir: {}

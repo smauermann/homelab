@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: media
+  name: arr
   namespace: argocd
 spec:
   sourceRepos:
@@ -10,13 +10,7 @@ spec:
   destinations:
     - namespace: argocd
       server: "*"
-    - namespace: calibre-web
-      server: "*"
-    - namespace: jellyfin
-      server: "*"
-    - namespace: jellyseerr
-      server: "*"
-    - namespace: sabnzbd
+    - namespace: arr
       server: "*"
   clusterResourceWhitelist:
     - group: "*"

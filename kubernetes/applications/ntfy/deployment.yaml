@@ -19,8 +19,6 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: ntfy
           image: binwiederhier/ntfy:v2.14.0@sha256:5a051798d14138c3ecb12c038652558ab6a077e1aceeb867c151cbf5fa8451ef
@@ -40,7 +38,7 @@ spec:
           resources:
             limits:
               memory: 300Mi
-              cpu:  200m
+              cpu: 200m
             requests:
               cpu: 150m
               memory: 150Mi

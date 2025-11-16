@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+---
+controllers:
+  calibre-web:
+    containers:
+      app:
+        image:
+          repository: ghcr.io/bjw-s-labs/calibre-web
+          tag: 0.6.25@sha256:7c18e277c90c3fe654c5add5e83e04d1cdd740763654306d60ac09a33f5ff52b
+        env:
+          CACHE_DIR: /cache
+          TZ: "Europe/Berlin"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+
+service:
+  app:
+    controller: calibre-web
+    ports:
+      http:
+        port: 8083
+
+route:
+  app:
+    kind: HTTPRoute
+    annotations:
+      gethomepage.dev/description: E-Book Library
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Media
+      gethomepage.dev/icon: calibre-web.png
+      gethomepage.dev/name: Calibre Web
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - calibre.costanza.cloud
+
+persistence:
+  config:
+    existingClaim: calibre-web-config
+    globalMounts:
+      - path: /config
+  media:
+    type: nfs
+    server: nas.internal
+    path: /volume1/homelab/media
+    globalMounts:
+      - path: /media
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: /cache

@@ -4,25 +4,21 @@ namespace: &app pocket-id
 
 resources:
   - namespace.yaml
-  - pvc.yaml
 
 helmCharts:
   - name: app-template
     repo: https://bjw-s-labs.github.io/helm-charts
     version: 4.4.0
     releaseName: *app
-    namespace: *app
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
-    version: 2.0.1
+    version: 2.0.4
     releaseName: pocket-id-backup
-    namespace: *app
     valuesInline:
-      appName: pocket-id
+      appName: *app
       backup:
         pvcName: pocket-id-data
       restore:
         enabled: true
-        pvcName: pocket-id-data-restored
         pvcSize: 10Gi

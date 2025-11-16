@@ -1,24 +1,21 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: &app mealie
-
-resources:
-  - namespace.yaml
+namespace: arr
 
 helmCharts:
   - name: app-template
     repo: https://bjw-s-labs.github.io/helm-charts
     version: 4.4.0
-    releaseName: *app
+    releaseName: radarr
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
     version: 2.0.4
-    releaseName: mealie-backup
+    releaseName: radarr-backup
     valuesInline:
-      appName: *app
+      appName: radarr
       backup:
-        pvcName: mealie-data
+        pvcName: radarr-config
       restore:
         enabled: true
         pvcSize: 5Gi

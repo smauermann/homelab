@@ -23,12 +23,10 @@ pod:
         drop: ["ALL"]
     pod:
       fsGroupChangePolicy: OnRootMismatch
-      seccompProfile:
-        type: RuntimeDefault
 
   env:
-  - name: 'TZ'
-    value: 'Europe/Berlin'
+    - name: "TZ"
+      value: "Europe/Berlin"
 
   resources:
     limits:
@@ -39,7 +37,7 @@ pod:
 configMap:
   log:
     ## Level of verbosity for logs: info, debug, trace.
-    level: 'info'
+    level: "info"
 
   theme: auto
 
@@ -57,7 +55,7 @@ configMap:
   access_control:
     default_policy: one_factor
     rules:
-      - domain: '*.costanza.cloud'
+      - domain: "*.costanza.cloud"
         policy: one_factor
 
   session:
@@ -71,7 +69,7 @@ configMap:
 
     redis:
       enabled: true
-      host: 'authelia-dragonfly.authelia.svc.cluster.local'
+      host: "authelia-dragonfly.authelia.svc.cluster.local"
       port: 6379
       password:
         secret_name: dragonfly-auth-secret
@@ -98,29 +96,37 @@ configMap:
   notifier:
     filesystem:
       enabled: true
-      filename: '/config/notification.txt'
+      filename: "/config/notification.txt"
 
   identity_providers:
     oidc:
       claims_policies:
         default:
-          id_token: [ 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name' ]
+          id_token:
+            [
+              "groups",
+              "email",
+              "email_verified",
+              "alt_emails",
+              "preferred_username",
+              "name",
+            ]
       enabled: true
       hmac_secret:
         secret_name: encryption-keys
       ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
       ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
       jwks:
-        - key_id: 'default'
-          algorithm: 'RS256'
-          use: 'sig'
+        - key_id: "default"
+          algorithm: "RS256"
+          use: "sig"
           key:
             path: /secrets/rsa-jwk/tls.key
           certificate_chain:
             path: /secrets/rsa-jwk/tls.crt
-        - key_id: 'ecdsa256'
-          algorithm: 'ES256'
-          use: 'sig'
+        - key_id: "ecdsa256"
+          algorithm: "ES256"
+          use: "sig"
           key:
             path: /secrets/ecdsa-jwk/tls.key
           certificate_chain:
@@ -130,22 +136,22 @@ configMap:
         - client_id: argocd
           client_name: ArgoCD
           claims_policy: default
-          authorization_policy: 'one_factor'
+          authorization_policy: "one_factor"
           client_secret:
-            path: '/secrets/argocd-oidc-client-secret/secretHashed'
+            path: "/secrets/argocd-oidc-client-secret/secretHashed"
           public: false
           redirect_uris:
             - https://argocd.costanza.cloud/auth/callback
             - https://argocd.costanza.cloud/applications
           scopes:
-            - 'openid'
-            - 'groups'
-            - 'email'
-            - 'profile'
-          userinfo_signed_response_alg: 'none'
-          id_token_signed_response_alg: 'RS256'
-          consent_mode: 'auto'
-          pre_configured_consent_duration: '30 days'
+            - "openid"
+            - "groups"
+            - "email"
+            - "profile"
+          userinfo_signed_response_alg: "none"
+          id_token_signed_response_alg: "RS256"
+          consent_mode: "auto"
+          pre_configured_consent_duration: "30 days"
 
 secret:
   additionalSecrets:

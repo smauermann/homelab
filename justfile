@@ -7,11 +7,11 @@ set dotenv-path := "talos/cluster.env"
 clusterEndpoint := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 talosDir := "talos"
 
-get-hostname node:
-  @echo -n {{ replace(replace(node, ".talos.internal", ""), "", "") }}.talos.internal
-
 default:
   @just --list
+
+get-hostname node:
+  @echo -n {{ replace(replace(node, ".talos.internal", ""), "", "") }}.talos.internal
 
 #########
 # SOPS
@@ -150,6 +150,12 @@ bootstrap-argocd:
 backup-volumes:
   kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
     kubectl -n "$ns" patch replicationsources "$name" --type merge -p "{\"spec\":{\"trigger\":{\"manual\":\"$(date +%s)\"}}}"; \
+  done; \
+
+[doc('Remove manual triggers to enable scheduled triggers')]
+remove-manual-trigger:
+  kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
+    kubectl -n "$ns" patch replicationsources "$name" --type json -p '[{"op":"remove","path":"/spec/trigger/manual"}]'; \
   done
 
 #########
