@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: &app sabnzbd
+
+resources:
+  - namespace.yaml
+
+helmCharts:
+  - name: app-template
+    repo: https://bjw-s-labs.github.io/helm-charts
+    version: 4.4.0
+    releaseName: *app
+    valuesFile: values.yaml
+  - name: pvc-backup
+    repo: https://smauermann.github.io/helm-charts
+    version: 2.0.4
+    releaseName: sabnzbd-backup
+    valuesInline:
+      appName: *app
+      backup:
+        pvcName: sabnzbd-config
+      restore:
+        enabled: true
+        pvcSize: 5Gi

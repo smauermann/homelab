@@ -3,9 +3,9 @@ controllers:
     pod:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: Always
     containers:
       app:
@@ -62,7 +62,7 @@ route:
 
 persistence:
   config:
-    existingClaim: pocket-id-data-restored
+    existingClaim: pocket-id-data
     globalMounts:
       - path: /app/data
   var:

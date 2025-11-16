@@ -14,7 +14,7 @@ spec:
           - path: kubernetes/applications/media/*
   template:
     metadata:
-      name: '{{ path.basename }}'
+      name: "{{ path.basename }}"
       labels:
         cloud.costanza: *project
     spec:
@@ -22,7 +22,7 @@ spec:
       source:
         repoURL: https://github.com/smauermann/homelab
         targetRevision: main
-        path: '{{ path }}'
+        path: "{{ path }}"
       destination:
         name: in-cluster
         namespace: argocd

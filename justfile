@@ -7,11 +7,11 @@ set dotenv-path := "talos/cluster.env"
 clusterEndpoint := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 talosDir := "talos"
 
-get-hostname node:
-  @echo -n {{ replace(replace(node, ".talos.internal", ""), "", "") }}.talos.internal
-
 default:
   @just --list
+
+get-hostname node:
+  @echo -n {{ replace(replace(node, ".talos.internal", ""), "", "") }}.talos.internal
 
 #########
 # SOPS
@@ -64,8 +64,8 @@ parse-machine-config node:
 apply-insecure node:
   @just parse-machine-config {{ node }} | talosctl apply-config --insecure --nodes $(just get-hostname {{ node }}) --file /dev/stdin
 
-bootstrap node:
-  talosctl bootstrap --nodes $(just get-hostname {{ node }}) --endpoints $(just get-hostname {{ node }})
+bootstrap-etcd:
+  talosctl bootstrap --nodes {{ clusterEndpoint }} --endpoints {{ clusterEndpoint }}
 
 apply node *args:
   @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin {{ args }}
@@ -75,12 +75,12 @@ apply-reboot node:
   @just parse-machine-config {{ node }} | talosctl apply-config --nodes $(just get-hostname {{ node }}) --file /dev/stdin --mode reboot
 
 [confirm('Do you really want to reset this node?')]
-reset node:
-  talosctl reset --reboot --nodes $(just get-hostname {{ node }})
+reset node *args:
+  talosctl reset --nodes $(just get-hostname {{ node }}) {{ args }}
 
 [confirm('Do you really want to hard reset this node?')]
-reset-hard node:
-  talosctl reset --graceful=false --reboot --nodes $(just get-hostname {{ node }})
+reset-hard node *args:
+  talosctl reset --graceful=false --nodes $(just get-hostname {{ node }}) {{ args }}
 
 upgrade node:
   talosctl upgrade --nodes $(just get-hostname {{ node }}) --image $(just get-talos-image) --endpoints {{ clusterEndpoint }} --debug
@@ -108,34 +108,40 @@ tail-dmesg node:
 # Bootstrap Apps
 #######
 # Helper recipe to bootstrap a Kubernetes app with optional namespace and secrets
-_bootstrap-app app_dir namespace="" secrets="":
+_bootstrap-app app_dir secrets="":
   #!/usr/bin/env bash
   set -euxo pipefail
-  [[ -n "{{ namespace }}" ]] && kubectl apply -f "{{ namespace }}"
+  [[ -f "{{ app_dir }}/namespace.yaml" ]] && kubectl apply -f "{{ app_dir }}/namespace.yaml"
   [[ -n "{{ secrets }}" ]] && sops -d "{{ secrets }}" | kubectl apply -f -
   rm -rf "{{ app_dir }}/charts"
-  kubectl kustomize --enable-helm "{{ app_dir }}" | kubectl apply -f -
+  kubectl kustomize --enable-helm "{{ app_dir }}" | kubectl apply --server-side=true -f - 
 
 bootstrap-apps:
-  just bootstrap-cilium
-  just bootstrap-onepassword
-  just bootstrap-external-secrets
-  just bootstrap-argocd
+  #!/usr/bin/env bash
+  set -uo pipefail
+  just bootstrap-cilium || echo "⚠️  cilium bootstrap failed, continuing..."
+  just bootstrap-onepassword || echo "⚠️  onepassword bootstrap failed, continuing..."
+  just bootstrap-certmanager || echo "⚠️  certmanager bootstrap failed, continuing..."
+  just bootstrap-external-secrets || echo "⚠️  external-secrets bootstrap failed, continuing..."
+  # just bootstrap-argocd || echo "⚠️  argocd bootstrap failed, continuing..."
 
 bootstrap-cilium:
   just _bootstrap-app kubernetes/infrastructure/network/cilium
 
 bootstrap-onepassword:
-  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword kubernetes/infrastructure/workloads/onepassword/namespace.yaml bootstrap/onepassword/op-secrets.sops.yaml
+  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword bootstrap/onepassword/op-secrets.sops.yaml
+
+bootstrap-certmanager:
+  just _bootstrap-app kubernetes/infrastructure/network/cert-manager bootstrap/cert-manager/cloudflare-token.sops.yaml
 
 bootstrap-external-secrets:
-  just _bootstrap-app kubernetes/infrastructure/workloads/external-secrets kubernetes/infrastructure/workloads/external-secrets/namespace.yaml bootstrap/external-secrets/op-secrets.sops.yaml
+  just _bootstrap-app kubernetes/infrastructure/workloads/external-secrets bootstrap/external-secrets/op-secrets.sops.yaml
 
 bootstrap-argocd:
   #!/usr/bin/env bash
   set -euxo pipefail
-  just _bootstrap-app kubernetes/infrastructure/workloads/argocd
-  kubectl apply -k bootstrap/argo-apps
+  just _bootstrap-app kubernetes/infrastructure/workloads/argocd || true
+  kubectl apply --server-side=true -k bootstrap/argo-apps
 
 #########
 # VolSync
@@ -144,6 +150,12 @@ bootstrap-argocd:
 backup-volumes:
   kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
     kubectl -n "$ns" patch replicationsources "$name" --type merge -p "{\"spec\":{\"trigger\":{\"manual\":\"$(date +%s)\"}}}"; \
+  done; \
+
+[doc('Remove manual triggers to enable scheduled triggers')]
+remove-manual-trigger:
+  kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
+    kubectl -n "$ns" patch replicationsources "$name" --type json -p '[{"op":"remove","path":"/spec/trigger/manual"}]'; \
   done
 
 #########

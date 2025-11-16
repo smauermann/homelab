@@ -1,48 +1,36 @@
+csi:
+  attacherReplicaCount: 2
+  provisionerReplicaCount: 2
+  resizerReplicaCount: 2
+  snapshotterReplicaCount: 2
+
 defaultSettings:
-  # -- Default path for storing data on a host. The default value is "/var/lib/longhorn/".
-  defaultDataPath: "/var/mnt/storage"
-  # -- Percentage of storage that can be allocated relative to hard drive capacity. The default value is "100".
-  storageOverProvisioningPercentage: ~
-  # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
-  storageMinimalAvailablePercentage: ~
-  # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
-  storageReservedPercentageForDefaultDisk: "0"
-  # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
-  defaultReplicaCount: "1"
-  # -- Maximum number of engines that are allowed to concurrently upgrade on each node after Longhorn Manager is upgraded.
-  concurrentAutomaticEngineUpgradePerNodeLimit: "3"
-  # -- Default data locality. A Longhorn volume has data locality if a local replica of the volume exists on the same node as the pod that is using the volume.
-  defaultDataLocality: best-effort
-  # -- Upgrade Checker that periodically checks for new Longhorn versions. When a new version is available, a notification appears on the Longhorn UI. This setting is enabled by default
-  upgradeChecker: false
-  # -- Setting that allows Longhorn to periodically collect anonymous usage data for product improvement purposes.
   allowCollectingLonghornUsageMetrics: false
-  # -- Policy that defines the action Longhorn takes when a volume is stuck with a StatefulSet or Deployment pod on a node that failed.
+  concurrentAutomaticEngineUpgradePerNodeLimit: "3"
+  defaultDataLocality: best-effort
+  defaultDataPath: "/var/mnt/storage"
+  defaultReplicaCount: "2"
   nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-  # -- Setting that automatically rebalances replicas when an available node is discovered.
   replicaAutoBalance: best-effort
+  storageMinimalAvailablePercentage: "10"
+  storageReservedPercentageForDefaultDisk: "0"
+  upgradeChecker: false
+
+longhornUI:
+  replicas: 1
+
+ingress:
+  enabled: false
+
+metrics:
+  serviceMonitor:
+    enabled: true
 
 persistence:
   defaultClass: true
   defaultClassReplicaCount: 2
   defaultDataLocality: best-effort
 
-longhornUI:
-  replicas: 1
-
-csi:
-  attacherReplicaCount: 1
-  provisionerReplicaCount: 1
-  resizerReplicaCount: 1
-  snapshotterReplicaCount: 1
-
-ingress:
-  enabled: false
-
 # this breaks argocd
 preUpgradeChecker:
   jobEnabled: false
-
-metrics:
-  serviceMonitor:
-    enabled: true

@@ -9,11 +9,15 @@ spec:
     - https://github.com/smauermann/homelab
   destinations:
     - namespace: argocd
-      server: '*'
-    - namespace: books
-      server: '*'
-    - namespace: servarr
-      server: '*'
+      server: "*"
+    - namespace: calibre-web
+      server: "*"
+    - namespace: jellyfin
+      server: "*"
+    - namespace: jellyseerr
+      server: "*"
+    - namespace: sabnzbd
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"

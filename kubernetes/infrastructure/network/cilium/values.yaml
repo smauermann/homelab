@@ -1,34 +1,70 @@
-# Talos specific
-k8sServiceHost: localhost
-k8sServicePort: 7445
-securityContext:
-  capabilities:
-    ciliumAgent: [ CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID ]
-    cleanCiliumState: [ NET_ADMIN, SYS_ADMIN, SYS_RESOURCE ]
+autoDirectNodeRoutes: true
+
+bandwidthManager:
+  enabled: true
+  bbr: true
+
+bpf:
+  datapathMode: netkit
+  masquerade: true
+  preallocateMaps: true
+  tproxy: true
+
+bpfClockProbe: true
 
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
 
-# https://docs.cilium.io/en/stable/network/concepts/ipam/
-ipam:
-  mode: kubernetes
-
-prometheus:
-  enabled: true
-  serviceMonitor:
-    enabled: true
-    trustCRDsExist: true
-
 dashboards:
   enabled: true
   label: grafana_dashboard
   labelValue: ""
 
-# Cilium operator config
+endpointRoutes:
+  enabled: true
+
+enableIPv4BIGTCP: true
+
+ingressController:
+  enabled: true
+  default: true
+  loadbalancerMode: shared
+  service:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.30.31
+  defaultSecretNamespace: kube-system
+  defaultSecretName: costanza-cloud-tls
+
+ipam:
+  mode: kubernetes
+
+ipv4NativeRoutingCIDR: 10.42.0.0/16
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 200
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+
+# Configure L2 announcements (LB-IPAM configuration)
+l2announcements:
+  enabled: true
+externalIPs:
+  enabled: true
+
+loadBalancer:
+  algorithm: maglev
+  mode: dsr
+
+localRedirectPolicy: true
+
 operator:
-  replicas: 1  # Uncomment this if you only have one node
+  replicas: 1 # Uncomment this if you only have one node
   # Roll out cilium-operator pods automatically when configmap is updated.
   rollOutPods: true
   prometheus:
@@ -40,36 +76,39 @@ operator:
     label: grafana_dashboard
     labelValue: ""
 
-# Roll out cilium agent pods automatically when ConfigMap is updated.
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+
 rollOutCiliumPods: true
 
-# Replace Kube-proxy
-kubeProxyReplacement: true
-kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+routingMode: native
 
-# Configure L2 announcements (LB-IPAM configuration)
-l2announcements:
-  enabled: true
-externalIPs:
-  enabled: true
+# disable tunneling for native routing
+tunnel: ""
 
-# Increase the k8s api client rate limit to avoid being limited due to increased API usage 
-k8sClientRateLimit:
-  qps: 50
-  burst: 200
-
-ingressController:
-  enabled: true
-  default: true
-  loadbalancerMode: shared
-  service:
-    annotations:
-      io.cilium/lb-ipam-ips: 192.168.192.168
-  defaultSecretNamespace: kube-system
-  defaultSecretName: costanza-cloud-tls
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
 
 # required for exposing services via tailscale operator
 # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
 socketLB:
   hostNamespaceOnly: true
-

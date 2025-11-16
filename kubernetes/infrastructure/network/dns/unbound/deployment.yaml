@@ -13,9 +13,6 @@ spec:
       labels:
         app.kubernetes.io/name: unbound
     spec:
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -47,7 +44,7 @@ spec:
               memory: 256Mi
           startupProbe:
             exec:
-              command: ['drill', '@127.0.0.1', '-p', '53', 'google.com']
+              command: ["drill", "@127.0.0.1", "-p", "53", "google.com"]
             failureThreshold: 3
             timeoutSeconds: 5
             initialDelaySeconds: 10
