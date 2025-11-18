@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: maintenance
+  namespace: argocd
+spec:
+  sourceRepos:
+    - oci://ghcr.io/home-operations/charts
+  destinations:
+    - namespace: system-upgrade
+      server: "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
