@@ -5,8 +5,11 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
+    - https://github.com/smauermann/homelab
     - oci://ghcr.io/home-operations/charts
   destinations:
+    - namespace: argocd
+      server: "*"
     - namespace: system-upgrade
       server: "*"
   clusterResourceWhitelist:
