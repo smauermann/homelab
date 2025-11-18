@@ -16,23 +16,23 @@ spec:
     - oci://registry.k8s.io/nfd/charts
   destinations:
     - namespace: arc-runners
-      server: '*'
+      server: "*"
     - namespace: arc-system
-      server: '*'
+      server: "*"
     - namespace: argocd
-      server: '*'
+      server: "*"
     - namespace: descheduler
-      server: '*'
+      server: "*"
     - namespace: external-secrets
-      server: '*'
+      server: "*"
     - namespace: intel-device-plugins
-      server: '*'
+      server: "*"
     - namespace: kube-system
-      server: '*'
+      server: "*"
     - namespace: node-feature-discovery
-      server: '*'
+      server: "*"
     - namespace: onepassword
-      server: '*'
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
