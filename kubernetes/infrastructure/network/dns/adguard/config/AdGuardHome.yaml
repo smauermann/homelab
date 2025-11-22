@@ -197,8 +197,9 @@ filtering:
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
-    - domain: nas.costanza.cloud
+    - domain: nas.internal
       answer: 192.168.30.9
+      enabled: true
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
@@ -208,6 +209,7 @@ filtering:
   filters_update_interval: 24
   blocked_response_ttl: 10
   filtering_enabled: true
+  rewrites_enabled: true
   parental_enabled: false
   safebrowsing_enabled: false
   protection_enabled: true
@@ -232,4 +234,4 @@ os:
   group: ""
   user: ""
   rlimit_nofile: 0
-schema_version: 30
+schema_version: 31
