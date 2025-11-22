@@ -5,7 +5,7 @@ helmCharts:
   - name: volsync
     releaseName: volsync
     repo: https://backube.github.io/helm-charts
-    version: 0.13.1
+    version: 0.14.0
     includeCRDs: true
     namespace: volsync-system
     valuesFile: values.yaml
