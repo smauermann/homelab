@@ -1,6 +1,18 @@
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
 metadata:
   name: grafana-admin
 spec:
-  itemPath: "vaults/Homelab/items/grafana-admin"
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: grafana-admin
+    template:
+      type: Opaque
+      data:
+        password: "{{ .password }}"
+        username: "{{ .username }}"
+  dataFrom:
+    - extract:
+        key: grafana-admin

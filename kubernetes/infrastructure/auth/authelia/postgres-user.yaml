@@ -1,7 +1,18 @@
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
 metadata:
   name: postgres-user
 spec:
-  itemPath: "vaults/Homelab/items/authelia-postgres-user"
-type: kubernetes.io/basic-auth
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: postgres-user
+    template:
+      type: kubernetes.io/basic-auth
+      data:
+        password: "{{ .password }}"
+        username: "{{ .username }}"
+  dataFrom:
+    - extract:
+        key: authelia-postgres-user

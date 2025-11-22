@@ -1,6 +1,17 @@
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
 metadata:
   name: adguard-users
 spec:
-  itemPath: "vaults/Homelab/items/adguard-users"
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: adguard-users
+    template:
+      type: Opaque
+      data:
+        users.yaml: '{{ index . "users.yaml" }}'
+  dataFrom:
+    - extract:
+        key: adguard-users
