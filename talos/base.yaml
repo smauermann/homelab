@@ -1,0 +1,194 @@
+version: v1alpha1
+debug: false
+machine:
+  ca:
+    crt: op://Homelab/talos/MACHINE_CA_CRT
+    key: op://Homelab/talos/MACHINE_CA_KEY
+  certSANs:
+    - cp.talos.internal
+  features:
+    apidCheckExtKeyUsage: true
+    diskQuotaSupport: true
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: false
+      resolveMemberNames: true
+    kubernetesTalosAPIAccess:
+      allowedKubernetesNamespaces:
+        - actions-runner-system
+        - system-upgrade
+      allowedRoles:
+        - os:admin
+      enabled: true
+    kubePrism:
+      enabled: true
+      port: 7445
+    rbac: true
+    stableHostname: true
+  files:
+    - op: overwrite
+      path: /etc/nfsmount.conf
+      permissions: 420
+      content: |
+        [ NFSMount_Global_Options ]
+        nfsvers=4.1
+        hard=True
+        nconnect=8
+        noatime=True
+        rsize=1048576
+        wsize=1048576
+  install:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+    image: factory.talos.dev/installer/$SCHEMATIC:v1.11.5
+  kubelet:
+    defaultRuntimeSeccompProfileEnabled: true
+    disableManifestsDirectory: true
+    extraConfig:
+      featureGates:
+        ResourceHealthStatus: true
+      maxParallelImagePulls: 3
+      # allow parallel image downloadeds
+      serializeImagePulls: false
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+    image: ghcr.io/siderolabs/kubelet:v1.34.2
+    nodeIP:
+      validSubnets:
+        - 192.168.30.0/24
+  network:
+    interfaces:
+      - interface: eno1
+        dhcp: true
+  nodeLabels:
+    topology.kubernetes.io/region: ber
+  sysctls:
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "1048576"
+    net.core.default_qdisc: fq
+    net.core.rmem_max: "67108864"
+    net.core.wmem_max: "67108864"
+    net.ipv4.neigh.default.gc_thresh1: "4096"
+    net.ipv4.neigh.default.gc_thresh2: "8192"
+    net.ipv4.neigh.default.gc_thresh3: "16384"
+    net.ipv4.tcp_congestion_control: bbr
+    net.ipv4.tcp_fastopen: "3"
+    net.ipv4.tcp_mtu_probing: "1"
+    net.ipv4.tcp_rmem: 4096 87380 33554432
+    net.ipv4.tcp_window_scaling: "1"
+    net.ipv4.tcp_wmem: 4096 65536 33554432
+    sunrpc.tcp_max_slot_table_entries: "128"
+    sunrpc.tcp_slot_table_entries: "128"
+    user.max_user_namespaces: "11255"
+    vm.nr_hugepages: "1024"
+  time:
+    disabled: false
+    servers:
+      - time.cloudflare.com
+  token: op://Homelab/talos/MACHINE_TOKEN
+  udev:
+    rules:
+      # i915 GPU
+      - SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="44", MODE="0660"
+cluster:
+  aggregatorCA:
+    crt: op://Homelab/talos/CLUSTER_AGGREGATORCA_CRT
+    key: op://Homelab/talos/CLUSTER_AGGREGATORCA_KEY
+  allowSchedulingOnControlPlanes: true
+  apiServer:
+    admissionControl:
+      - name: PodSecurity
+        configuration:
+          apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+          defaults:
+            audit: restricted
+            audit-version: latest
+            enforce: baseline
+            enforce-version: latest
+            warn: restricted
+            warn-version: latest
+          exemptions:
+            namespaces:
+              - kube-system
+            runtimeClasses: []
+            usernames: []
+          kind: PodSecurityConfiguration
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+    certSANs:
+      - cp.talos.internal
+    disablePodSecurityPolicy: true
+    extraArgs:
+      enable-aggregator-routing: "true"
+      feature-gates: MutatingAdmissionPolicy=true,ResourceHealthStatus=true
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
+    # renovate: datasource=docker depName=registry.k8s.io/kube-apiserver
+    image: registry.k8s.io/kube-apiserver:v1.34.2
+  ca:
+    crt: op://Homelab/talos/CLUSTER_CA_CRT
+    key: op://Homelab/talos/CLUSTER_CA_KEY
+  clusterName: homelab
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0
+    # renovate: datasource=docker depName=registry.k8s.io/kube-controller-manager
+    image: registry.k8s.io/kube-controller-manager:v1.34.2
+  controlPlane:
+    endpoint: https://cp.talos.internal:6443
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service:
+        disabled: false
+  etcd:
+    advertisedSubnets:
+      - 192.168.30.0/24
+    ca:
+      crt: op://Homelab/talos/CLUSTER_ETCD_CA_CRT
+      key: op://Homelab/talos/CLUSTER_ETCD_CA_KEY
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
+  id: op://Homelab/talos/CLUSTER_ID
+  inlineManifests: []
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.42.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+    cni:
+      name: none
+  proxy:
+    # renovate: datasource=docker depName=registry.k8s.io/kube-proxy
+    image: registry.k8s.io/kube-proxy:v1.34.2
+    disabled: true
+  scheduler:
+    config:
+      apiVersion: kubescheduler.config.k8s.io/v1
+      kind: KubeSchedulerConfiguration
+      profiles:
+        - schedulerName: default-scheduler
+          plugins:
+            score:
+              disabled:
+                - name: ImageLocality
+          pluginConfig:
+            - name: PodTopologySpread
+              args:
+                defaultingType: List
+                defaultConstraints:
+                  - maxSkew: 1
+                    topologyKey: kubernetes.io/hostname
+                    whenUnsatisfiable: ScheduleAnyway
+    extraArgs:
+      bind-address: 0.0.0.0
+    # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
+    image: registry.k8s.io/kube-scheduler:v1.34.2
+  secret: op://Homelab/talos/CLUSTER_SECRET
+  secretboxEncryptionSecret: op://Homelab/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
+  serviceAccount:
+    key: op://Homelab/talos/CLUSTER_SERVICEACCOUNT_KEY
+  token: op://Homelab/talos/CLUSTER_TOKEN
