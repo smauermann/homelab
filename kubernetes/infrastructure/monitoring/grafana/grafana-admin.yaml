@@ -9,7 +9,6 @@ spec:
   target:
     name: grafana-admin
     template:
-      type: Opaque
       data:
         password: "{{ .password }}"
         username: "{{ .username }}"
