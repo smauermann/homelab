@@ -1,7 +1,18 @@
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
 metadata:
   name: miniflux-admin
 spec:
-  itemPath: "vaults/Homelab/items/miniflux-admin"
-type: kubernetes.io/basic-auth
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: miniflux-admin
+    template:
+      type: kubernetes.io/basic-auth
+      data:
+        password: "{{ .password }}"
+        username: "{{ .username }}"
+  dataFrom:
+    - extract:
+        key: miniflux-admin
