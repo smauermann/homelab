@@ -1,14 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-resources:
-  - namespace.yaml
-
 helmCharts:
   - name: connect
     repo: https://1password.github.io/connect-helm-charts/
     version: 2.0.5
-    releaseName: onepassword-operator
-    namespace: onepassword
+    releaseName: onepassword-connect
+    namespace: external-secrets
     includeCRDs: true
     valuesFile: values.yaml

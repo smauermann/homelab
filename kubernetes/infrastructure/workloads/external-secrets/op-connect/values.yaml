@@ -1,0 +1,11 @@
+connect:
+  create: true
+  replicas: 1
+  serviceType: ClusterIP
+  # The name of Kubernetes Secret containing the 1Password Connect credentials
+  credentialsName: onepassword-credentials
+  # The key for the 1Password Connect Credentials stored in the credentials secret
+  credentialsKey: credentials
+
+operator:
+  create: false

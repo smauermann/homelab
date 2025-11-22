@@ -31,8 +31,6 @@ spec:
       server: "*"
     - namespace: node-feature-discovery
       server: "*"
-    - namespace: onepassword
-      server: "*"
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
