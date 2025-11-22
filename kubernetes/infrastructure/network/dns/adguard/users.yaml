@@ -9,7 +9,6 @@ spec:
   target:
     name: adguard-users
     template:
-      type: Opaque
       data:
         users.yaml: '{{ index . "users.yaml" }}'
   dataFrom:

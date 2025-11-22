@@ -10,7 +10,6 @@ spec:
   target:
     name: cloudflare-token
     template:
-      type: Opaque
       data:
         token: "{{ .token }}"
   dataFrom:

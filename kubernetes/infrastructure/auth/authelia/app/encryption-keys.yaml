@@ -9,7 +9,6 @@ spec:
   target:
     name: encryption-keys
     template:
-      type: Opaque
       data:
         identity_providers.oidc.hmac.key: '{{ index . "identity_providers.oidc.hmac.key" }}'
         identity_validation.reset_password.jwt.hmac.key: '{{ index . "identity_validation.reset_password.jwt.hmac.key" }}'
