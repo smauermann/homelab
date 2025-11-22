@@ -7,4 +7,5 @@ namespace: external-secrets
 resources:
   - namespace.yaml
   - app
+  - op-connect
   - secret-stores

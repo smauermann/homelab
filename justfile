@@ -120,16 +120,12 @@ bootstrap-apps:
   #!/usr/bin/env bash
   set -uo pipefail
   just bootstrap-cilium || echo "⚠️  cilium bootstrap failed, continuing..."
-  just bootstrap-onepassword || echo "⚠️  onepassword bootstrap failed, continuing..."
   just bootstrap-certmanager || echo "⚠️  certmanager bootstrap failed, continuing..."
   just bootstrap-external-secrets || echo "⚠️  external-secrets bootstrap failed, continuing..."
   # just bootstrap-argocd || echo "⚠️  argocd bootstrap failed, continuing..."
 
 bootstrap-cilium:
   just _bootstrap-app kubernetes/infrastructure/network/cilium
-
-bootstrap-onepassword:
-  just _bootstrap-app kubernetes/infrastructure/workloads/onepassword bootstrap/onepassword/op-secrets.sops.yaml
 
 bootstrap-certmanager:
   just _bootstrap-app kubernetes/infrastructure/network/cert-manager bootstrap/cert-manager/cloudflare-token.sops.yaml
