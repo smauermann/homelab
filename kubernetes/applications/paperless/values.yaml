@@ -75,12 +75,11 @@ service:
     controller: paperless
     ports:
       http:
-        port: &port 8000
+        port: 8000
 
-ingress:
+route:
   app:
-    enabled: true
-    className: cilium
+    kind: HTTPRoute
     annotations:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: Paperless
@@ -91,16 +90,12 @@ ingress:
         app in (
           paperless
         )
-    hosts:
-      - host: &host paperless.costanza.cloud
-        paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
-    tls:
-      - hosts:
-          - *host
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - paperless.costanza.cloud
 
 persistence:
   data:
@@ -109,9 +104,3 @@ persistence:
       paperless:
         app:
           - path: /data/local
-  nfs:
-    existingClaim: paperless-nfs
-    advancedMounts:
-      paperless:
-        app:
-          - path: /data/nfs
