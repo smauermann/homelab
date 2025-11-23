@@ -78,7 +78,7 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          diff -u -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' -I 'caBundle:' \
+          diff -u -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' -I 'caBundle:' -I 'helm\.sh/chart' \
             default/manifests.yaml pull/manifests.yaml > diff.patch || true
           
           # Check if diff is empty
