@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - network.yaml
-  - wildcard-certificate.yaml
 
 helmCharts:
   - name: cilium
