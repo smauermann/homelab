@@ -11,7 +11,7 @@ helmCharts:
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
-    version: 2.0.4
+    version: 2.2.0
     releaseName: jellyseerr-backup
     valuesInline:
       appName: jellyseerr
