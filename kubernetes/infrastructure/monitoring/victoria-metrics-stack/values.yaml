@@ -56,9 +56,11 @@ vmsingle:
       resources:
         requests:
           storage: 50Gi
+
   ingress:
+    enabled: false
+  route:
     enabled: true
-    ingressClassName: cilium
     annotations:
       gethomepage.dev/description: Metrics
       gethomepage.dev/enabled: "true"
@@ -66,27 +68,30 @@ vmsingle:
       gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmsingle"
-    hosts:
-      - &vmHost vm.costanza.cloud
-    tls:
-      - hosts:
-          - *vmHost
+    parentRefs:
+      - kind: Gateway
+        name: private
+        namespace: envoy-gateway-system
+    hostnames:
+      - vm.costanza.cloud
 
 alertmanager:
   enabled: true
-  spec:
-    replicaCount: 1
-    selectAllByDefault: true
-    # -- (string) If this one defined, it will be used for alertmanager configuration and config parameter will be ignored
-    configSecret: ""
   config:
     route:
       receiver: "blackhole"
     receivers:
       - name: blackhole
+  spec:
+    replicaCount: 1
+    selectAllByDefault: true
+    # -- (string) If this one defined, it will be used for alertmanager configuration and config parameter will be ignored
+    configSecret: ""
+
   ingress:
+    enabled: false
+  route:
     enabled: true
-    ingressClassName: cilium
     annotations:
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "true"
@@ -94,11 +99,12 @@ alertmanager:
       gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Alertmanager
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalertmanager"
-    hosts:
-      - &amHost alertmanager.costanza.cloud
-    tls:
-      - hosts:
-          - *amHost
+    parentRefs:
+      - kind: Gateway
+        name: private
+        namespace: envoy-gateway-system
+    hostnames:
+      - alertmanager.costanza.cloud
 
 vmalert:
   enabled: true
@@ -109,8 +115,9 @@ vmalert:
     extraArgs:
       http.pathPrefix: "/"
   ingress:
+    enabled: false
+  route:
     enabled: true
-    ingressClassName: cilium
     annotations:
       gethomepage.dev/description: Alerts
       gethomepage.dev/enabled: "false"
@@ -118,11 +125,12 @@ vmalert:
       gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Alert
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmalert"
-    hosts:
-      - &vmAlertHost vmalert.costanza.cloud
-    tls:
-      - hosts:
-          - *vmAlertHost
+    parentRefs:
+      - kind: Gateway
+        name: private
+        namespace: envoy-gateway-system
+    hostnames:
+      - vmalert.costanza.cloud
 
 vmagent:
   enabled: true
@@ -138,8 +146,9 @@ vmagent:
       limits:
         memory: 750Mi
   ingress:
+    enabled: false
+  route:
     enabled: true
-    ingressClassName: cilium
     annotations:
       gethomepage.dev/description: Metrics Scraping
       gethomepage.dev/enabled: "true"
@@ -147,11 +156,12 @@ vmagent:
       gethomepage.dev/icon: victoriametrics.png
       gethomepage.dev/name: VictoriaMetrics Agent
       gethomepage.dev/pod-selector: "app.kubernetes.io/name=vmagent"
-    hosts:
-      - &vmAgentHost vmagent.costanza.cloud
-    tls:
-      - hosts:
-          - *vmAgentHost
+    parentRefs:
+      - kind: Gateway
+        name: private
+        namespace: envoy-gateway-system
+    hostnames:
+      - vmagent.costanza.cloud
 
 grafana:
   enabled: false
@@ -174,32 +184,32 @@ kubelet:
         # Drop less useful container CPU metrics.
         - sourceLabels: [__name__]
           action: drop
-          regex: 'container_cpu_(cfs_throttled_seconds_total|load_average_10s|system_seconds_total|user_seconds_total)'
+          regex: "container_cpu_(cfs_throttled_seconds_total|load_average_10s|system_seconds_total|user_seconds_total)"
         # Drop less useful / always zero container memory metrics.
         - sourceLabels: [__name__]
           action: drop
-          regex: 'container_memory_(failures_total|mapped_file|swap)'
+          regex: "container_memory_(failures_total|mapped_file|swap)"
         # Drop less useful container process metrics.
         - sourceLabels: [__name__]
           action: drop
           # regex: 'container_(file_descriptors|tasks_state|threads_max)'
-          regex: 'container_(tasks_state|threads_max)'
+          regex: "container_(tasks_state|threads_max)"
         # Drop less useful container filesystem metrics.
         - sourceLabels: [__name__]
           action: drop
-          regex: 'container_fs_(io_current|io_time_seconds_total|io_time_weighted_seconds_total|reads_merged_total|sector_reads_total|sector_writes_total|writes_merged_total)'
+          regex: "container_fs_(io_current|io_time_seconds_total|io_time_weighted_seconds_total|reads_merged_total|sector_reads_total|sector_writes_total|writes_merged_total)"
         # Drop less useful container blkio metrics.
         - sourceLabels: [__name__]
           action: drop
-          regex: 'container_blkio_device_usage_total'
+          regex: "container_blkio_device_usage_total"
         # Drop container spec metrics that overlap with kube-state-metrics.
         - sourceLabels: [__name__]
           action: drop
-          regex: 'container_spec.*'
+          regex: "container_spec.*"
         # Drop cgroup metrics with no pod.
         - sourceLabels: [id, pod]
           action: drop
-          regex: '.+;'
+          regex: ".+;"
         - action: drop
           sourceLabels: [__name__]
           regex: prober_probe_duration_seconds_bucket
@@ -222,9 +232,9 @@ coreDns:
 kubeEtcd:
   enabled: true
   endpoints:
-    - 192.168.178.100
-    - 192.168.178.101
-    - 192.168.178.102
+    - 192.168.30.10
+    - 192.168.30.11
+    - 192.168.30.12
   service:
     port: 2381
     targetPort: 2381
