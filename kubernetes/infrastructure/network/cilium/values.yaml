@@ -54,7 +54,8 @@ loadBalancer:
   algorithm: maglev
   mode: dsr
 
-localRedirectPolicy: true
+localRedirectPolicy:
+  enabled: true
 
 operator:
   replicas: 1 # Uncomment this if you only have one node
