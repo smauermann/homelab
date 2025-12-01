@@ -35,7 +35,6 @@ deschedulerPolicy:
               pods: 60
             thresholds:
               pods: 50
-        - name: RemoveDuplicates
         - name: RemovePodsHavingTooManyRestarts
           args:
             podRestartThreshold: 10
