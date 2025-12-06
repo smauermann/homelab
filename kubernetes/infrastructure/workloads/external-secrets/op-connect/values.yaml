@@ -2,7 +2,7 @@ connect:
   create: true
   replicas: 1
   serviceType: ClusterIP
-  credentialsName: onepassword-credentials
+  credentialsName: op-connect
   credentialsKey: credentials
 
 operator:

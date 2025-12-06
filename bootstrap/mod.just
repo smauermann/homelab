@@ -68,7 +68,7 @@ namespaces:
 secrets:
   just log info "Applying Secrets..."
   for secret in {{ bootstrap_dir }}/secrets/*.yaml; do \
-    just bootstrap apply "$secret"; \
+    just template "$secret"| just bootstrap apply /dev/stdin; \
   done
 
 [doc('Deploy cert-manager')]
