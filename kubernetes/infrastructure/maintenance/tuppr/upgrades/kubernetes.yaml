@@ -13,3 +13,10 @@ spec:
       kind: ReplicationSource
       expr: |-
         status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
+    - apiVersion: longhorn.io/v1beta2
+      kind: Volume
+      expr: status.robustness != "degraded"
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      expr: |-
+        status.phase == "Cluster in healthy state"
