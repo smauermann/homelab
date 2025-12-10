@@ -20,10 +20,25 @@
       },
     },
     {
-      description: "Talos Linux Group",
-      groupName: "Talos-Linux",
+      description: "Kubernetes Group",
+      groupName: "Kubernetes",
       matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer"],
+      matchPackageNames: [
+        "registry.k8s.io/kube-apiserver",
+        "registry.k8s.io/kube-controller-manager",
+        "registry.k8s.io/kube-proxy",
+        "registry.k8s.io/kube-scheduler",
+        "ghcr.io/siderolabs/kubelet",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
+      description: "Talos Linux Group",
+      groupName: "Talos",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/siderolabs/installer"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
