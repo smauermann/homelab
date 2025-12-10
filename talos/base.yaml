@@ -38,8 +38,7 @@ machine:
         rsize=1048576
         wsize=1048576
   install:
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    image: factory.talos.dev/installer/$SCHEMATIC:v1.11.5
+    image: factory.talos.dev/installer/0bce9319e507615243ddd3462dd2942e035ba8e7a3fb896c8072cc863dcc79b9:v1.11.5
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
@@ -49,7 +48,6 @@ machine:
       maxParallelImagePulls: 3
       # allow parallel image downloadeds
       serializeImagePulls: false
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
     image: ghcr.io/siderolabs/kubelet:v1.34.2
     nodeIP:
       validSubnets:
@@ -123,7 +121,6 @@ cluster:
       enable-aggregator-routing: "true"
       feature-gates: MutatingAdmissionPolicy=true,ResourceHealthStatus=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
-    # renovate: datasource=docker depName=registry.k8s.io/kube-apiserver
     image: registry.k8s.io/kube-apiserver:v1.34.2
   ca:
     crt: op://Homelab/talos/CLUSTER_CA_CRT
@@ -132,7 +129,6 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    # renovate: datasource=docker depName=registry.k8s.io/kube-controller-manager
     image: registry.k8s.io/kube-controller-manager:v1.34.2
   controlPlane:
     endpoint: https://cp.talos.internal:6443
@@ -162,7 +158,6 @@ cluster:
     cni:
       name: none
   proxy:
-    # renovate: datasource=docker depName=registry.k8s.io/kube-proxy
     image: registry.k8s.io/kube-proxy:v1.34.2
     disabled: true
   scheduler:
@@ -185,7 +180,6 @@ cluster:
                     whenUnsatisfiable: ScheduleAnyway
     extraArgs:
       bind-address: 0.0.0.0
-    # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
     image: registry.k8s.io/kube-scheduler:v1.34.2
   secret: op://Homelab/talos/CLUSTER_SECRET
   secretboxEncryptionSecret: op://Homelab/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET

@@ -10,6 +10,7 @@
     'github>smauermann/homelab//.renovate/groups.json5',
     'github>smauermann/homelab//.renovate/labels.json5',
     'github>smauermann/homelab//.renovate/semanticCommits.json5',
+    'github>smauermann/homelab//.renovate/overrides.json5',
     ':disableRateLimiting',
     ':dependencyDashboard',
     ':rebaseStalePrs',
@@ -27,7 +28,7 @@
   ],
   kubernetes: {
     managerFilePatterns: [
-      "/^kubernetes/.+\\.ya?ml$/"
+      "/\\.ya?ml$/"
     ],
   },
   packageRules: [
