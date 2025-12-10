@@ -50,6 +50,12 @@
         "docker"
       ],
       "pinDigests": true
+    },
+    {
+      "description": "Disable digest pinning for Talos machine config",
+      "matchFileNames": ["talos/**"],
+      "matchDatasources": ["docker"],
+      "pinDigests": false
     }
   ],
 }
