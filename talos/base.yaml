@@ -38,7 +38,7 @@ machine:
         rsize=1048576
         wsize=1048576
   install:
-    image: factory.talos.dev/installer/0bce9319e507615243ddd3462dd2942e035ba8e7a3fb896c8072cc863dcc79b9:v1.11.5
+    image: factory.talos.dev/installer/0bce9319e507615243ddd3462dd2942e035ba8e7a3fb896c8072cc863dcc79b9:v1.11.6
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
     disableManifestsDirectory: true
