@@ -13,7 +13,7 @@
     },
     {
       description: "Changelog URL for Tailscale Operator",
-      matchPackageNames: ["/tailscale-operator/"],
+      matchPackageNames: ["/tailscale/"],
       changelogUrl: "https://tailscale.com/changelog#all",
     },
   ],
