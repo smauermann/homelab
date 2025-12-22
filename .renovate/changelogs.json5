@@ -11,5 +11,10 @@
       matchPackageNames: ["/cloudflared/"],
       changelogUrl: "https://github.com/cloudflare/cloudflared/blob/master/RELEASE_NOTES",
     },
+    {
+      description: "Changelog URL for Tailscale Operator",
+      matchPackageNames: ["/tailscale-operator/"],
+      changelogUrl: "https://tailscale.com/changelog#all",
+    },
   ],
 }
