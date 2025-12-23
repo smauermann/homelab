@@ -16,13 +16,15 @@ spec:
     - https://victoriametrics.github.io/helm-charts
   destinations:
     - namespace: argocd
-      server: '*'
+      server: "*"
     - namespace: gatus
-      server: '*'
+      server: "*"
+    - namespace: iperf
+      server: "*"
     - namespace: kube-system
-      server: '*'
+      server: "*"
     - namespace: monitoring
-      server: '*'
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
