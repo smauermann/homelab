@@ -1,0 +1,36 @@
+controllers:
+  iperf3:
+    containers:
+      app:
+        env:
+          TZ: "Europe/Berlin"
+        image:
+          repository: networkstatic/iperf3
+          tag: latest@sha256:07dcca91c0e47d82d83d91de8c3d46b840eef4180499456b4fa8d6dadb46b6c8
+        args:
+          - -s
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 64Mi
+
+defaultPodOptions:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+
+service:
+  app:
+    type: LoadBalancer
+    controller: iperf3
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.30.31
+      tailscale.com/expose: "true"
+    ports:
+      iperf:
+        port: 5201
