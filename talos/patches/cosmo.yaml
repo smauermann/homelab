@@ -1,13 +1,16 @@
 ---
 machine:
   type: controlplane
-  network:
-    hostname: cosmo.talos.internal
   install:
     diskSelector:
       model: CT1000MX500SSD1
   nodeLabels:
     topology.kubernetes.io/zone: cosmo
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: cosmo.talos.internal
+auto: off
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
