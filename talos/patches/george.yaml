@@ -10,7 +10,6 @@ machine:
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: george.talos.internal
-auto: off
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
