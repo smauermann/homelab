@@ -22,7 +22,6 @@ machine:
     kubePrism:
       enabled: true
       port: 7445
-    stableHostname: true
   files:
     - op: overwrite
       path: /etc/nfsmount.conf
