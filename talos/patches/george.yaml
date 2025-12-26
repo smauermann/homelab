@@ -1,13 +1,16 @@
 ---
 machine:
   type: controlplane
-  network:
-    hostname: george.talos.internal
   install:
     diskSelector:
       model: SAMSUNG MZVLB256HAHQ-000H1
   nodeLabels:
     topology.kubernetes.io/zone: george
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: george.talos.internal
+auto: off
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig

@@ -1,13 +1,16 @@
 ---
 machine:
   type: controlplane
-  network:
-    hostname: jerry.talos.internal
   install:
     diskSelector:
       model: SK hynix PC601 HFS256GD9TNG-L2A0A
   nodeLabels:
     topology.kubernetes.io/zone: jerry
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: jerry.talos.internal
+auto: off
 ---
 apiVersion: v1alpha1
 kind: UserVolumeConfig
