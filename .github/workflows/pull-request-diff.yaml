@@ -24,7 +24,7 @@ jobs:
         with:
           files: kubernetes/**
           dir_names: true
-          dir_names_max_depth: 4
+          dir_names_max_depth: 5
           matrix: true
 
       - name: Set up diff matrix
