@@ -5,3 +5,4 @@ resources:
   - cluster.yaml
   - secrets.yaml
   - objectstore.yaml
+  - backup.yaml
