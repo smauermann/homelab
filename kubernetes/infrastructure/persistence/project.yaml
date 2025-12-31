@@ -14,17 +14,19 @@ spec:
     - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
   destinations:
     - namespace: argocd
-      server: '*'
+      server: "*"
     - namespace: cnpg-system
-      server: '*'
+      server: "*"
     - namespace: dragonfly-operator-system
-      server: '*'
+      server: "*"
+    - namespace: garage
+      server: "*"
     - namespace: kube-system
-      server: '*'
+      server: "*"
     - namespace: longhorn-system
-      server: '*'
+      server: "*"
     - namespace: volsync-system
-      server: '*'
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
