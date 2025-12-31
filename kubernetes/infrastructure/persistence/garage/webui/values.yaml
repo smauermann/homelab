@@ -34,11 +34,11 @@ service:
 route:
   app:
     annotations:
-      gethomepage.dev/description: Media Requests
+      gethomepage.dev/description: S3
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/group: Media
-      gethomepage.dev/icon: jellyseerr.png
-      gethomepage.dev/name: Jellyseerr
+      gethomepage.dev/group: Persistence
+      gethomepage.dev/icon: garage.png
+      gethomepage.dev/name: Garage
     parentRefs:
       - name: private
         kind: Gateway
