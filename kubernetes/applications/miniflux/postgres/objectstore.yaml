@@ -16,6 +16,8 @@ spec:
       secretAccessKey:
         name: garage-store
         key: ACCESS_SECRET_KEY
+    data:
+      compression: bzip2
     wal:
-      compression: gzip
+      compression: bzip2
   retentionPolicy: "30d"
