@@ -8,18 +8,8 @@ spec:
     - https://github.com/smauermann/homelab
     - https://bjw-s-labs.github.io/helm-charts
   destinations:
-    - namespace: argocd
-      server: '*'
-    - namespace: homepage-dashboard
-      server: '*'
-    - namespace: mealie
-      server: '*'
-    - namespace: miniflux
-      server: '*'
-    - namespace: ntfy
-      server: '*'
-    - namespace: paperless
-      server: '*'
+    - namespace: "*"
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
