@@ -10,6 +10,9 @@ spec:
       accessKeyId:
         name: garage-store
         key: ACCESS_KEY_ID
+      region:
+        name: garage-store
+        key: REGION
       secretAccessKey:
         name: garage-store
         key: ACCESS_SECRET_KEY
