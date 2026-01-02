@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+---
+controllers:
+  dawarich:
+    containers:
+      app: &dawarich
+        image:
+          repository: docker.io/freikin/dawarich
+          tag: 0.37.1@sha256:299596d1ddebd47a5baacf271a6d647f7e11d7c13041d5d70430dc61e1be3bd8
+        command:
+          - "web-entrypoint.sh"
+        args:
+          - "bin/rails server -p 3000 -b 0.0.0.0"
+        env:
+          TIME_ZONE: Europe/Berlin
+          RAILS_ENV: development
+          REDIS_URL: redis://dawarich-redis.dawarich.svc.cluster.local:6379
+          DATABASE_HOST: dawarich-postgres-rw.dawarich.svc.cluster.local
+          DATABASE_PORT: 5432
+          DATABASE_NAME: dawarich
+          DATABASE_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: postgres-user
+                key: username
+          DATABASE_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: postgres-user
+                key: password
+          MIN_MINUTES_SPENT_IN_CITY: 60
+          APPLICATION_HOST: localhost
+          APPLICATION_HOSTS: localhost,dawarich.costanza.cloud
+          APPLICATION_PROTOCOL: http
+          REVERSE_GEOCODING_ENABLED: true
+          SELF_HOSTED: "true"
+          STORE_GEODATA: "true"
+          PORT: &port 3000
+          DISTANCE_UNIT: km
+          PROMETHEUS_EXPORTER_ENABLED: false
+          PROMETHEUS_EXPORTER_HOST: 0.0.0.0
+          PROMETHEUS_EXPORTER_PORT: 9394
+        envFrom:
+          - secretRef:
+              name: dawarich-oidc
+        resources:
+          limits:
+            memory: 3Gi
+      sidekiq:
+        <<: *dawarich
+        command:
+          - "sidekiq-entrypoint.sh"
+        resources:
+          limits:
+            memory: 3Gi
+            cpu: 150m
+service:
+  app:
+    ports:
+      http:
+        port: *port
+
+route:
+  app:
+    annotations:
+      gethomepage.dev/description: Location Tracking
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Personal
+      gethomepage.dev/icon: dawarich.png
+      gethomepage.dev/name: Dawarich
+    parentRefs:
+      - name: private
+        kind: Gateway
+        namespace: envoy-gateway-system
+    hostnames:
+      - dawarich.costanza.cloud
+
+persistence:
+  data:
+    existingClaim: dawarich
+    globalMounts:
+      - path: /var/app/public
+        subPath: public
+      - path: /var/app/storage
+        subPath: storage
+      - path: /dawarich_db_data
+        subPath: dawarich_db_data
+  watched:
+    type: emptyDir
+    globalMounts:
+      - path: /var/app/tmp/imports/watched
