@@ -42,7 +42,7 @@ controllers:
           PROMETHEUS_EXPORTER_PORT: 9394
         envFrom:
           - secretRef:
-              name: dawarich-oidc
+              name: dawarich-secrets
         resources:
           limits:
             memory: 3Gi
