@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: authelia-backup
+  name: postgres-backup
 spec:
   method: plugin
   immediate: true
@@ -9,6 +9,7 @@ spec:
   schedule: "0 30 1 * * *"
   backupOwnerReference: self
   cluster:
-    name: authelia-postgres
+    name: PLACEHOLDER
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
+

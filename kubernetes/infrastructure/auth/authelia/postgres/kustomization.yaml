@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - cluster.yaml
-  - secrets.yaml
-  - objectstore.yaml
-  - backup.yaml
+
+components:
+  - ../../../../components/cnpg-backup
