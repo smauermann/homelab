@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+---
 controllers:
   main:
     pod:
@@ -19,6 +21,9 @@ controllers:
           TRUST_PROXY: true
           TZ: Europe/Berlin
           UPLOAD_PATH: /app/data/uploads
+        envFrom:
+          - secretRef:
+              name: pocket-id-secrets
         probes:
           liveness: &probe
             enabled: true
