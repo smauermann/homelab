@@ -44,16 +44,18 @@ controllers:
           - secretRef:
               name: dawarich-secrets
         resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
           limits:
             memory: 3Gi
       sidekiq:
         <<: *dawarich
         command:
           - "sidekiq-entrypoint.sh"
-        resources:
-          limits:
-            memory: 3Gi
-            cpu: 150m
+        args:
+          - "bundle exec sidekiq"
+
 service:
   app:
     ports:
