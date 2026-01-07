@@ -11,10 +11,6 @@ spec:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: ScheduleAnyway
-      tailscaleContainer:
-        env:
-          - name: TS_ENCRYPT_STATE
-            value: "false"
 ---
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
