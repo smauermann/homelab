@@ -7,7 +7,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/gethomepage/homepage
-          tag: v1.3.2@sha256:4f923bf0e9391b3a8bc5527e539b022e92dcc8a3a13e6ab66122ea9ed030e196
+          tag: v1.8.0@sha256:7dc099d5c6ec7fc945d858218565925b01ff8a60bcbfda990fc680a8b5cd0b6e
         env:
           HOMEPAGE_ALLOWED_HOSTS: &host homepage.costanza.cloud
           PUID: "1000"
