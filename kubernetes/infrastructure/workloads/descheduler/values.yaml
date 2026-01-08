@@ -32,9 +32,9 @@ deschedulerPolicy:
         - name: LowNodeUtilization
           args:
             targetThresholds:
-              pods: 60
+              pods: 45
             thresholds:
-              pods: 50
+              pods: 35
         - name: RemovePodsHavingTooManyRestarts
           args:
             podRestartThreshold: 10
@@ -47,8 +47,10 @@ deschedulerPolicy:
         - name: RemovePodsViolatingNodeTaints
         - name: RemovePodsViolatingTopologySpreadConstraint
           args:
+            topologyBalanceNodeFit: true
             constraints:
               - DoNotSchedule
+              - ScheduleAnyway
       plugins:
         balance:
           enabled:
