@@ -10,8 +10,6 @@ controllers:
           tag: v1.8.0@sha256:7dc099d5c6ec7fc945d858218565925b01ff8a60bcbfda990fc680a8b5cd0b6e
         env:
           HOMEPAGE_ALLOWED_HOSTS: &host homepage.costanza.cloud
-          PUID: "1000"
-          PGID: "1000"
         ports:
           - name: http
             containerPort: &port 3000
@@ -31,7 +29,6 @@ controllers:
           readiness: *probes
         securityContext:
           allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
           capabilities: { drop: ["ALL"] }
         resources:
           requests:
@@ -39,14 +36,6 @@ controllers:
             memory: 128Mi
           limits:
             memory: 256Mi
-
-defaultPodOptions:
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    fsGroupChangePolicy: OnRootMismatch
 
 service:
   app:
