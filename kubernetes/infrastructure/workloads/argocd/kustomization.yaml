@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
+  - github-actions-secret.yaml
   - github-repo-secret.yaml
   - namespace.yaml
   - oidc-secret.yaml
