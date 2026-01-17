@@ -1,7 +1,7 @@
 githubConfigUrl: https://github.com/smauermann/homelab
 githubConfigSecret: github-app-credentials
 minRunners: 1
-maxRunners: 3
+maxRunners: 4
 containerMode:
   type: kubernetes
   kubernetesModeWorkVolumeClaim:
@@ -9,7 +9,7 @@ containerMode:
     storageClassName: longhorn-single-replica
     resources:
       requests:
-        storage: 25Gi
+        storage: 10Gi
 controllerServiceAccount:
   name: actions-runner-controller-gha-rs-controller
   namespace: arc-system
