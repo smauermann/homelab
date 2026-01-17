@@ -7,29 +7,29 @@ spec:
   sourceRepos:
     - https://charts.jetstack.io
     - oci://docker.io/envoyproxy
+    - oci://quay.io/cilium/charts
     - https://github.com/smauermann/homelab
-    - https://helm.cilium.io
     - https://kubernetes-sigs.github.io/external-dns
     - https://pkgs.tailscale.com/helmcharts
   destinations:
     - namespace: argocd
-      server: '*'
+      server: "*"
     - namespace: cert-manager
-      server: '*'
+      server: "*"
     - namespace: cilium-secrets
-      server: '*'
+      server: "*"
     - namespace: cloudflared
-      server: '*'
+      server: "*"
     - namespace: dns
-      server: '*'
+      server: "*"
     - namespace: external-dns
-      server: '*'
+      server: "*"
     - namespace: envoy-gateway-system
-      server: '*'
+      server: "*"
     - namespace: kube-system
-      server: '*'
+      server: "*"
     - namespace: tailscale
-      server: '*'
+      server: "*"
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
