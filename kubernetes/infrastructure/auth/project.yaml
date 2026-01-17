@@ -5,12 +5,9 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - https://charts.authelia.com
     - https://github.com/smauermann/homelab
   destinations:
     - namespace: argocd
-      server: '*'
-    - namespace: authelia
       server: '*'
     - namespace: pocket-id
       server: '*'
