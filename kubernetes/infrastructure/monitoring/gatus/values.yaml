@@ -106,9 +106,9 @@ config:
       interval: 60s
       conditions:
         - "[STATUS] == 200"
-    - name: authelia
+    - name: pocket-id
       group: auth
-      url: https://authelia.costanza.cloud
+      url: https://pid.costanza.cloud/health
       interval: 60s
       conditions:
         - "[STATUS] == 200"
