@@ -209,3 +209,4 @@ sidecar:
     labelValue: ""
     searchNamespace: ALL
     initDatasources: true
+    watchMethod: "LIST"
