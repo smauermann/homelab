@@ -28,105 +28,138 @@ jobs:
           dir_names_max_depth: 5
           matrix: true
 
-      - name: Set up diff matrix
+      - name: Map directories to ArgoCD apps
         id: setup-matrix
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo $ALL_CHANGED_FILES
-          echo "matrix={\"apps\":$ALL_CHANGED_FILES}" >> $GITHUB_OUTPUT
+          echo "Changed directories: $ALL_CHANGED_FILES"
+
+          # ApplicationSets use {{ path.basename }}, so app name is just the directory basename
+          # Deduplicate in case multiple files changed in the same app
+          MATRIX_JSON=$(echo "$ALL_CHANGED_FILES" | jq -c '{apps: [.[] | split("/") | last] | unique}')
+
+          echo "Matrix: $MATRIX_JSON"
+          echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
   diff:
-    name: Render Diff
+    name: ArgoCD Diff
     needs: changed
-    if: ${{ needs.changed.outputs.any_changed == 'true' }}
+    if: ${{ needs.changed.outputs.any_changed == 'true' && fromJSON(needs.changed.outputs.matrix).apps[0] != null }}
     strategy:
       matrix: ${{ fromJSON(needs.changed.outputs.matrix) }}
       max-parallel: 4
+      fail-fast: false
     permissions:
       contents: read
       pull-requests: write
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout pull request branch
+      - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-        with:
-          path: pull
 
-      - name: Checkout default branch
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-        with:
-          ref: "${{ github.event.repository.default_branch }}"
-          path: default
-
-      - name: Render manifests for PR branch
+      - name: Install ArgoCD CLI
         run: |
-          if [ -d "pull/${{ matrix.apps }}" ] && [ -f "pull/${{ matrix.apps }}/kustomization.yaml" ]; then
-            kustomize build --enable-helm pull/${{ matrix.apps }} > pull/manifests.yaml
-          else
-            echo "" > pull/manifests.yaml
-          fi
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/
 
-      - name: Render manifests for base branch
+      - name: Login to ArgoCD
+        env:
+          ARGOCD_SERVER: argocd-server.argocd.svc.cluster.local
+          ARGOCD_OPTS: "--plaintext"
         run: |
-          if [ -d "default/${{ matrix.apps }}" ] && [ -f "default/${{ matrix.apps }}/kustomization.yaml" ]; then
-            kustomize build --enable-helm default/${{ matrix.apps }} > default/manifests.yaml
-          else
-            echo "" > default/manifests.yaml
-          fi
+          argocd login "$ARGOCD_SERVER" --username githubActions --password "${{ secrets.ARGOCD_GITHUB_ACTIONS_PASSWORD }}"
 
-      - name: Generate diff
+      - name: Run ArgoCD diff
         id: diff
+        env:
+          ARGOCD_SERVER: argocd-server.argocd.svc.cluster.local
+          ARGOCD_OPTS: "--plaintext"
         run: |
-          diff -u -I 'ca\.crt:' -I 'ca\.key:' -I 'tls\.crt:' -I 'tls\.key:' -I 'caBundle:' -I 'helm\.sh/chart' \
-            default/manifests.yaml pull/manifests.yaml > diff.patch || true
-          
-          # Check if diff is empty
-          if [ ! -s diff.patch ]; then
-            echo "has_differences=false" >> $GITHUB_OUTPUT
-            echo "No differences found in ${{ matrix.apps }}" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "has_differences=true" >> $GITHUB_OUTPUT
-            echo "Found differences in ${{ matrix.apps }}"
-            cat diff.patch
-            {
-                echo "### Diff"
-                echo '```diff'
-                cat diff.patch
-                echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
+          APP_NAME="${{ matrix.apps }}"
+          PR_SHA="${{ github.event.pull_request.head.sha }}"
+
+          echo "Checking diff for app: $APP_NAME at revision: $PR_SHA"
+
+          # Check if app exists
+          if ! argocd app get "$APP_NAME" > /dev/null 2>&1; then
+            echo "status=new_app" >> $GITHUB_OUTPUT
+            echo "App '$APP_NAME' does not exist in ArgoCD yet (new app)"
+            exit 0
           fi
 
-      - name: Find comment
+          # Run diff with the PR revision
+          set +e
+          DIFF_OUTPUT=$(argocd app diff "$APP_NAME" --revision "$PR_SHA" 2>&1)
+          DIFF_EXIT_CODE=$?
+          set -e
+
+          # Exit code 0 = no diff, 1 = has diff, 2+ = error
+          if [[ $DIFF_EXIT_CODE -eq 0 ]]; then
+            echo "status=no_diff" >> $GITHUB_OUTPUT
+            echo "No differences found for $APP_NAME" >> $GITHUB_STEP_SUMMARY
+          elif [[ $DIFF_EXIT_CODE -eq 1 ]]; then
+            echo "status=has_diff" >> $GITHUB_OUTPUT
+            echo "$DIFF_OUTPUT" > diff.txt
+            {
+              echo "### ArgoCD Diff for \`$APP_NAME\`"
+              echo '```diff'
+              cat diff.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "status=error" >> $GITHUB_OUTPUT
+            echo "Error running diff for $APP_NAME: $DIFF_OUTPUT" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+      - name: Find existing comment
         uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
         id: fc
-        if: ${{ steps.diff.outputs.has_differences == 'true' }}
+        if: ${{ steps.diff.outputs.status == 'has_diff' || steps.diff.outputs.status == 'new_app' }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
-          body-includes: Diff for `${{ matrix.apps }}`
+          body-includes: ArgoCD Diff for `${{ matrix.apps }}`
 
-      - name: Create comment
-        if: ${{ steps.diff.outputs.has_differences == 'true'}}
+      - name: Create comment body
+        if: ${{ steps.diff.outputs.status == 'has_diff' || steps.diff.outputs.status == 'new_app' }}
         run: |
-          DIFF_CONTENT=$(cat diff.patch)
-          echo "### Diff for \`${{ matrix.apps }}\`
-          
+          APP_NAME="${{ matrix.apps }}"
+          STATUS="${{ steps.diff.outputs.status }}"
+
+          if [[ "$STATUS" == "new_app" ]]; then
+            cat > comment.md << 'EOF'
+          ### ArgoCD Diff for `${{ matrix.apps }}`
+
+          **New Application**
+
+          This PR introduces a new ArgoCD application. The app will be created when the ApplicationSet detects this directory after merge.
+          EOF
+          else
+            DIFF_CONTENT=$(cat diff.txt)
+            cat > comment.md << EOF
+          ### ArgoCD Diff for \`$APP_NAME\`
+
           <details>
           <summary>Expand Diff</summary>
-          
+
           \`\`\`diff
           ${DIFF_CONTENT}
           \`\`\`
-          
-          </details>" > comment.md
+
+          </details>
+          EOF
+          fi
 
       - name: Post comment
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
-        if: ${{ steps.diff.outputs.has_differences == 'true' }}
+        if: ${{ steps.diff.outputs.status == 'has_diff' || steps.diff.outputs.status == 'new_app' }}
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body-path: comment.md
           edit-mode: replace
+

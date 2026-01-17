@@ -28,7 +28,7 @@ configs:
 
   cm:
     url: https://argocd.costanza.cloud
-    accounts.githubActions: apiKey
+    accounts.githubActions: apiKey, login
     oidc.config: |
       name: 'Pocket ID'
       issuer: 'https://pid.costanza.cloud'
