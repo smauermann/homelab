@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       any_changed: ${{ steps.changed-files.outputs.any_changed }}
-      matrix: ${{ steps.setup-matrix.outputs.matrix }}
+      dirs: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
@@ -28,26 +28,79 @@ jobs:
           dir_names_max_depth: 5
           matrix: true
 
-      - name: Map directories to ArgoCD apps
-        id: setup-matrix
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+  resolve:
+    name: Resolve ArgoCD Apps
+    needs: changed
+    if: ${{ needs.changed.outputs.any_changed == 'true' }}
+    runs-on: homelab-runner
+    outputs:
+      matrix: ${{ steps.resolve.outputs.matrix }}
+    steps:
+      - name: Install ArgoCD CLI
         run: |
-          echo "Changed directories: $ALL_CHANGED_FILES"
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/
 
-          # ApplicationSets use {{ path.basename }}, so app name is just the directory basename
-          # Deduplicate in case multiple files changed in the same app
-          MATRIX_JSON=$(echo "$ALL_CHANGED_FILES" | jq -c '{apps: [.[] | split("/") | last] | unique}')
+      - name: Login to ArgoCD
+        env:
+          ARGOCD_SERVER: argocd-server.argocd.svc.cluster.local
+          ARGOCD_OPTS: "--plaintext"
+        run: |
+          argocd login "$ARGOCD_SERVER" --username githubActions --password "${{ secrets.ARGOCD_GITHUB_ACTIONS_PASSWORD }}"
+
+      - name: Resolve directories to apps
+        id: resolve
+        env:
+          ARGOCD_SERVER: argocd-server.argocd.svc.cluster.local
+          ARGOCD_OPTS: "--plaintext"
+          ALL_CHANGED_DIRS: ${{ needs.changed.outputs.dirs }}
+        run: |
+          echo "Changed directories: $ALL_CHANGED_DIRS"
+
+          resolve_app() {
+            local dir="$1"
+            while [[ "$dir" == kubernetes/* ]]; do
+              local app_name=$(basename "$dir")
+              if argocd app get "$app_name" > /dev/null 2>&1; then
+                echo "$app_name"
+                return 0
+              fi
+              dir=$(dirname "$dir")
+            done
+            # No existing app found - return basename as new app
+            basename "$1"
+          }
+
+          declare -A SEEN_APPS
+          APPS=()
+
+          for dir in $(echo "$ALL_CHANGED_DIRS" | jq -r '.[]'); do
+            app=$(resolve_app "$dir")
+            if [[ -n "$app" ]] && [[ -z "${SEEN_APPS[$app]}" ]]; then
+              SEEN_APPS[$app]=1
+              APPS+=("$app")
+              echo "Resolved $dir -> $app"
+            else
+              echo "Skipping $dir (already have $app)"
+            fi
+          done
+
+          if [[ ${#APPS[@]} -gt 0 ]]; then
+            MATRIX_JSON=$(printf '%s\n' "${APPS[@]}" | jq -R . | jq -s -c '{apps: .}')
+          else
+            MATRIX_JSON='{"apps":[]}'
+          fi
 
           echo "Matrix: $MATRIX_JSON"
           echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
 
   diff:
     name: ArgoCD Diff
-    needs: changed
-    if: ${{ needs.changed.outputs.any_changed == 'true' && fromJSON(needs.changed.outputs.matrix).apps[0] != null }}
+    needs: resolve
+    if: ${{ fromJSON(needs.resolve.outputs.matrix).apps[0] != null }}
     strategy:
-      matrix: ${{ fromJSON(needs.changed.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.resolve.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     permissions:
@@ -83,7 +136,7 @@ jobs:
 
           echo "Checking diff for app: $APP_NAME at revision: $PR_SHA"
 
-          # Check if app exists
+          # Check if app exists (might be new)
           if ! argocd app get "$APP_NAME" > /dev/null 2>&1; then
             echo "status=new_app" >> $GITHUB_OUTPUT
             echo "App '$APP_NAME' does not exist in ArgoCD yet (new app)"
@@ -131,8 +184,8 @@ jobs:
           STATUS="${{ steps.diff.outputs.status }}"
 
           if [[ "$STATUS" == "new_app" ]]; then
-            cat > comment.md << 'EOF'
-          ### ArgoCD Diff for `${{ matrix.apps }}`
+            cat > comment.md << EOF
+          ### ArgoCD Diff for \`$APP_NAME\`
 
           **New Application**
 
