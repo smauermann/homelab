@@ -10,7 +10,7 @@ spec:
     - https://charts.longhorn.io
     - https://cloudnative-pg.github.io/charts
     - https://github.com/smauermann/homelab
-    - https://piraeus.io/helm-charts
+    - oci://ghcr.io/piraeusdatastore/helm-charts
     - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
   destinations:
     - namespace: argocd
