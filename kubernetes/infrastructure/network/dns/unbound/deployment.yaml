@@ -22,12 +22,16 @@ spec:
               app.kubernetes.io/name: unbound
           matchLabelKeys:
             - pod-template-hash
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: unbound
-          image: docker.io/mvance/unbound:1.22.0@sha256:76906da36d1806f3387338f15dcf8b357c51ce6897fb6450d6ce010460927e90
+          image: ghcr.io/smauermann/unbound:1.24.2
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
           ports:
             - name: dns-tcp
               containerPort: 53
@@ -44,13 +48,13 @@ spec:
               memory: 256Mi
           startupProbe:
             exec:
-              command: ["drill", "@127.0.0.1", "-p", "53", "google.com"]
+              command: ["dig", "+short", "@127.0.0.1", "-p", "53", "google.com"]
             failureThreshold: 3
             timeoutSeconds: 5
             initialDelaySeconds: 10
           volumeMounts:
             - name: config
-              mountPath: /opt/unbound/etc/unbound/unbound.conf
+              mountPath: /etc/unbound/unbound.conf
               subPath: unbound.conf
       volumes:
         - name: config
