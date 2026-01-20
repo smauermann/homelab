@@ -1,0 +1,46 @@
+---
+# HTTPRoute for OTLP/HTTP (port 4318)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: otel-collector-http
+  namespace: otel-collector
+  annotations:
+    gethomepage.dev/description: OpenTelemetry Collector
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/icon: opentelemetry.png
+    gethomepage.dev/name: OTEL Collector
+spec:
+  hostnames:
+    - otel.costanza.cloud
+  parentRefs:
+    - kind: Gateway
+      name: private
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: otel-collector-opentelemetry-collector
+          namespace: otel-collector
+          port: 4318
+---
+# GRPCRoute for OTLP/gRPC (port 4317)
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: otel-collector-grpc
+  namespace: otel-collector
+spec:
+  hostnames:
+    - otel-grpc.costanza.cloud
+  parentRefs:
+    - kind: Gateway
+      name: private
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: otel-collector-opentelemetry-collector
+          namespace: otel-collector
+          port: 4317
