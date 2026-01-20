@@ -27,6 +27,10 @@ spec:
       server: "*"
     - namespace: otel-collector
       server: "*"
+    - namespace: tempo
+      server: "*"
+    - namespace: victoria-logs
+      server: "*"
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"

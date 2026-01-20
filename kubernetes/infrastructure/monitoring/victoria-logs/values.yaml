@@ -1,0 +1,46 @@
+---
+# VictoriaLogs single-node deployment configuration
+
+server:
+  # Enable persistent storage
+  persistentVolume:
+    enabled: true
+    storageClass: longhorn-single-replica
+    accessModes:
+      - ReadWriteOnce
+    size: 50Gi
+
+  # Retention period
+  retentionPeriod: "14d"
+
+  # Resource configuration
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+  # Logging configuration
+  logLevel: INFO
+
+  # Enable JSON line output for logs
+  extraArgs:
+    "http.pathPrefix": "/"
+
+# Service configuration
+service:
+  type: ClusterIP
+  # VictoriaLogs uses different ports
+  servicePort: 9428  # HTTP API port
+
+# ServiceMonitor for self-monitoring
+serviceMonitor:
+  enabled: true
+  extraLabels:
+    prometheus: monitoring
+
+# Fluent-bit agent for log collection (optional, can be disabled if using OTEL)
+fluent-bit:
+  enabled: false

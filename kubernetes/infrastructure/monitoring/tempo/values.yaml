@@ -1,0 +1,62 @@
+---
+# Tempo deployment configuration for distributed tracing
+tempo:
+  # Use single binary mode for homelab simplicity
+  enabled: true
+
+  # Resource configuration
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  # Storage configuration
+  storage:
+    trace:
+      # Use local backend for simplicity (can switch to S3/MinIO later)
+      backend: local
+      local:
+        path: /var/tempo/traces
+      wal:
+        path: /var/tempo/wal
+
+  # Retention configuration
+  retention: 168h  # 7 days retention
+
+  # Performance tuning
+  memBallastSizeMbs: 1024
+
+  # Enable metrics for self-monitoring
+  metricsGenerator:
+    enabled: true
+    remoteWriteUrl: "http://victoria-metrics-stack-vmsingle.monitoring.svc.cluster.local:8429/api/v1/write"
+
+# Persistence for trace storage
+persistence:
+  enabled: true
+  storageClassName: longhorn-single-replica
+  accessModes:
+    - ReadWriteOnce
+  size: 50Gi
+
+# Service configuration
+service:
+  type: ClusterIP
+
+# ServiceMonitor for Prometheus/VictoriaMetrics scraping
+serviceMonitor:
+  enabled: true
+  interval: 30s
+
+# Enable distributor service for OTLP ingestion
+distributor:
+  service:
+    type: ClusterIP
+
+# Enable query frontend for Grafana
+queryFrontend:
+  service:
+    type: ClusterIP

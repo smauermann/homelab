@@ -70,25 +70,45 @@ config:
       limit_mib: 400
 
   exporters:
+    # Debug exporter for troubleshooting
     debug:
       verbosity: detailed
       sampling_initial: 5
       sampling_thereafter: 200
+
+    # Tempo exporter for distributed tracing
+    otlp/tempo:
+      endpoint: tempo.tempo.svc.cluster.local:4317
+      tls:
+        insecure: true
+
+    # VictoriaMetrics exporter for metrics
+    prometheusremotewrite:
+      endpoint: http://victoria-metrics-stack-vmsingle.monitoring.svc.cluster.local:8429/api/v1/write
+      resource_to_telemetry_conversion:
+        enabled: true
+
+    # VictoriaLogs exporter for logs
+    loki:
+      endpoint: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc.cluster.local:9428/insert/jsonline
+      default_labels_enabled:
+        exporter: true
+        job: true
 
   service:
     pipelines:
       traces:
         receivers: [otlp]
         processors: [memory_limiter, batch]
-        exporters: [debug]
+        exporters: [otlp/tempo, debug]
       metrics:
         receivers: [otlp]
         processors: [memory_limiter, batch]
-        exporters: [debug]
+        exporters: [prometheusremotewrite, debug]
       logs:
         receivers: [otlp]
         processors: [memory_limiter, batch]
-        exporters: [debug]
+        exporters: [loki, debug]
 
 serviceMonitor:
   enabled: true
