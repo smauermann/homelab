@@ -89,6 +89,36 @@ datasources:
           timeInterval: "15s"
           queryTimeout: "60s"
           httpMethod: POST
+      - name: Tempo
+        type: tempo
+        access: proxy
+        url: http://tempo.tempo.svc.cluster.local:3100
+        jsonData:
+          httpMethod: GET
+          tracesToLogsV2:
+            datasourceUid: victorialogs
+            spanStartTimeShift: -1h
+            spanEndTimeShift: 1h
+            filterByTraceID: true
+            filterBySpanID: false
+          tracesToMetrics:
+            datasourceUid: prometheus
+          serviceMap:
+            datasourceUid: prometheus
+          nodeGraph:
+            enabled: true
+      - name: VictoriaLogs
+        uid: victorialogs
+        type: loki
+        access: proxy
+        url: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc.cluster.local:9428/select/logsql/query
+        jsonData:
+          maxLines: 1000
+          derivedFields:
+            - datasourceUid: tempo
+              matcherRegex: "trace_id=(\\w+)"
+              name: TraceID
+              url: "$${__value.raw}"
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
