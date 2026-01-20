@@ -25,6 +25,8 @@ spec:
       server: "*"
     - namespace: monitoring
       server: "*"
+    - namespace: otel-collector
+      server: "*"
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
