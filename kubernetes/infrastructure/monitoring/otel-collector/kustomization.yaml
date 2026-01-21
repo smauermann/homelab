@@ -10,7 +10,7 @@ resources:
 helmCharts:
   - name: opentelemetry-collector
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
-    version: 0.112.0
+    version: 0.143.1
     releaseName: otel-collector
     namespace: otel-collector
     includeCRDs: true
