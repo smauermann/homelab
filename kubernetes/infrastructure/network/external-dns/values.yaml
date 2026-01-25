@@ -16,3 +16,4 @@ domainFilters:
 sources:
   - ingress
   - gateway-httproute
+  - gateway-grpcroute
