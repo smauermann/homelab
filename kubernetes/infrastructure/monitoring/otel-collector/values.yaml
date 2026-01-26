@@ -88,12 +88,11 @@ config:
       resource_to_telemetry_conversion:
         enabled: true
 
-    # VictoriaLogs exporter for logs
-    loki:
-      endpoint: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc.cluster.local:9428/insert/jsonline
-      default_labels_enabled:
-        exporter: true
-        job: true
+    # VictoriaLogs exporter for logs (OTLP endpoint)
+    otlphttp/victorialogs:
+      endpoint: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc.cluster.local:9428/insert/opentelemetry
+      tls:
+        insecure: true
 
   service:
     pipelines:
@@ -108,7 +107,7 @@ config:
       logs:
         receivers: [otlp]
         processors: [memory_limiter, batch]
-        exporters: [loki, debug]
+        exporters: [otlphttp/victorialogs, debug]
 
 serviceMonitor:
   enabled: true
