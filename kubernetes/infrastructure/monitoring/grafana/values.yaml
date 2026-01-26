@@ -102,9 +102,9 @@ datasources:
             filterByTraceID: true
             filterBySpanID: false
           tracesToMetrics:
-            datasourceUid: prometheus
+            datasourceUid: Prometheus
           serviceMap:
-            datasourceUid: prometheus
+            datasourceUid: Prometheus
           nodeGraph:
             enabled: true
       - name: VictoriaLogs
@@ -204,7 +204,7 @@ grafana.ini:
     enabled: false
   auth.generic_oauth:
     allow_assign_grafana_admin: true
-    api_url:  $__env{OIDC_API_URL}
+    api_url: $__env{OIDC_API_URL}
     auth_url: $__env{OIDC_AUTH_URL}
     client_id: $__env{OIDC_CLIENT_ID}
     client_secret: $__env{OIDC_CLIENT_SECRET}
