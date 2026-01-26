@@ -84,7 +84,7 @@ config:
 
     # VictoriaMetrics exporter for metrics (OTLP endpoint)
     otlphttp/victoriametrics:
-      endpoint: http://victoria-metrics-stack-vmsingle.monitoring.svc.cluster.local:8429/opentelemetry
+      endpoint: http://vmagent-victoria-metrics-stack.monitoring.svc.cluster.local:8429/api/v1/write
       tls:
         insecure: true
 
