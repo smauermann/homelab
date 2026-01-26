@@ -82,11 +82,11 @@ config:
       tls:
         insecure: true
 
-    # VictoriaMetrics exporter for metrics
-    prometheusremotewrite:
-      endpoint: http://victoria-metrics-stack-vmsingle.monitoring.svc.cluster.local:8429/api/v1/write
-      resource_to_telemetry_conversion:
-        enabled: true
+    # VictoriaMetrics exporter for metrics (OTLP endpoint)
+    otlphttp/victoriametrics:
+      endpoint: http://victoria-metrics-stack-vmsingle.monitoring.svc.cluster.local:8429/opentelemetry
+      tls:
+        insecure: true
 
     # VictoriaLogs exporter for logs (OTLP endpoint)
     otlphttp/victorialogs:
@@ -103,7 +103,7 @@ config:
       metrics:
         receivers: [otlp]
         processors: [memory_limiter, batch]
-        exporters: [prometheusremotewrite, debug]
+        exporters: [otlphttp/victoriametrics, debug]
       logs:
         receivers: [otlp]
         processors: [memory_limiter, batch]
