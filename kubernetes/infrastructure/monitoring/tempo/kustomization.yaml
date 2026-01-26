@@ -5,7 +5,6 @@ namespace: tempo
 
 resources:
   - namespace.yaml
-  - route.yaml
 
 helmCharts:
   - name: tempo
