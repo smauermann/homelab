@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: connect
     repo: https://1password.github.io/connect-helm-charts/
-    version: 2.2.0
+    version: 2.2.1
     releaseName: onepassword-connect
     namespace: external-secrets
     includeCRDs: false
