@@ -13,6 +13,7 @@ helmCharts:
     repo: https://smauermann.github.io/helm-charts
     version: 2.2.1
     releaseName: jellyseerr-backup
+    namespace: arr
     valuesInline:
       appName: jellyseerr
       backup:

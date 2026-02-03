@@ -17,6 +17,7 @@ helmCharts:
     repo: https://smauermann.github.io/helm-charts
     version: 2.2.1
     releaseName: pocket-id-backup
+    namespace: *app
     valuesInline:
       appName: *app
       backup:
