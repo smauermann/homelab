@@ -79,6 +79,26 @@ configs:
         clusters:
           - "*"
 
+# Pin kustomize to 5.7.1 to work around namespace bug in 5.8.0
+# https://github.com/kubernetes-sigs/kustomize/issues/6014
+repoServer:
+  volumes:
+    - name: custom-tools
+      emptyDir: {}
+  initContainers:
+    - name: download-kustomize
+      image: alpine:3.21
+      command: [sh, -c]
+      args:
+        - wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz | tar -xzf - -C /custom-tools/
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+  volumeMounts:
+    - mountPath: /usr/local/bin/kustomize
+      name: custom-tools
+      subPath: kustomize
+
 server:
   ingress:
     enabled: false
