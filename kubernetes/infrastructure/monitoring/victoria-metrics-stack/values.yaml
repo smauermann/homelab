@@ -135,6 +135,8 @@ vmalert:
 vmagent:
   enabled: true
   spec:
+    extraArgs:
+      opentelemetry.usePrometheusNaming: "true"
     selectAllByDefault: true
     scrapeInterval: 30s
     scrapeTimeout: 10s
