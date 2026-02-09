@@ -65,6 +65,8 @@ config:
     batch:
       timeout: 10s
       send_batch_size: 1024
+    deltatocumulative:
+      max_stale: 5m
     memory_limiter:
       check_interval: 1s
       limit_mib: 400
@@ -104,7 +106,7 @@ config:
         exporters: [otlp/tempo, debug]
       metrics:
         receivers: [otlp]
-        processors: [memory_limiter, batch]
+        processors: [memory_limiter, deltatocumulative, batch]
         exporters: [otlphttp/victoriametrics, debug]
       logs:
         receivers: [otlp]
