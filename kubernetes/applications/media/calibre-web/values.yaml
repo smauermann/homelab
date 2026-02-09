@@ -6,7 +6,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/bjw-s-labs/calibre-web
-          tag: 0.6.25@sha256:10c6d481f081ba51b9c7a445fa95cf53a88a2316e2a15ac4ef3c025098588f15
+          tag: 0.6.25@sha256:5a42685510d521d59a5671a7eafc8827391a695e543079ad3fdd7516796dd863
         env:
           CACHE_DIR: /cache
           TZ: "Europe/Berlin"
