@@ -4,4 +4,5 @@
 - if you don't know what chart values there are, use `helm show values repo/chartname --version 1.2.3`
 - use semantic commits
 - after every logical block of work, commit your changes
-- some secrets are encrypted with SOPS; never commit decrypted files
+- never kubectl delete anything unless I approved it
+- do not commit straight to main, each feature or fix must be committed to an appropriately named branch
