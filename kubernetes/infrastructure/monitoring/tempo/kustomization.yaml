@@ -9,7 +9,7 @@ resources:
 helmCharts:
   - name: tempo
     repo: https://grafana.github.io/helm-charts
-    version: 1.24.3
+    version: 1.24.4
     releaseName: tempo
     namespace: tempo
     includeCRDs: true
