@@ -39,7 +39,7 @@ spec:
               mountPath: /combined-config
       containers:
         - name: adguard
-          image: docker.io/adguard/adguardhome:v0.107.70@sha256:33e2240c466b2bb1d4fe9d65fd86178160bf6ee8835cf7b50ab3a7c5e39571fe
+          image: docker.io/adguard/adguardhome:v0.107.72@sha256:4956b35b590286e5872fb4336d84a7862a2030c6efb4ca16442580c37d7ba32d
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
