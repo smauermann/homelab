@@ -45,7 +45,7 @@ machine:
       maxParallelImagePulls: 3
       # allow parallel image downloadeds
       serializeImagePulls: false
-    image: ghcr.io/siderolabs/kubelet:v1.35.0
+    image: ghcr.io/siderolabs/kubelet:v1.35.2
     nodeIP:
       validSubnets:
         - 192.168.30.0/24
@@ -113,7 +113,7 @@ cluster:
       enable-aggregator-routing: "true"
       feature-gates: MutatingAdmissionPolicy=true,ResourceHealthStatus=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
-    image: registry.k8s.io/kube-apiserver:v1.35.0
+    image: registry.k8s.io/kube-apiserver:v1.35.2
   ca:
     crt: op://Homelab/talos/CLUSTER_CA_CRT
     key: op://Homelab/talos/CLUSTER_CA_KEY
@@ -121,7 +121,7 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.35.0
+    image: registry.k8s.io/kube-controller-manager:v1.35.2
   controlPlane:
     endpoint: https://cp.talos.internal:6443
   discovery:
@@ -150,7 +150,7 @@ cluster:
     cni:
       name: none
   proxy:
-    image: registry.k8s.io/kube-proxy:v1.35.0
+    image: registry.k8s.io/kube-proxy:v1.35.2
     disabled: true
   scheduler:
     config:
@@ -172,7 +172,7 @@ cluster:
                     whenUnsatisfiable: ScheduleAnyway
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-scheduler:v1.35.0
+    image: registry.k8s.io/kube-scheduler:v1.35.2
   secret: op://Homelab/talos/CLUSTER_SECRET
   secretboxEncryptionSecret: op://Homelab/talos/CLUSTER_SECRETBOXENCRYPTIONSECRET
   serviceAccount:
