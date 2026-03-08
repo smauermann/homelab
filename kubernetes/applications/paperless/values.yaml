@@ -59,8 +59,6 @@ controllers:
                 name: paperless-secret
                 key: provider-config
           PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
-          PAPERLESS_SOCIALACCOUNT_EMAIL_AUTHENTICATION: "true"
-          PAPERLESS_SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT: "true"
           PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
         probes:
           liveness:
