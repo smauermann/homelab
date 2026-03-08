@@ -26,17 +26,15 @@ controllers:
           PAPERLESS_WEBSERVER_WORKERS: "2"
           PAPERLESS_TASK_WORKERS: "2"
           # Configure folders
-          PAPERLESS_CONSUMPTION_DIR: /data/nfs/import
           PAPERLESS_DATA_DIR: /data/local/data
           PAPERLESS_EXPORT_DIR: /data/nfs/export
           PAPERLESS_MEDIA_ROOT: /data/nfs/media
-          # Configure folder importer
-          PAPERLESS_CONSUMER_POLLING: "60"
-          PAPERLESS_CONSUMER_RECURSIVE: "true"
-          PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+          # Disable folder consumer (upload via app/web only)
+          PAPERLESS_CONSUMER_DISABLE: "true"
           # Configure OCR
-          PAPERLESS_OCR_LANGUAGES: deu eng
-          PAPERLESS_OCR_LANGUAGE: deu
+          PAPERLESS_OCR_LANGUAGE: deu+eng
+          PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text
+          PAPERLESS_OCR_PAGES: "5"
           # Configure redis integration
           PAPERLESS_REDIS: redis://paperless-dragonfly.paperless.svc.cluster.local:6379
           # Configure user permissions
@@ -53,6 +51,15 @@ controllers:
               secretKeyRef:
                 name: paperless-secret
                 key: admin_password
+          # Configure SSO
+          PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
+          PAPERLESS_SOCIALACCOUNT_PROVIDERS:
+            valueFrom:
+              secretKeyRef:
+                name: paperless-secret
+                key: provider-config
+          PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
+          PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
         probes:
           liveness:
             enabled: true
