@@ -2,7 +2,7 @@
 ---
 controllers:
   paperless:
-    replicas: 1
+    replicas: 0
     pod:
       securityContext:
         runAsUser: 1000
