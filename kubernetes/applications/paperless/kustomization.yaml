@@ -23,5 +23,7 @@ helmCharts:
       appName: *app
       backup:
         pvcName: paperless-data
+        trigger:
+          manual: pre-migration-backup
       restore:
         enabled: false
