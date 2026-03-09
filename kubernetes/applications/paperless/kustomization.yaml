@@ -4,7 +4,6 @@ namespace: &app paperless
 
 resources:
   - namespace.yaml
-  - pvc.yaml
   - dragonfly.yaml
   - secret.yaml
 
@@ -23,7 +22,6 @@ helmCharts:
       appName: *app
       backup:
         pvcName: paperless-data
-        trigger:
-          manual: pre-migration-backup
       restore:
-        enabled: false
+        enabled: true
+        pvcSize: 4Gi
