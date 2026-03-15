@@ -10,8 +10,6 @@ configs:
     # Ingress NGINX finishes TLS connections
     server.insecure: true
     controller.diff.server.side: "true"
-    # Preserve the 5s delay between self-heal retries instead of the upstream 0s default.
-    controller.self.heal.timeout.seconds: "5"
     # Keep enforcing sync policy to match pre-upgrade behaviour.
     applicationsetcontroller.policy: sync
 
@@ -79,7 +77,9 @@ configs:
         clusters:
           - "*"
 
-# Pin kustomize to 5.7.1 to work around namespace bug in 5.8.0
+# Pin kustomize to 5.7.1 to work around namespace bug in 5.8.0+
+# Top-level kustomization namespace is not applied to helmChart resources.
+# Still broken in 5.8.1 (only #6027/#6031 were fixed, not #6014).
 # https://github.com/kubernetes-sigs/kustomize/issues/6014
 repoServer:
   volumes:
