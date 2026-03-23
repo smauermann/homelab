@@ -37,6 +37,14 @@
       minimumGroupSize: 5,
     },
     {
+      description: "Dragonfly Operator Group",
+      groupName: "dragonfly-operator",
+      matchPackageNames: ["/dragonflydb/operator/", "/dragonflydb/dragonfly-operator/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Talos Group",
       groupName: "talos",
       matchDatasources: ["docker"],
