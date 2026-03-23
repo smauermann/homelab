@@ -5,7 +5,6 @@ sonarr:
     base_url: http://sonarr.arr.svc.cluster.local:8989
     api_key: !env_var SONARR__AUTH__APIKEY
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
     quality_profiles:
       - name: WEB-1080p
         reset_unmatched_scores: &resetScores
@@ -52,7 +51,6 @@ radarr:
     base_url: http://radarr.arr.svc.cluster.local:7878
     api_key: !env_var RADARR__AUTH__APIKEY
     delete_old_custom_formats: true
-    replace_existing_custom_formats: true
     quality_profiles:
       - name: SQP-1 (1080p)
         reset_unmatched_scores: *resetScores
