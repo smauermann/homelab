@@ -12,6 +12,7 @@ defaultSettings:
   defaultReplicaCount: "2"
   nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
   replicaAutoBalance: best-effort
+  replicaRebuildConcurrentSyncLimit: "2"
   storageMinimalAvailablePercentage: "10"
   storageReservedPercentageForDefaultDisk: "0"
   upgradeChecker: false
