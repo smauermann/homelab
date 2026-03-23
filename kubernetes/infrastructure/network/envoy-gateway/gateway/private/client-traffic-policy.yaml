@@ -14,3 +14,8 @@ spec:
   connection:
     connectionLimit:
       value: 1000
+  tls:
+    minVersion: "1.2"
+    alpnProtocols:
+      - h2
+      - http/1.1

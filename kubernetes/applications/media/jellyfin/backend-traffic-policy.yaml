@@ -16,5 +16,3 @@ spec:
     http:
       requestTimeout: 30m # Match route timeout
       connectionIdleTimeout: 30m # Match gateway streamIdleTimeout
-  loadBalancer:
-    type: RoundRobin
