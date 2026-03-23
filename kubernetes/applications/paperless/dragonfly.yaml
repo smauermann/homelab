@@ -4,6 +4,7 @@ metadata:
   name: paperless-dragonfly
 spec:
   replicas: 2
+  networkPolicyEnabled: false
   env:
     - name: MAX_MEMORY
       valueFrom:
