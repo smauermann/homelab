@@ -21,7 +21,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: ntfy
-          image: binwiederhier/ntfy:v2.19.0@sha256:cb2be75176e8dfb4395b91a17875402d88272fa1d4d8210472ead8108391f5c2
+          image: binwiederhier/ntfy:v2.19.2@sha256:9114cd5cdcb8c2ea1239bd710caae867e82c2deda68271b9db151240b403b3f4
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
