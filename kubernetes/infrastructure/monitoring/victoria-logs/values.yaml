@@ -29,18 +29,11 @@ server:
   extraArgs:
     "http.pathPrefix": "/"
 
-# Service configuration
-service:
-  type: ClusterIP
-  # VictoriaLogs uses different ports
-  servicePort: 9428  # HTTP API port
+  service:
+    type: ClusterIP
+    servicePort: 9428
 
-# ServiceMonitor for self-monitoring
-serviceMonitor:
-  enabled: true
-  extraLabels:
-    prometheus: monitoring
-
-# Fluent-bit agent for log collection (optional, can be disabled if using OTEL)
-fluent-bit:
-  enabled: false
+  serviceMonitor:
+    enabled: true
+    extraLabels:
+      prometheus: monitoring
