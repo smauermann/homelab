@@ -16,5 +16,27 @@
       matchPackageNames: ["/tailscale/"],
       changelogUrl: "https://tailscale.com/changelog#all",
     },
+    {
+      description: "Source URL for Longhorn",
+      matchDatasources: ["helm"],
+      matchPackageNames: ["longhorn"],
+      sourceUrl: "https://github.com/longhorn/longhorn",
+    },
+    {
+      description: "Source URL for Talos components",
+      matchPackageNames: ["/factory\\.talos\\.dev\\/installer/"],
+      sourceUrl: "https://github.com/siderolabs/talos",
+    },
+    {
+      description: "Changelog URL for Kubernetes components",
+      matchPackageNames: [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/",
+      ],
+      changelogUrl: "https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG",
+    },
   ],
 }
