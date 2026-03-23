@@ -4,6 +4,7 @@ metadata:
   name: dawarich-redis
 spec:
   replicas: 2
+  networkPolicyEnabled: false
   env:
     - name: MAX_MEMORY
       valueFrom:
