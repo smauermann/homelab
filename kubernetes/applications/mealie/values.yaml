@@ -17,15 +17,18 @@ controllers:
         env:
           BASE_URL: https://mealie.costanza.cloud
           API_DOCS: false
-          # OIDC_AUTH_ENABLED: true
-          # OIDC_SIGNUP_ENABLED: true
-          # OIDC_CONFIGURATION_URL: https://auth.${DOMAIN}/.well-known/openid-configuration
-          # OIDC_CLIENT_ID: mealie
-          # OIDC_USER_CLAIM: preferred_username
-          # OIDC_AUTO_REDIRECT: false
-          # OIDC_GROUPS_CLAIM: groups
-          # OIDC_ADMIN_GROUP: admins
-          # OIDC_USER_GROUP: family
+          OIDC_AUTH_ENABLED: "true"
+          OIDC_SIGNUP_ENABLED: "true"
+          OIDC_CONFIGURATION_URL: https://pid.costanza.cloud/.well-known/openid-configuration
+          OIDC_USER_CLAIM: preferred_username
+          OIDC_AUTO_REDIRECT: "false"
+          OIDC_PROVIDER_NAME: Pocket ID
+          OIDC_GROUPS_CLAIM: groups
+          OIDC_ADMIN_GROUP: admins
+          OIDC_USER_GROUP: family
+        envFrom:
+          - secretRef:
+              name: mealie-secrets
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

@@ -4,6 +4,7 @@ namespace: &app mealie
 
 resources:
   - namespace.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: app-template
