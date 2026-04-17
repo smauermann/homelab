@@ -14,8 +14,9 @@ is (kustomize → Helm → ArgoCD, ExternalSecret from 1Password, backed-up PVC)
 - A new ArgoCD application `openclaw` under `kubernetes/applications/openclaw/`.
 - Private HTTPRoute on the `private` Envoy Gateway.
 - Single provider: OpenRouter.
-- Agent workspace files (AGENTS.md etc.) managed **in-cluster** on the PVC, not
-  declaratively in git.
+- All OpenClaw-owned state — `openclaw.json` config **and** agent workspace
+  files (AGENTS.md etc.) — managed **in-cluster** on the PVC, not in git.
+  Git only ships the Kubernetes scaffolding to run the container.
 
 Out of scope: public exposure, multi-provider setup, OIDC in front of OpenClaw
 (OpenClaw auths via its own gateway bearer token).
@@ -27,7 +28,9 @@ Out of scope: public exposure, multi-provider setup, OIDC in front of OpenClaw
   convention — manifests are small (~60 lines of values) and re-owning them
   keeps OpenClaw homogeneous with mealie/paperless/etc.
 - Upstream's default gateway bind is `127.0.0.1`; a ClusterIP Service cannot
-  reach that. We override `openclaw.json` to bind `0.0.0.0:18789`.
+  reach that. Upstream exposes no env var override for bind address, so
+  `~/.openclaw/openclaw.json` must be edited post-boot to set
+  `gateway.bindAddress = 0.0.0.0`. The edit lives on the PVC, not in git.
 - Branch discipline: work lands on `feat/openclaw`, never on `main`.
 
 ## Architecture
@@ -40,6 +43,9 @@ kubernetes/applications/openclaw/
 └── values.yaml           # app-template values (the bulk of the config)
 ```
 
+No `ConfigMap`, no `openclaw.json` in git — OpenClaw's own config lives on
+the PVC.
+
 Registered with the application ApplicationSet in
 `kubernetes/applications/application-set.yaml` (one line — the ApplicationSet
 discovers directories).
@@ -50,8 +56,7 @@ discovers directories).
 |---|---|---|
 | Deployment | `openclaw` | single replica, single container |
 | Service | `openclaw` | ClusterIP :18789 |
-| PersistentVolumeClaim | `openclaw-data` | 10Gi, agent state |
-| ConfigMap | `openclaw-config` | `openclaw.json` |
+| PersistentVolumeClaim | `openclaw-data` | 10Gi, agent state + config |
 | HTTPRoute | `openclaw` | `openclaw.costanza.cloud` → Service :18789 |
 
 Plus from `pvc-backup`:
@@ -81,8 +86,7 @@ Plus from `pvc-backup`:
 
 | Mount path | Source | Read/write | Notes |
 |---|---|---|---|
-| `~/.openclaw/` | PVC `openclaw-data` | rw | Whole dir; holds `workspace/`, `agents/<id>/sessions/`, auto-created files. |
-| `~/.openclaw/openclaw.json` | ConfigMap `openclaw-config` (subPath) | ro | Overlays the one file; survives ConfigMap changes (pod restarts on change). |
+| `~/.openclaw/` | PVC `openclaw-data` | rw | Whole dir; holds `openclaw.json`, `workspace/`, `agents/<id>/sessions/`, auto-created files. |
 | `/tmp/openclaw/` | `emptyDir` | rw | Logs; ephemeral. |
 | `/tmp` | `emptyDir` | rw | Required because `readOnlyRootFilesystem: true`. |
 
@@ -90,32 +94,32 @@ The home directory expands to whatever the container's default user has;
 confirmed at implementation time (if upstream image doesn't use `/root` or
 `/home/…`, the mount paths are adjusted).
 
-### `openclaw.json` contents
+### First-boot bootstrap (manual, one-time)
 
-Start from upstream's default. Only override:
+On first deploy, OpenClaw auto-creates `~/.openclaw/openclaw.json` with the
+upstream default (`bindAddress: 127.0.0.1`). The Service has no working
+backend until an operator edits it:
 
-```json
-{
-  "gateway": {
-    "bindAddress": "0.0.0.0",
-    "port": 18789
-  }
-}
+```sh
+kubectl --context talos -n openclaw exec -it deploy/openclaw -- \
+  sh -c "sed -i 's/127.0.0.1/0.0.0.0/' ~/.openclaw/openclaw.json"
+kubectl --context talos -n openclaw rollout restart deploy/openclaw
 ```
 
-Everything else (agent defaults, model config) inherits upstream defaults and
-can be tuned later.
+(Exact edit refined at implementation time once we see the real file; may
+be a full-file rewrite via a heredoc if structure differs.) The file then
+lives on the PVC and is backed up; all further tuning is done the same way.
 
 ### AGENTS.md and workspace
 
 OpenClaw auto-creates `~/.openclaw/workspace/{AGENTS,SOUL,TOOLS,IDENTITY,USER,HEARTBEAT,BOOTSTRAP}.md`
-on first boot on the PVC. The user edits them via `kubectl exec` or the
+on first boot on the PVC. The operator edits them via `kubectl exec` or the
 OpenClaw UI. Git is not the source of truth for agent behavior — the PVC is
 (and the PVC is backed up).
 
-Trade-off accepted: agent instructions aren't versioned in git. The backup
-gives us recovery; full versioning can be added later if needed by moving
-AGENTS.md into the ConfigMap.
+Trade-off accepted: neither config nor agent instructions are versioned in
+git. Backup gives us recovery; if the PVC is ever wiped or restored from
+scratch, the first-boot bootstrap must be redone.
 
 ## Secrets
 
@@ -150,18 +154,20 @@ same config shape as mealie's. Cadence inherited from chart defaults.
 ## Testing / verification
 
 1. `kubectl --context talos -n openclaw get pods` → Ready.
-2. `kubectl --context talos -n openclaw logs deploy/openclaw` → gateway listening on 0.0.0.0:18789.
+2. `kubectl --context talos -n openclaw logs deploy/openclaw` → gateway listening on 127.0.0.1 initially.
 3. `kubectl --context talos -n openclaw exec -it deploy/openclaw -- ls ~/.openclaw/workspace` → workspace files present.
-4. Over Tailscale: `curl -H "Authorization: Bearer $TOKEN" https://openclaw.costanza.cloud/…` → 200.
-5. Homepage dashboard shows the OpenClaw tile under its configured group.
-6. Backup CronJob runs once and produces a snapshot.
+4. Run the first-boot bootstrap edit; re-check logs → now listening on 0.0.0.0:18789.
+5. Over Tailscale: `curl -H "Authorization: Bearer $TOKEN" https://openclaw.costanza.cloud/…` → 200.
+6. Homepage dashboard shows the OpenClaw tile under its configured group.
+7. Backup CronJob runs once and produces a snapshot.
 
 ## Rollout
 
 1. Create 1Password item.
 2. Open PR with the four files + ApplicationSet registration.
-3. Merge → Argo syncs → pod comes up and auto-creates the workspace.
-4. First-use: fetch the token, hit the URL, confirm it works.
+3. Merge → Argo syncs → pod comes up and auto-creates config + workspace.
+4. Run the first-boot bootstrap edit (see above) to switch the gateway bind.
+5. First-use: fetch the token, hit the URL, confirm it works.
 
 ## Open questions (resolved at implementation time, not blocking)
 
