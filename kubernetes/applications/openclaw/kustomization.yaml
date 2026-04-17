@@ -5,6 +5,7 @@ namespace: &app openclaw
 resources:
   - namespace.yaml
   - secrets.yaml
+  - pvc.yaml
 
 helmCharts:
   - name: app-template
@@ -22,5 +23,5 @@ helmCharts:
       backup:
         pvcName: openclaw-data
       restore:
-        enabled: true
+        enabled: false
         pvcSize: 10Gi
