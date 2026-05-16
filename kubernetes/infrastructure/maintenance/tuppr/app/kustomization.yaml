@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: tuppr
     repo: oci://ghcr.io/home-operations/charts
-    version: 0.1.6
+    version: 0.1.34
     releaseName: tuppr
     namespace: system-upgrade
     includeCRDs: true
