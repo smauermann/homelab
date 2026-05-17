@@ -16,8 +16,8 @@ controllers:
     containers:
       app:
         image:
-          repository: ghcr.io/openclaw/openclaw
-          tag: 2026.4.15@sha256:9d5f1dfbd5deedc37706c78f745b958ffbe9b4f20840cfb4d49c617a50326902
+          repository: ghcr.io/smauermann/openclaw
+          tag: 2026.5.12@sha256:4fac62b6f7e97628853003af94f652e01e758b7dbc39a5002e6c143387835791
         env:
           HOME: /home/node
           OPENCLAW_CONFIG_DIR: /home/node/.openclaw
@@ -51,7 +51,7 @@ route:
       gethomepage.dev/description: Personal AI assistant
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: Personal
-      gethomepage.dev/icon: mdi-robot
+      gethomepage.dev/icon: sh-openclaw
       gethomepage.dev/name: OpenClaw
     parentRefs:
       - name: private
