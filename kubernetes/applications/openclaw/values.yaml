@@ -30,6 +30,18 @@ controllers:
           readOnlyRootFilesystem: true
           capabilities:
             drop: ["ALL"]
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  for i in $(seq 1 60); do
+                    openclaw browser start && exit 0
+                    sleep 2
+                  done
+                  exit 1
         resources:
           requests:
             cpu: 250m
