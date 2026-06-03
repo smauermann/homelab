@@ -145,13 +145,24 @@ Then confirm CNPG can read its backups before relying on them for a Postgres res
 3. CNPG clusters — restore from barman backups in `barman-backups`.
 4. Everything else that depends on Postgres or S3.
 
-## Storage durability requirements
+## Storage durability — accepted trade-off
 
-- **The NFS export for the Garage share MUST be `sync`, not `async`.** LMDB's crash safety
-  depends on `fsync` durably flushing in order; an `async` export ACKs writes (and `fsync`)
-  before they reach disk, so a NAS power loss or crash mid-commit can corrupt the LMDB
-  metadata. There is no UPS, so this is the real protection. On Synology: Control Panel →
-  Shared Folder → Edit → NFS Permissions → disable "Enable asynchronous".
+The NFS share is exported **`async`** and the NAS has **no UPS**. This is a deliberate choice:
+the share also holds the media collection, and `sync` would slow media writes (streaming reads
+are unaffected either way). The cost is that LMDB's `fsync`-based crash safety is not honored,
+so a NAS power loss or crash mid-commit *can* corrupt the live LMDB metadata.
+
+This is accepted because the blast radius is small and recoverable:
+
+- Garage writes a **consistent metadata snapshot every 6h** (`metadata_auto_snapshot_interval`)
+  into `meta/snapshots/`, which is included in the nightly Backblaze tar.
+- On corruption, restore `/meta` from the latest snapshot (**Scenario C**). Worst case is losing
+  ≤6h of metadata changes — and buckets/keys rarely change, so in practice that is only the
+  metadata for very recently written objects.
+
+If you ever want to eliminate this risk *without* putting the media share on `sync`, move only
+Garage's `metadata_dir` off NFS onto a Longhorn volume (local SSD, replicated across nodes) and
+back it up separately; leave `data_dir` and media on the async share.
 
 ## Notes / known weaknesses
 
@@ -161,6 +172,7 @@ Then confirm CNPG can read its backups before relying on them for a Postgres res
 - `replication_factor = 1` + single node means there is no in-cluster redundancy — durability
   rests entirely on the NAS and its Backblaze backup. That is an accepted homelab trade-off,
   not a bug.
-- LMDB-on-NFS is acceptable here **only** because Garage is a single node with an exclusive
-  lock (no multi-client locking) and the export is `sync` (see above). If you ever scale to
-  multiple Garage nodes, give each its own local-SSD `metadata_dir` instead.
+- LMDB-on-NFS works here because Garage is a single node with an exclusive lock (no
+  multi-client locking); the remaining `async` crash-consistency risk is covered by the
+  snapshots above. If you ever scale to multiple Garage nodes, give each its own local-SSD
+  `metadata_dir` instead.
