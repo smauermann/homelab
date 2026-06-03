@@ -145,6 +145,14 @@ Then confirm CNPG can read its backups before relying on them for a Postgres res
 3. CNPG clusters — restore from barman backups in `barman-backups`.
 4. Everything else that depends on Postgres or S3.
 
+## Storage durability requirements
+
+- **The NFS export for the Garage share MUST be `sync`, not `async`.** LMDB's crash safety
+  depends on `fsync` durably flushing in order; an `async` export ACKs writes (and `fsync`)
+  before they reach disk, so a NAS power loss or crash mid-commit can corrupt the LMDB
+  metadata. There is no UPS, so this is the real protection. On Synology: Control Panel →
+  Shared Folder → Edit → NFS Permissions → disable "Enable asynchronous".
+
 ## Notes / known weaknesses
 
 - The nightly Backblaze tar is the durability backstop for both data and metadata. It is
@@ -153,3 +161,6 @@ Then confirm CNPG can read its backups before relying on them for a Postgres res
 - `replication_factor = 1` + single node means there is no in-cluster redundancy — durability
   rests entirely on the NAS and its Backblaze backup. That is an accepted homelab trade-off,
   not a bug.
+- LMDB-on-NFS is acceptable here **only** because Garage is a single node with an exclusive
+  lock (no multi-client locking) and the export is `sync` (see above). If you ever scale to
+  multiple Garage nodes, give each its own local-SSD `metadata_dir` instead.
