@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: paperclip
+
+resources:
+  - namespace.yaml
+  - postgres-user.yaml
+  - secrets.yaml
+  - pvc.yaml
+  - postgres
+
+helmCharts:
+  - name: app-template
+    repo: https://bjw-s-labs.github.io/helm-charts
+    version: 4.6.2
+    namespace: paperclip
+    releaseName: paperclip
+    valuesFile: values.yaml
+  - name: pvc-backup
+    repo: https://smauermann.github.io/helm-charts
+    version: 2.2.1
+    releaseName: paperclip-backup
+    valuesInline:
+      appName: paperclip
+      backup:
+        pvcName: paperclip-data
+      restore:
+        enabled: false
+        pvcSize: 10Gi

@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: paperclip-postgres
+spec:
+  instances: 2
+  bootstrap:
+    initdb:
+      database: paperclip
+      owner: paperclip
+      secret:
+        name: postgres-user
+  storage:
+    storageClass: longhorn
+    size: 10Gi
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: garage-store
