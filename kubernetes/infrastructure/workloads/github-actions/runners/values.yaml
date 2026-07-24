@@ -21,7 +21,7 @@ template:
     containers:
       - name: runner
         # renovate: datasource=docker depName=ghcr.io/smauermann/actions-runner
-        image: ghcr.io/smauermann/actions-runner:2.335.1@sha256:41137d7c4a977ec57088298b9bd3654b29a00d5b95bb7ae7d5b61ecae68a4755
+        image: ghcr.io/smauermann/actions-runner:2.335.1@sha256:4c17f4045d11af9e88750ddcca6dff43924da1413c05e79cef7f39584b78432e
         command: ["/home/runner/run.sh"]
         env:
           - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
