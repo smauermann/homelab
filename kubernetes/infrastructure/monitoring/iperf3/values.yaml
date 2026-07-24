@@ -6,7 +6,7 @@ controllers:
           TZ: "Europe/Berlin"
         image:
           repository: networkstatic/iperf3
-          tag: latest@sha256:c1e4a239a83d1d60975bce1c9b7661af5517e362bf335f66a2c5b6adaeb4f19f
+          tag: latest@sha256:aaa9e59dcd624990c2493449c65da4aae0d9c7fed6f205c4d2152283abc5410e
         args:
           - -s
         securityContext:
