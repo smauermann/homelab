@@ -1,5 +1,7 @@
 global:
   domain: argocd.costanza.cloud
+  networkPolicy:
+    create: false
 
 dex:
   enabled: false
