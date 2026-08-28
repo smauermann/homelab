@@ -7,24 +7,33 @@ controllers:
       app:
         image:
           repository: ghcr.io/home-operations/bazarr
-          tag: 1.5.6@sha256:281a0199110fc02f6a28f32f6b3b1e306126bd2cc9626f9be84b67766d958706
+          tag: 1.6.0@sha256:cd63bbd0986c93e238eb8b9442604d249f0d4080099b389f822abe2062044417
         envFrom:
           - configMapRef:
               name: common-env
               optional: true
         probes:
-          liveness: &probes
+          liveness:
+            enabled: true
+            spec:
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 5
+          readiness:
             enabled: true
             custom: true
             spec:
               httpGet:
-                path: /health
+                path: /api/system/ping
                 port: &port 6767
-              initialDelaySeconds: 0
               periodSeconds: 10
-              timeoutSeconds: 1
-              failureThreshold: 3
-          readiness: *probes
+              timeoutSeconds: 5
+              failureThreshold: 5
+          startup:
+            enabled: true
+            spec:
+              failureThreshold: 30
+              periodSeconds: 10
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
