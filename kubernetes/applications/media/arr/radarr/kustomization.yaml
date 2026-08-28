@@ -11,8 +11,9 @@ helmCharts:
     valuesFile: values.yaml
   - name: pvc-backup
     repo: https://smauermann.github.io/helm-charts
-    version: 2.2.1
+    version: 2.3.0
     releaseName: radarr-backup
+    namespace: arr
     valuesInline:
       appName: radarr
       backup:
