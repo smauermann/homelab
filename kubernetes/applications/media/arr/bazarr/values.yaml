@@ -7,7 +7,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/home-operations/bazarr
-          tag: 1.5.6@sha256:80cb090162b47ea1bfb499d742b45a460b282f17ffefa4c01d518a5c8d52a5a4
+          tag: 1.5.6@sha256:281a0199110fc02f6a28f32f6b3b1e306126bd2cc9626f9be84b67766d958706
         envFrom:
           - configMapRef:
               name: common-env
