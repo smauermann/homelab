@@ -15,7 +15,11 @@ controllers:
         probes:
           liveness:
             enabled: true
+            custom: true
             spec:
+              httpGet:
+                path: /api/system/ping
+                port: *port
               periodSeconds: 30
               timeoutSeconds: 5
               failureThreshold: 5
@@ -31,7 +35,11 @@ controllers:
               failureThreshold: 5
           startup:
             enabled: true
+            custom: true
             spec:
+              httpGet:
+                path: /api/system/ping
+                port: *port
               failureThreshold: 30
               periodSeconds: 10
         securityContext:
