@@ -85,6 +85,8 @@ configs:
 # Symptom: volsync rendered into the argocd namespace. Do not remove
 # until https://github.com/kubernetes-sigs/kustomize/issues/6058 ships fixed.
 # https://github.com/kubernetes-sigs/kustomize/issues/6014
+# helm must be pinned to v3 alongside: kustomize 5.7.1 probes with
+# `helm version -c`, a flag removed in the helm v4 bundled since ArgoCD v3.5.
 repoServer:
   volumes:
     - name: custom-tools
@@ -94,7 +96,9 @@ repoServer:
       image: alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
       command: [sh, -c]
       args:
-        - wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz | tar -xzf - -C /custom-tools/
+        - >-
+          wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz | tar -xzf - -C /custom-tools/ &&
+          wget -qO- https://get.helm.sh/helm-v3.21.4-linux-amd64.tar.gz | tar -xzf - -C /custom-tools/ --strip-components=1 linux-amd64/helm
       volumeMounts:
         - mountPath: /custom-tools
           name: custom-tools
@@ -102,6 +106,9 @@ repoServer:
     - mountPath: /usr/local/bin/kustomize
       name: custom-tools
       subPath: kustomize
+    - mountPath: /usr/local/bin/helm
+      name: custom-tools
+      subPath: helm
 
 server:
   ingress:
