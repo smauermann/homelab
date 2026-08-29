@@ -1,2 +1,7 @@
 [tools]
-kustomize = "5.8.1"
+# Match the versions pinned in the ArgoCD repo-server (see
+# kubernetes/infrastructure/workloads/argocd/values.yaml): kustomize 5.8.x
+# drops the kustomization namespace on helmChart resources
+# (kustomize#6058), and kustomize 5.7.1 requires helm v3.
+kustomize = "5.7.1"
+helm = "3.21.4"
