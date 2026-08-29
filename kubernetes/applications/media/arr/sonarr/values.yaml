@@ -84,7 +84,7 @@ persistence:
   media:
     type: nfs
     server: nas.internal
-    path: //volume1/homelab/media
+    path: /volume1/homelab/media
     globalMounts:
       - path: /media
   tmp:
