@@ -6,7 +6,13 @@ resources:
   - namespace.yaml
   - arr-secrets.yaml
 
+# No hash suffix: the *arr child apps are separate kustomize builds that
+# reference this ConfigMap by its plain name.
+generatorOptions:
+  disableNameSuffixHash: true
+
 configMapGenerator:
   - name: common-env
+    namespace: arr
     literals:
       - TZ="Europe/Berlin"
