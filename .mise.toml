@@ -4,4 +4,4 @@
 # drops the kustomization namespace on helmChart resources
 # (kustomize#6058), and kustomize 5.7.1 requires helm v3.
 kustomize = "5.7.1"
-helm = "3.21.4"
+helm = "4.2.4"
