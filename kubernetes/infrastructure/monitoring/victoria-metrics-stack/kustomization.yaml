@@ -12,7 +12,7 @@ helmCharts:
     valuesFile: values.yaml
   - name: prometheus-operator-crds
     repo: https://prometheus-community.github.io/helm-charts
-    version: 31.0.1
+    version: 32.0.0
     releaseName: prometheus-operator-crds
     includeCRDs: true
     namespace: monitoring
