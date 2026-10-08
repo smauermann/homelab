@@ -35,7 +35,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/smauermann/openclaw
-          tag: 2026.5.12@sha256:bb572d735a124c37e9f3d8486ce55acd1585da7b4747c5cbf0bd815db84bf6a1
+          tag: 2026.9.9@sha256:23dde06554e966c8baacf15bd5e11a320a7d48054b73f654f2ceea4c485899e3
         env:
           HOME: /home/node
           OPENCLAW_CONFIG_DIR: /home/node/.openclaw
