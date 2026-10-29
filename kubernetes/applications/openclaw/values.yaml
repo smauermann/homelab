@@ -17,7 +17,7 @@ controllers:
       chown-data:
         image:
           repository: public.ecr.aws/docker/library/busybox
-          tag: "1.38.0@sha256:b6762ddf4a50aabb5f4d21aa6f447d05d5633fb09f09c08b33f22356a2f98be0"
+          tag: "1.38.0@sha256:a46257e06c82ad85242d0d38077d0a52d9896389ca60a1a59d3463db586e5fa4"
         command:
           - chown
           - "1000:1000"
