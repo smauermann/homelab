@@ -13,7 +13,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/pocket-id/pocket-id
-          tag: v2.15.0@sha256:ec46886301a3159b2b32334ca1da83539c9e36f8d84bc566dafaf889ac509f2a
+          tag: v2.19.2@sha256:3ee23895d6a3adb5dd5de801a4fd31fc31b960e6dfbea9b5200e33cf477695eb
         env:
           ANALYTICS_DISABLED: "true"
           APP_URL: https://pid.costanza.cloud
