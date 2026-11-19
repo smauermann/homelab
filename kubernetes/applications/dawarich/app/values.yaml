@@ -6,7 +6,7 @@ controllers:
       app: &dawarich
         image:
           repository: docker.io/freikin/dawarich
-          tag: 1.7.5@sha256:dceef4bf7bd5e6a842d61cdd2a82440a0db34f70dc766e02b0b3b212e13b4ba6
+          tag: 1.23.0@sha256:c9c6a9c04fa2ad11c438fc0b0ea3b7d95fc7e6d8c7a3cfa98bf1fc5aef2dbfd4
         command:
           - "web-entrypoint.sh"
         args:
