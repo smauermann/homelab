@@ -4,7 +4,7 @@ controllers:
       app:
         image:
           repository: dxflrs/garage
-          tag: v2.2.0@sha256:45a61ce3f7c9c24fc23d9ed2b09b27ed560ab87b34605d175d5c588f539c24e4
+          tag: v2.5.0@sha256:677e5b758e4425a325b811c425c026bf35a4bf42f7ddbaa773de3f4fd779a5a5
         env:
           TZ: "Europe/Berlin"
         envFrom:
